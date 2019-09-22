@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Ed1son&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/ed1son67.github.io/css/images/logo.png">
+  
+  <title>
+    
+      《ES6标准入门》学习笔记第22章 Module的语法 | Ed1son&#39;s blog
+    
+  </title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/ed1son67.github.io/css/style.css">
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+  
+  
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png">
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/ed1son67.github.io/">
+      <div class="logo"></div>
+      <span>Ed1son's blog</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>《ES6标准入门》学习笔记第22章 Module的语法</h2>
+  <p class="post-date">2019-09-21</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="22-1-概述"><a href="#22-1-概述" class="headerlink" title="22.1 概述"></a>22.1 概述</h2><p>JavaScript在ES6前都没有官方的模块体系，只有社区制定的AMD和CommonJS，后者是Node.js采用的模块管理体系，ES6在语言规格的层面上实现了模块功能，成为通用的解决方案。</p>
+<h5 id="ES6-Module与commonJS、AMD的区别"><a href="#ES6-Module与commonJS、AMD的区别" class="headerlink" title="ES6 Module与commonJS、AMD的区别"></a>ES6 Module与commonJS、AMD的区别</h5><ul>
+<li>CommonJS和AMD模块都是在运行时确定模块的依赖关系，称作“运行时加载”，而ES6的设计思想是尽量静态化，在编译的时候就能确定模块的依赖关系，称为“编译时加载”，可以在编译时进行“静态优化”，效率比CommonJS高。</li>
+<li>CommonJS模块输出一个对象，ES6模块通过export命令显式输出指定的代码，而不是输出一个对象，但也导致了ES6模块本身不能被饮用，因为它不是对象</li>
+<li>CommonJS模块输出的是值的缓存，不存在动态更新，而ES6输出的接口可以取到变量动态变化的值</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// CommonJS</span><br><span class="line">let &#123;a, b, c&#125; = require(&apos;fs&apos;);</span><br><span class="line"></span><br><span class="line">// 等同于</span><br><span class="line">let _fs = require(&apos;fs&apos;);</span><br><span class="line">let a = _fs.a,</span><br><span class="line">    b = _fs.b,</span><br><span class="line">    c = _fs.c;</span><br></pre></td></tr></table></figure>
+
+<p>以上的代码实际上是加载fs的所有的方法，生成一个对象_fs，然后在这个方法上取三个方法，因为只有在加载时才能取到这个对象，所以没法在编译时进行“静态优化”。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// ES6</span><br><span class="line"></span><br><span class="line">import &#123;a, b, c&#125; from &apos;fs&apos;</span><br></pre></td></tr></table></figure>
+
+<p>以上的代码实际上是从fs模块中加载三个方法，而不加载其他的方法，但没办法引用，因为不是对象。</p>
+<h2 id="22-3-export命令"><a href="#22-3-export命令" class="headerlink" title="22.3 export命令"></a>22.3 export命令</h2><p>一个模块就是一个独立的文件，这个文件内部所有的变量外部都无法获取，如果希望外界能获取内部的变量，就必须使用export命令输出该变量。</p>
+<h4 id="使用as关键字重新命名变量"><a href="#使用as关键字重新命名变量" class="headerlink" title="使用as关键字重新命名变量"></a>使用as关键字重新命名变量</h4><p>通常情况下export输出的变量就是本来的名字，但是可以用as关键字重新命名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function v1() &#123;&#125;</span><br><span class="line">function v2() &#123;&#125;</span><br><span class="line"></span><br><span class="line">export &#123;</span><br><span class="line">    v1 as cV1,</span><br><span class="line">    v2 as cV2,</span><br><span class="line">    v2 as cV3,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上的代码中，使用as关键字重命名了v1和v2的对外接口，v2可以以两个不同的接口名输出两次。</p>
+<h4 id="对外的接口必须要与模块内部的变量建立一一对应的关系"><a href="#对外的接口必须要与模块内部的变量建立一一对应的关系" class="headerlink" title="对外的接口必须要与模块内部的变量建立一一对应的关系"></a>对外的接口必须要与模块内部的变量建立一一对应的关系</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// 错误</span><br><span class="line">export 1;</span><br><span class="line"></span><br><span class="line">// 错误</span><br><span class="line">var m = 1;</span><br><span class="line">export m;</span><br><span class="line"></span><br><span class="line">// 写法1</span><br><span class="line">export var m = 1;</span><br><span class="line"></span><br><span class="line">// 写法2</span><br><span class="line">var m = 1;</span><br><span class="line">export &#123;m&#125;;</span><br><span class="line"></span><br><span class="line">// 写法3</span><br><span class="line">var n = 1;</span><br><span class="line">export &#123;n as m&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>function与class的输出也要遵守这样的写法.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">// 错误</span><br><span class="line">function f() &#123;&#125;;</span><br><span class="line">export f;</span><br><span class="line"></span><br><span class="line">// 写法1</span><br><span class="line">export function f() &#123;&#125;</span><br><span class="line"></span><br><span class="line">// 写法2 </span><br><span class="line">function f() &#123;&#125;;</span><br><span class="line">export &#123;f&#125;;</span><br><span class="line"></span><br><span class="line">// 错误</span><br><span class="line">class c &#123;&#125;</span><br><span class="line">export c;</span><br><span class="line"></span><br><span class="line">// 写法1 </span><br><span class="line">export class c &#123;&#125;;</span><br><span class="line"></span><br><span class="line">// 写法2</span><br><span class="line">class c &#123;&#125;;</span><br><span class="line">export &#123;c&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="输出的接口和其对应的值是动态的，通过接口可以取模块内部实时的值"><a href="#输出的接口和其对应的值是动态的，通过接口可以取模块内部实时的值" class="headerlink" title="输出的接口和其对应的值是动态的，通过接口可以取模块内部实时的值"></a>输出的接口和其对应的值是动态的，通过接口可以取模块内部实时的值</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export var foo = &apos;bar&apos;;</span><br><span class="line">setTimeout(() =&gt; foo = &apos;baz&apos;, 500);</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码输出变量foo，值为bar，500ms之后变为baz</p>
+<h4 id="export命令不可以放在块级作用域内"><a href="#export命令不可以放在块级作用域内" class="headerlink" title="export命令不可以放在块级作用域内"></a>export命令不可以放在块级作用域内</h4><p>export命令可以出现在模块的任何位置，只要是模块顶层就可以，但不可以处于块级作用域，不可以进行静态优化，违背了设计思想，而CommonJS可以在块级作用域中使用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 报错</span><br><span class="line">function a() &#123;</span><br><span class="line">    export default &apos;bar&apos;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="22-4-import命令"><a href="#22-4-import命令" class="headerlink" title="22.4 import命令"></a>22.4 import命令</h2><h4 id="使用as关键字为变量重新取名"><a href="#使用as关键字为变量重新取名" class="headerlink" title="使用as关键字为变量重新取名"></a>使用as关键字为变量重新取名</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &#123;foo as newName&#125; form &apos;my_module&apos;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="import命令具有提升效果"><a href="#import命令具有提升效果" class="headerlink" title="import命令具有提升效果"></a>import命令具有提升效果</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// import命令提升</span><br><span class="line">foo();</span><br><span class="line">import &#123;foo &#125; from &apos;module&apos;;</span><br></pre></td></tr></table></figure>
+
+<p>这种行为是因为import命令是在编译阶段执行的，在代码运行之前，所以不会报错。</p>
+<h4 id="不能使用表达式和变量"><a href="#不能使用表达式和变量" class="headerlink" title="不能使用表达式和变量"></a>不能使用表达式和变量</h4><p>由于import是静态执行的，所以不能使用表达式和变量，因为表达式、变量和if语句只有在运行时才能得到结果的语法结构。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// 报错</span><br><span class="line">import &#123;&apos;f&apos; + &apos;oo&apos;&#125; form &apos;my_module&apos;;</span><br><span class="line"></span><br><span class="line">// 报错</span><br><span class="line">let module = &apos;my_module&apos;;</span><br><span class="line">import &#123;foo&#125; from module;</span><br><span class="line"></span><br><span class="line">// 报错</span><br><span class="line">if (x === 1) &#123;</span><br><span class="line">    import &#123;foo&#125; from &apos;my_module&apos;;</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    import &#123;bar&#125; from &apos;my_module&apos;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="import命令只执行一次"><a href="#import命令只执行一次" class="headerlink" title="import命令只执行一次"></a>import命令只执行一次</h4><p>如果重复执行同一句import命令，只会执行一次，如果分开执行多条import命令，会合并为一句命令并执行。</p>
+<h2 id="22-5-模块的整体加载"><a href="#22-5-模块的整体加载" class="headerlink" title="22.5 模块的整体加载"></a>22.5 模块的整体加载</h2><p>可以使用整体加载（*）来指定一个对象，将所有的输出值都成为这个对象的属性，这个对象不允许在运行时进行修改。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import foo from &apos;my_module&apos;;</span><br><span class="line"></span><br><span class="line">// 等同于</span><br><span class="line">import * as obj from &apos;my_module&apos;;</span><br><span class="line">obj.foo();</span><br></pre></td></tr></table></figure>
+
+<h2 id="22-6-export-default命令"><a href="#22-6-export-default命令" class="headerlink" title="22.6 export default命令"></a>22.6 export default命令</h2><p>使用export default 命令指定模块的默认输出，在import时可以为该输出指定任意名字，一个模块只能只能有一个默认输出，所以import命令后面不需要使用{ }，只能对应一个方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// export.js</span><br><span class="line">export default function() &#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// import.js</span><br><span class="line">import foo from &apos;export&apos;;</span><br><span class="line">foo ();</span><br></pre></td></tr></table></figure>
+
+<p>export default 在非匿名函数前使用也是可以的，函数名在模块外部无效，视作匿名函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">export default function foo() &#123;&#125;</span><br><span class="line"></span><br><span class="line">// 或者</span><br><span class="line">function foo() &#123;&#125;</span><br><span class="line"></span><br><span class="line">export default foo;</span><br></pre></td></tr></table></figure>
+
+<h4 id="export-default-命令的本质"><a href="#export-default-命令的本质" class="headerlink" title="export default 命令的本质"></a>export default 命令的本质</h4><p>export default 本质上是输出一个叫default的变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function foo() &#123;&#125;;</span><br><span class="line">export &#123;foo as default&#125;;</span><br><span class="line"></span><br><span class="line">// 等同于</span><br><span class="line">export default foo;</span><br><span class="line"></span><br><span class="line">import &#123;default as xxx&#125; from &apos;module&apos;;</span><br><span class="line">// 等同于</span><br><span class="line">import xxx from &apos;module&apos;;</span><br></pre></td></tr></table></figure>
+
+<p>export default a 的含义是将a变量赋值给default变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 错误</span><br><span class="line">export default var a = 1;</span><br><span class="line"></span><br><span class="line">// 正确</span><br><span class="line">var a = 1;</span><br><span class="line">export default a;</span><br></pre></td></tr></table></figure>
+
+<p>正因如此，可以直接在命令后输出一个值，表示讲该值赋值给default变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 错误</span><br><span class="line">export default 42;</span><br><span class="line">// 正确</span><br><span class="line">export 42;</span><br></pre></td></tr></table></figure>
+
+<h2 id="22-7-export与import的复合写法"><a href="#22-7-export与import的复合写法" class="headerlink" title="22.7 export与import的复合写法"></a>22.7 export与import的复合写法</h2><p>如果在一个模块中先输入后输出同一个模块，可以将import和export语句写在一起。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">export &#123;foo&#125; from &apos;my_module&apos;;</span><br><span class="line"></span><br><span class="line">// 等同于</span><br><span class="line">import &#123;foo&#125; from &apos;my_module&apos;;</span><br><span class="line">export &#123;foo&#125;;</span><br><span class="line"></span><br><span class="line">// 接口改名</span><br><span class="line">export &#123;foo as myFoo&#125; from &apos;my_module&apos;;</span><br><span class="line"></span><br><span class="line">// 整体输出</span><br><span class="line">export * from &apos;my_module&apos;;</span><br><span class="line"></span><br><span class="line">// 默认接口的写法</span><br><span class="line">export &#123;default&#125; from &apos;my_module&apos;;</span><br><span class="line"></span><br><span class="line">// 具体接口改为默认接口的写法</span><br><span class="line">export &#123;foo as default&#125; from &apos;my_module&apos;;</span><br><span class="line"></span><br><span class="line">// 等同于</span><br><span class="line">import &#123;foo&#125; from &apos;my_module&apos;;</span><br><span class="line">export default foo;</span><br></pre></td></tr></table></figure>
+
+<h2 id="22-8-模块的继承"><a href="#22-8-模块的继承" class="headerlink" title="22.8 模块的继承"></a>22.8 模块的继承</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// foo.js</span><br><span class="line">export * from &apos;myfoo&apos;;</span><br><span class="line">export var a = 2;</span><br></pre></td></tr></table></figure>
+
+<p>foo.js继承了myfoo.js的方法和变量并将它们export出去</p>
+<h2 id="22-10-import"><a href="#22-10-import" class="headerlink" title="22.10 import()"></a>22.10 import()</h2><p>静态编译虽好，但也有缺点，就是无法取代CommonJS的动态加载功能，于是提出了import()用于解决这个问题。类似于require，但require是同步加载的，import()是异步加载的。</p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/ed1son67.github.io/ed1son67.github.io/tags#ES6" >
+    <span class="tag-code">ES6</span>
+  </a>
+
+  <a href="/ed1son67.github.io/ed1son67.github.io/tags#JavaScript" >
+    <span class="tag-code">JavaScript</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/ed1son67.github.io/2019/09/21/hello-world/">
+        <span class="nav-arrow">← </span>
+        
+          Hello World
+        
+      </a>
+    
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <!-- No Comment -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#22-1-概述"><span class="toc-nav-text">22.1 概述</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#ES6-Module与commonJS、AMD的区别"><span class="toc-nav-text">ES6 Module与commonJS、AMD的区别</span></a></li></ol></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#22-3-export命令"><span class="toc-nav-text">22.3 export命令</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#使用as关键字重新命名变量"><span class="toc-nav-text">使用as关键字重新命名变量</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#对外的接口必须要与模块内部的变量建立一一对应的关系"><span class="toc-nav-text">对外的接口必须要与模块内部的变量建立一一对应的关系</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#输出的接口和其对应的值是动态的，通过接口可以取模块内部实时的值"><span class="toc-nav-text">输出的接口和其对应的值是动态的，通过接口可以取模块内部实时的值</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#export命令不可以放在块级作用域内"><span class="toc-nav-text">export命令不可以放在块级作用域内</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#22-4-import命令"><span class="toc-nav-text">22.4 import命令</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#使用as关键字为变量重新取名"><span class="toc-nav-text">使用as关键字为变量重新取名</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#import命令具有提升效果"><span class="toc-nav-text">import命令具有提升效果</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#不能使用表达式和变量"><span class="toc-nav-text">不能使用表达式和变量</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#import命令只执行一次"><span class="toc-nav-text">import命令只执行一次</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#22-5-模块的整体加载"><span class="toc-nav-text">22.5 模块的整体加载</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#22-6-export-default命令"><span class="toc-nav-text">22.6 export default命令</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#export-default-命令的本质"><span class="toc-nav-text">export default 命令的本质</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#22-7-export与import的复合写法"><span class="toc-nav-text">22.7 export与import的复合写法</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#22-8-模块的继承"><span class="toc-nav-text">22.8 模块的继承</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#22-10-import"><span class="toc-nav-text">22.10 import()</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'https://ed1son67.github.io/ed1son67.github.io/2019/09/21/《ES6标准入门》学习笔记第22章Module的语法/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+    // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+  })();
+</script>
+
+
+
+
+
+
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2019 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/ed1son67.github.io/js/script.js"></script>
+  </body>
+</html>
