@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Ed1son&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/ed1son67.github.io/css/images/logo.png">
+  
+  <title>
+    
+      操作系统学习笔记 | Ed1son&#39;s blog
+    
+  </title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/ed1son67.github.io/css/style.css">
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+  
+  
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png">
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/ed1son67.github.io/">
+      <div class="logo"></div>
+      <span>Ed1son's blog</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>操作系统学习笔记</h2>
+  <p class="post-date">2019-12-15</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h1 id="第1章-绪论"><a href="#第1章-绪论" class="headerlink" title="第1章 绪论"></a>第1章 绪论</h1><p>并发性和并行性</p>
+<p>进程的概念：<br>临界资源的概念：</p>
+<h1 id="第二章-进程的描述和控制"><a href="#第二章-进程的描述和控制" class="headerlink" title="第二章 进程的描述和控制"></a>第二章 进程的描述和控制</h1><h2 id="2-1-前驱图和程序执行"><a href="#2-1-前驱图和程序执行" class="headerlink" title="2.1 前驱图和程序执行"></a>2.1 前驱图和程序执行</h2><p>在单道批处理操作系统中，程序的执行方式是顺序执行，在多道批处理操作系统中，允许内存可以同时装入多个程序，使他们共享资源，并发执行</p>
+<h2 id="2-2-进程的描述"><a href="#2-2-进程的描述" class="headerlink" title="2.2 进程的描述"></a>2.2 进程的描述</h2><p>在多道环境下，程序的执行属于并发执行，此时他们将会失去封闭性，并且具有间断性，以及其运行结果的不可再现性，所以通常程序是不能参与并发执行的，于是引入进程的概念。</p>
+<p>进程的特征<br>动态性、并发性、独立性、异步性</p>
+<p>进程的三种状态<br>就绪状态、运行状态、阻塞状态</p>
+<p>阻塞的原因：</p>
+<ol>
+<li>向系统请求资源失败</li>
+<li>等待某种操作完成</li>
+<li>新数据尚未到达</li>
+<li>等待新任务的到达</li>
+</ol>
+<h3 id="2-3-1-操作系统内核"><a href="#2-3-1-操作系统内核" class="headerlink" title="2.3.1 操作系统内核"></a>2.3.1 操作系统内核</h3><p>将处理机的执行状态分为系统态和用户态<br>系统态又叫管态、核心态<br>用户态又叫目态</p>
+<h3 id="2-4-1-进程同步的基本概念"><a href="#2-4-1-进程同步的基本概念" class="headerlink" title="2.4.1 进程同步的基本概念"></a>2.4.1 进程同步的基本概念</h3><ol>
+<li>间接相互制约关系：互斥访问</li>
+<li>直接相互制约关系：同步访问　</li>
+</ol>
+<p>临界资源</p>
+<p>同步机制应该遵循的规则</p>
+<ol>
+<li>空闲让进</li>
+<li>忙则等待</li>
+<li>有限等待</li>
+<li>让权等待</li>
+</ol>
+<p>引起创建进程的事件</p>
+<ol>
+<li>在分时系统中进行用户登陆</li>
+<li>再多道批处理中进行作业调度</li>
+<li>为程序提供服务</li>
+<li>用户应用请求</li>
+</ol>
+<h2 id="2-7-线程"><a href="#2-7-线程" class="headerlink" title="2.7 线程"></a>2.7 线程</h2><p>线程让进程又更好的并发性<br>在多线程系统中，进程是一个可拥有资源的基本单位，线程作为调度和分派的基本单位</p>
+<p>在同一进程中切换线程不会引起进程的切换，但从一个进程的线程切换到另一个进程的线程，必然会引起进程的切换</p>
+<p>进程是一个可拥有资源的基本单位<br>多个线程可以并发执行<br>进程已经不是可执行实体，把线程作为独立运行的基本单位</p>
+<h1 id="第三章-处理机调度和死锁"><a href="#第三章-处理机调度和死锁" class="headerlink" title="第三章 处理机调度和死锁"></a>第三章 处理机调度和死锁</h1><h2 id="3-1-处理机调度的层次和调度算法的目标"><a href="#3-1-处理机调度的层次和调度算法的目标" class="headerlink" title="3.1 处理机调度的层次和调度算法的目标"></a>3.1 处理机调度的层次和调度算法的目标</h2><p>调度的实质是一种资源分配，处理机调度是对处理机的资源进行分配，在多道批处理系统中，一个作业可能经历多级处理调度</p>
+<h3 id="3-1-1-处理机调度的层次"><a href="#3-1-1-处理机调度的层次" class="headerlink" title="3.1.1 处理机调度的层次"></a>3.1.1 处理机调度的层次</h3><ol>
+<li>高级调度<br>将外存作业调入内存，为它们创建进程，分配必要资源并且将它们放入就绪队列，一般用于批处理系统，分时和实时系统一般直接装入内存，没有这个步骤。</li>
+<li>低级调度<br>低级调度又称为进程调度，调度的对象是进程（或者内核级线程），是一种最基本的调度</li>
+<li>中级调度<br>中级调度又称为内存调度，目的是为了提高内存利用率和系统吞吐量<h3 id="3-1-2-处理机调度算法的目标"><a href="#3-1-2-处理机调度算法的目标" class="headerlink" title="3.1.2 处理机调度算法的目标"></a>3.1.2 处理机调度算法的目标</h3></li>
+</ol>
+<h2 id="3-2-作业与作业调度"><a href="#3-2-作业与作业调度" class="headerlink" title="3.2 作业与作业调度"></a>3.2 作业与作业调度</h2><p>在多道批处理系统中，作业时用户提交给系统的一项相对独立的工作，操作员将用户提交的作业输入到磁盘存储器中，并保存在一个后备作业队列中，再由作业调度程序将其从外存调入内存</p>
+<h3 id="3-2-1-批处理中的作业"><a href="#3-2-1-批处理中的作业" class="headerlink" title="3.2.1 批处理中的作业"></a>3.2.1 批处理中的作业</h3><ol>
+<li>作业和作业步<br>作业是一个比程序更广泛的概念，包含了程序和数据，还配有一份作业说明书，在批处理系统中，是以作业为基本单位从外存调入内存中的。作业是由多个步骤组成的，每一个步骤叫作业步</li>
+</ol>
+<h2 id="3-3-进程调度"><a href="#3-3-进程调度" class="headerlink" title="3.3 进程调度"></a>3.3 进程调度</h2><h2 id="3-5-死锁"><a href="#3-5-死锁" class="headerlink" title="3.5 死锁"></a>3.5 死锁</h2><p>死锁的定义：<br>如果一组进程中的每一个进程都在等待仅由该组进程中的其他进程才能引发的事件，那么该组进程是死锁的</p>
+<p>产生死锁的必要条件：（必须满足以下四个条件才会发生死锁）</p>
+<ol>
+<li>互斥条件：在一段时间内某个资源只能被一个进程占用</li>
+<li>请求和保持条件：进程已经保持至少一个资源，又请求新资源，而且不释放自己的资源</li>
+<li>不可抢占条件：进程已获得的资源在未使用完之前不能被抢占，只能自己释放</li>
+<li>循环等待条件：必然存在一个进程-资源链</li>
+</ol>
+<p>处理死锁的方法</p>
+<ol>
+<li>预防：破坏四个条件<ul>
+<li>破坏请求和保持条件：资源静态分配（全部分配）</li>
+<li>破坏不可抢占条件：分配的资源可剥夺法</li>
+<li>破坏循环等待条件：资源的有序分配法    </li>
+</ul>
+</li>
+<li>避免：防止系统进入不安全状态<ul>
+<li>求安全序列（银行家算法）</li>
+</ul>
+</li>
+<li>检测：允许产生死锁。对死锁进行解除<ul>
+<li>S为死锁的充分条件是：当且仅当S状态的资源分配图是不可以完全简化的，该充分条件被称为死锁定理</li>
+</ul>
+</li>
+<li>解除：通过撤销进程解除死锁<ul>
+<li>终止所有进程、终止一个进程</li>
+<li>从非死锁进程抢占资源 </li>
+</ul>
+</li>
+</ol>
+<h1 id="第4章"><a href="#第4章" class="headerlink" title="第4章"></a>第4章</h1><h2 id="4-1-存储器第层次结构"><a href="#4-1-存储器第层次结构" class="headerlink" title="4.1 存储器第层次结构"></a>4.1 存储器第层次结构</h2><p>现代通用计算机，存储结构至少应该有三层：最高层为CPU寄存器、中间为主存、最底层是辅存。</p>
+<p>寄存器和主存储器又被称为可执行存储器，计算机所采用第访问机制是不同的，访问需要耗费的时间也是不同的。</p>
+<h2 id="4-2-程序的装入和链接"><a href="#4-2-程序的装入和链接" class="headerlink" title="4.2 程序的装入和链接"></a>4.2 程序的装入和链接</h2><p>一个程序要在系统运行，需要将它装入到内存，然后将其转变为一个可以执行的程序，通常需要以下步骤：</p>
+<ol>
+<li>编译：由编译程序对用户源程序进行编译，形成若干目标模块</li>
+<li>链接：由链接程序将编译完成的一组目标模块以及它们需要的库函数链接在一起，形成一个完整的装入模块</li>
+<li>装入：由装入程序将装入模块装入内存</li>
+</ol>
+<h3 id="4-2-1-程序的装入"><a href="#4-2-1-程序的装入" class="headerlink" title="4.2.1 程序的装入"></a>4.2.1 程序的装入</h3><p>逻辑地址：应用程序经编译后形成目标程序，再经过链接后形成可装入程序，这些程序的地址都是从0开始，程序中的其他地址都是相对于起始地址计算的，这些地址为相对地址。 </p>
+<p>重定位：实现逻辑地址（相对地址）到物理地址（绝对地址）的映射。把在装入时对目标程序中指令和数据地址的修改过程叫重定位</p>
+<p>物理地址：主存中一系列存储信息的物理单元的地址。 </p>
+<ol>
+<li><p>绝对装入方式：</p>
+<ul>
+<li>编译后，装入前已产生了绝对地址（内存地址），装入时不再作地址重定位。</li>
+<li>绝对地址的产生：（1）由编译器完成，（2）由程序<br>员编程完成。</li>
+<li>对（1）而言，编程用符号地址。</li>
+</ul>
+</li>
+<li><p>可重定位装入方式</p>
+<ul>
+<li>静态重定位：地址转换在装入时一次完成，由软件实现（重定位装入程序完成）。</li>
+</ul>
+</li>
+<li><p>动态运行时装入方式</p>
+<ul>
+<li>该情况一般在执行时才完成相对地址向绝对地址的转换，需要硬件地址变换 “重定位寄存器”的支持，才能保证进程的可移动性。</li>
+</ul>
+</li>
+</ol>
+<h3 id="4-2-2-程序的链接"><a href="#4-2-2-程序的链接" class="headerlink" title="4.2.2 程序的链接"></a>4.2.2 程序的链接</h3><ol>
+<li>静态链接<ul>
+<li>对相对地址的修改</li>
+<li>变换外部调用符号</li>
+</ul>
+</li>
+<li>装入时动态链接<ul>
+<li>便于修改和更新</li>
+<li>便于实现对目标模块的共享</li>
+</ul>
+</li>
+<li>运行时动态链接</li>
+</ol>
+<h2 id="4-2-连续分配存储管理方式"><a href="#4-2-连续分配存储管理方式" class="headerlink" title="4.2 连续分配存储管理方式"></a>4.2 连续分配存储管理方式</h2><p>连续分配是最早出现的一种存储器分配方式，可以分为四类：单一连续分配、固定分区分配、动态分区分配以及动态可重定位分区分配算法</p>
+<h3 id="4-3-1-单一连续分配："><a href="#4-3-1-单一连续分配：" class="headerlink" title="4.3.1 单一连续分配："></a>4.3.1 单一连续分配：</h3><ul>
+<li>用于单用户，单任务中，将内存分为系统区和用户区，系统区通常是内存的低地址，在用户区内存中仅能有一道程序，最简单，适用于单用户、单任务的OS。</li>
+<li>优点：易于管理。</li>
+<li>缺点：对要求内存空间少的程序，造成内存浪费；程序全部装入，很少使用的程序部分也占用内存。</li>
+</ul>
+<h3 id="4-3-2-固定分区分配："><a href="#4-3-2-固定分区分配：" class="headerlink" title="4.3.2 固定分区分配："></a>4.3.2 固定分区分配：</h3><p>基本思想：将内存划分成若干个连续区域，称为分区。每个分区只能存储一个程序，而且程序也只能在它所驻留的分区中运行。有n个分区，则可同时装入n个作业/任务。</p>
+<p>是最早出现的、可用于多道程序系统中的存储管理方式，由于分区的大小固定，必然会造成存储空间的浪费。</p>
+<ol>
+<li><p>划分分区大小的方法：</p>
+<ul>
+<li>相等：缺乏灵活性</li>
+<li>不相等：不相等利用率更高。</li>
+</ul>
+</li>
+<li><p>内存分配<br>将分区按大小排序，并将其地址、分配标识作记录，建立一张分区表</p>
+</li>
+</ol>
+<h3 id="4-3-3-动态分区分配"><a href="#4-3-3-动态分区分配" class="headerlink" title="4.3.3 动态分区分配"></a>4.3.3 动态分区分配</h3><p>又称为可变分区分配，根据进程的实际需要，动态为之分配内存空间。</p>
+<p>基本思想：内存不预先划分好，当作业装入时，根据作业的需求和内存空间的使用情况决定是否分配。若有足够的空间，则按需分割一部分分区给该进程。</p>
+<ol>
+<li><p>数据结构<br>空闲分区表和空闲分区链</p>
+</li>
+<li><p>分区分配操作</p>
+</li>
+</ol>
+<p>回收内存</p>
+<ul>
+<li>上邻空闲区：合并，改大小</li>
+<li>下邻空闲区：合并，改大小，以回收区的首址为新空闲区的首址</li>
+<li>上、下邻空闲区：合并，改大小，以上分区的首址为新空闲区的首址，取消下分区的表项。</li>
+<li>不邻接，则建立一新表项。</li>
+</ul>
+<h3 id="4-3-4-基于顺序搜索的动态分区分配算法"><a href="#4-3-4-基于顺序搜索的动态分区分配算法" class="headerlink" title="4.3.4 基于顺序搜索的动态分区分配算法"></a>4.3.4 基于顺序搜索的动态分区分配算法</h3><p>所谓顺序搜索就是将空闲分区链接成一个链，一次搜索空闲分区链上的空闲分区，主要有四种算法</p>
+<ol>
+<li>首次适应算法<ul>
+<li>要求：分区按低址到高址递增链接</li>
+<li>特点：找到第一个大小满足的分区，划分。有外零头，碎片，低址内存使用频繁。会增加查找可用空闲分区的开销</li>
+</ul>
+</li>
+<li>循环首次适应算法<ul>
+<li>为了避免低址部分留下很多碎片，以及减少查找的开销，从1中上次找到的空闲分区的下一个开始查找。</li>
+<li>特点：空闲分区分布均匀，提高了查找速度；缺乏大的空闲分区。</li>
+</ul>
+</li>
+<li>最佳适应算法<ul>
+<li>按空闲分区的空闲区域的大小进行递增排序，第一个能找到的满足要求的空闲分区必然是最佳的</li>
+<li>特点：会留下很多难以利用的碎片。</li>
+</ul>
+</li>
+<li>最坏适应算法<ul>
+<li>按空闲分区的空闲区域的大小进行递减排序，第一个能找到的满足要求的空闲分区必然是最佳的</li>
+<li>特点：会产生碎片的可能性最小，查找效率很高</li>
+</ul>
+</li>
+</ol>
+<p>总结：没有完美的算法，只有最合适的算法，根据算法的特点和用户的需要选择。</p>
+<h3 id="4-3-5-基于索引搜索的动态分区分配算法"><a href="#4-3-5-基于索引搜索的动态分区分配算法" class="headerlink" title="4.3.5 基于索引搜索的动态分区分配算法"></a>4.3.5 基于索引搜索的动态分区分配算法</h3><p>为了提高搜索空闲分区的速度，在大中型系统中往往会采用基于索引搜索的动态分区算法</p>
+<ol>
+<li>快速适应算法<ul>
+<li>将内存分区根据容量大小分类，对于每一类具有相同容量的所有空闲分区，单独设立一个空闲分区链表，同时在内存中设立一张管理索引表</li>
+<li>特点：不会对分区产生分割，不会产生碎片，查询效率高，但归还内存的开销较大，是典型的以空间换时间做法</li>
+</ul>
+</li>
+<li>伙伴系统</li>
+<li>哈希算法</li>
+</ol>
+<h3 id="4-3-6-动态可重定位分区分配"><a href="#4-3-6-动态可重定位分区分配" class="headerlink" title="4.3.6 动态可重定位分区分配"></a>4.3.6 动态可重定位分区分配</h3><ol>
+<li><p>紧凑<br>通过作业移动将原来分散的小分区拼接成一个大分区，作业的移动需重定位。</p>
+</li>
+<li><p>静态重定位<br>就是，在逻辑地址转换为物理地址的过程中，地址变换是在进程装入时一次完成的，以后不再改变。</p>
+</li>
+<li><p>动态重定位<br>在系统中增设一个重定位寄存器，用来存放程序在内存的其实地址，程序在执行时，真正要访问的内存地址是相对地址与重地位寄存器的地址想加而成的。</p>
+</li>
+</ol>
+<p>地址变换过程是在程序执行期间，随着对每条指令或数据的访问自动进行的，故称为动态重定位。程序移动的时候，只需要将程序的新地址置换重定位寄存器中原来的起始地址就可以了。</p>
+<ol start="3">
+<li>动态重定位分区分配算法<br>动态重定位分区分配算法与动态分区分配算法基本相同，差别在于前者增加了紧凑的功能</li>
+</ol>
+<h2 id="4-4-对换"><a href="#4-4-对换" class="headerlink" title="4.4 对换"></a>4.4 对换</h2><h3 id="4-4-1-多道程序环境下的对换技术"><a href="#4-4-1-多道程序环境下的对换技术" class="headerlink" title="4.4.1 多道程序环境下的对换技术"></a>4.4.1 多道程序环境下的对换技术</h3><ol>
+<li>对换的引入<ul>
+<li>将阻塞进程，暂时不用的程序，数据换出。</li>
+<li>将具备运行条件的进程换入内存</li>
+<li>对换是改善内存利用率的有效措施，它可以直接提高处理机的利用率和系统的吞吐量</li>
+</ul>
+</li>
+<li>类型 <ul>
+<li>整体对换：进程对换，解决内存紧张</li>
+<li>部分对换：页面对换/分段对换：提供虚拟内存支持</li>
+</ul>
+</li>
+</ol>
+<h3 id="4-4-2-对换空间的管理"><a href="#4-4-2-对换空间的管理" class="headerlink" title="4.4.2 对换空间的管理"></a>4.4.2 对换空间的管理</h3><p>通常把磁盘空间分为文件区和对换区两部分</p>
+<ol>
+<li>对文件区管理的主要目标<br>占磁盘空间大部分，提高文件存储空间的利用率，提高对文件的访问速度，采用离散分配方式</li>
+<li>对对换空间管理的主要目标<br>占磁盘空间小部分，用于存放从内存中换出的进程，主要目标是提高进程换入和换出的速度，然后才是提高文件存储空间的利用率</li>
+</ol>
+<h3 id="4-4-3-进程的换出和换入"><a href="#4-4-3-进程的换出和换入" class="headerlink" title="4.4.3 进程的换出和换入"></a>4.4.3 进程的换出和换入</h3><h2 id="4-5-分页存储管理方式"><a href="#4-5-分页存储管理方式" class="headerlink" title="4.5 分页存储管理方式"></a>4.5 分页存储管理方式</h2><p>为了解决连续分配产生碎片问题而提出的离散型分配方式</p>
+<h3 id="4-5-1-分页存储管理的基本方法"><a href="#4-5-1-分页存储管理的基本方法" class="headerlink" title="4.5.1 分页存储管理的基本方法"></a>4.5.1 分页存储管理的基本方法</h3><ol>
+<li>页面和物理块</li>
+</ol>
+<ul>
+<li>页面和物理块：逻辑空间和内存空间</li>
+<li>页面大小：通常为1KB-8KB<ul>
+<li>页太大，页内碎片大。</li>
+<li>页太小：页表可能很长，换入/出效率低</li>
+</ul>
+</li>
+</ul>
+<ol start="2">
+<li>地址结构</li>
+<li>页表<br>页表的作用是实现从页号到物理块号的映射</li>
+</ol>
+<h3 id="4-5-2-地址变换机构"><a href="#4-5-2-地址变换机构" class="headerlink" title="4.5.2 地址变换机构"></a>4.5.2 地址变换机构</h3><p>将逻辑地址转换为物理地址</p>
+<ul>
+<li>页号→块号 通过页表来完成</li>
+<li>页内地址→块内地址 无需转换</li>
+<li>每个进程都有一个页表</li>
+</ul>
+<ol>
+<li>基本的地址变换机构<br>每个进程对应一页表，其信息（如长度、始址）放在PCB中，只设置一个页表寄存器，执行时将其首地址和页表的长度装入页表寄存器。</li>
+</ol>
+<p>缺点：页表驻留在内存中，需要两次访问主存，第一次是转换地址，第二次才是访问数据，速度降低近1/2</p>
+<ol start="2">
+<li>具有快表的地址变换机构<br>快表是一个具有并行查寻能力的特殊高速缓冲寄存器</li>
+</ol>
+<h3 id="4-5-4-两级和多级页表"><a href="#4-5-4-两级和多级页表" class="headerlink" title="4.5.4 两级和多级页表"></a>4.5.4 两级和多级页表</h3><ul>
+<li><p>页表可能很大，将其离散存放在不同页块中。</p>
+</li>
+<li><p>建一“外部页表”来管理这些离散页表块。相当于单级页表中的页表寄存器，一般应常驻内存。每项记录页表始址，且增加存在位。</p>
+</li>
+</ul>
+<h2 id="4-6-分段存储管理方式"><a href="#4-6-分段存储管理方式" class="headerlink" title="4.6 分段存储管理方式"></a>4.6 分段存储管理方式</h2><h3 id="4-6-1-分段存储管理方式的引入"><a href="#4-6-1-分段存储管理方式的引入" class="headerlink" title="4.6.1 分段存储管理方式的引入"></a>4.6.1 分段存储管理方式的引入</h3><p>每个段都可有其逻辑意义及功能</p>
+<h3 id="4-6-2-分段系统的基本原理"><a href="#4-6-2-分段系统的基本原理" class="headerlink" title="4.6.2 分段系统的基本原理"></a>4.6.2 分段系统的基本原理</h3><ol>
+<li><p>分段<br>基本思想：按程序的逻辑结构，将程序的地址空间划分为若干段，各段大小可不相同。在进行存储分配时，以段为单位，这些段在内存中可以不相邻接。</p>
+</li>
+<li><p>段表</p>
+</li>
+<li><p>地址变换机构</p>
+</li>
+<li><p>分页和分段的区别</p>
+<ol>
+<li>页是信息的物理单位，是系统的行为，对用户是不可见的，段是信息的逻辑单位，是为了更好地满足用户的需要</li>
+<li>页的大小固定，由系统决定，段的长度不固定，由用户的程序所决定</li>
+<li>分页的用户程序地址是一维的，属于单一的线性地址空间，而分段是用户的行为，在分段系统中用户程序的地址空间是二维的，在表示一个地址的时候，需要给出段名，又要给出段内地址</li>
+</ol>
+</li>
+<li><p>段式管理的优缺点</p>
+</li>
+</ol>
+<ul>
+<li>优点：<ol>
+<li>程序的各段可独立编译（修改一个过程不会影响其它<br>无关过程）</li>
+<li>可采用不同的保护措施（段只包含一种类型的对象，<br>可以有针对这种特定类型的合适的保护）</li>
+<li>便于共享某些段（常见的例子是共享库，如图形库）</li>
+</ol>
+</li>
+<li>缺点：<ol>
+<li>段长受限制（段长不定会出现空闲区上内存的浪费）</li>
+<li>段是作为一个整体调入调出，操作时间长</li>
+</ol>
+</li>
+</ul>
+<h3 id="4-5-4-段页式存储管理方式"><a href="#4-5-4-段页式存储管理方式" class="headerlink" title="4.5.4 段页式存储管理方式"></a>4.5.4 段页式存储管理方式</h3><p>分页优点：提高内存利用率，解决内存外部碎片问题<br>分段优点：方便用户，易于共享，保护，动态链接。</p>
+<ol>
+<li>基本原理</li>
+</ol>
+<ul>
+<li>面对用户程序的地址空间，采用段式分割</li>
+<li>内存分为长度相等的若干块</li>
+<li>将每段划分为页，也常与内存块相等</li>
+</ul>
+<ol start="2">
+<li>地址变换过程</li>
+</ol>
+<h1 id="第5章-虚拟存储器"><a href="#第5章-虚拟存储器" class="headerlink" title="第5章 虚拟存储器"></a>第5章 虚拟存储器</h1><h2 id="5-1-虚拟存储器概述"><a href="#5-1-虚拟存储器概述" class="headerlink" title="5.1 虚拟存储器概述"></a>5.1 虚拟存储器概述</h2><ol>
+<li><p>常规存储器管理方式的特征</p>
+<ul>
+<li>一次性（指全部装入）。</li>
+<li>驻留性（指驻留在内存不换出）。</li>
+</ul>
+</li>
+<li><p>局部性原理</p>
+<ul>
+<li>时间局限性</li>
+<li>空间局限性</li>
+</ul>
+</li>
+</ol>
+<h3 id="5-1-2-虚拟存储器第定义和特征"><a href="#5-1-2-虚拟存储器第定义和特征" class="headerlink" title="5.1.2 虚拟存储器第定义和特征"></a>5.1.2 虚拟存储器第定义和特征</h3><ol>
+<li>虚拟存储器的定义<ul>
+<li>具有请求调入功能和置换功能，能从逻辑上对内存容量进行扩充的一种存储系统。</li>
+<li>实质：以时间换空间，但时间牺牲不大，运行速度接近内存，成本接近外存</li>
+</ul>
+</li>
+<li>虚拟存储器的特征<ul>
+<li>多次性，对应传统的存储器的一次性，多次性是虚拟存储最重要的特征</li>
+<li>对换性，对应传统的存储器的常驻性，虚拟存储器最基础的特征</li>
+<li>虚拟性，虚拟存储器最重要的目标</li>
+</ul>
+</li>
+</ol>
+<h3 id="5-1-3-虚拟存储器的实现方法"><a href="#5-1-3-虚拟存储器的实现方法" class="headerlink" title="5.1.3 虚拟存储器的实现方法"></a>5.1.3 虚拟存储器的实现方法</h3><ol>
+<li>分页请求系统<br>分页请求系统是在分页系统的基础上添加了请求调页功能和页面置换功能所形成的页式虚拟存储系统</li>
+</ol>
+<ul>
+<li>以页为单位转换</li>
+<li>需硬件 <ol>
+<li>请求分页的页表机制</li>
+<li>缺页中断机构</li>
+<li>地址变换机构</li>
+</ol>
+</li>
+<li>需实现请求分页机制的软件（置换软件等）</li>
+</ul>
+<ol start="2">
+<li>请求分段系统<br>同上</li>
+</ol>
+<h2 id="5-2-请求分页存储管理方式"><a href="#5-2-请求分页存储管理方式" class="headerlink" title="5.2 请求分页存储管理方式"></a>5.2 请求分页存储管理方式</h2><p>页面大小固定，比分段系统实现简单，是目前最常用的虚拟存储器方式</p>
+<h3 id="5-2-1-请求分页中的硬件支持"><a href="#5-2-1-请求分页中的硬件支持" class="headerlink" title="5.2.1 请求分页中的硬件支持"></a>5.2.1 请求分页中的硬件支持</h3><ol>
+<li><p>请求页表机制<br>页号 物理块号 状态位P 访问字段A 修改位M 外存地址</p>
+<ul>
+<li>P：用于指示该页是否已调入内存</li>
+<li>A：用于记录本页在一段时间内被访问的次数</li>
+<li>M：用于标识该页在调入内存后是否被修改过，若被修改过要重新写回到外存上</li>
+</ul>
+</li>
+<li><p>缺页中断机构<br>可在指令执行期间产生，可能会产生多次缺页中断，转入缺页中断处理程序。</p>
+</li>
+</ol>
+<h3 id="5-2-2-请求分页中的内存分配"><a href="#5-2-2-请求分页中的内存分配" class="headerlink" title="5.2.2 请求分页中的内存分配"></a>5.2.2 请求分页中的内存分配</h3><ol start="2">
+<li><p>内存分配策略</p>
+<ul>
+<li>固定分配局部置换<br>是指为每个进程分配一组固定数目的物理块，局部置换是在如果发现缺页只能从分配给该进程的n个页面中选择一页换出。缺点：难以确定固定分配的页数.(少：置换率高; 多：浪费)</li>
+<li>可变分配全局置换<br>为进程分配的物理块是随运行期间可变的，全局置换是指os将所有空闲物理块组织为一个空闲物理块队列，如果某进程发现缺页，从队列中取出一块分配给该进程，当空闲物理块用完时，从系统中某一进程进行换出，那一进程拥有的物理块会减少，缺页率会上升</li>
+<li>可变分配局部置换<br>只允许从该进程换出，根据进程的缺页率进行物理块数调整，进程之间相互不会影响。</li>
+</ul>
+</li>
+<li><p>物理块分配算法</p>
+<ul>
+<li>平均分配算法</li>
+<li>按进程大小比例分配算法</li>
+<li>考虑优先权分配算法 </li>
+</ul>
+</li>
+</ol>
+<h3 id="5-2-3-页面调入策略"><a href="#5-2-3-页面调入策略" class="headerlink" title="5.2.3 页面调入策略"></a>5.2.3 页面调入策略</h3><ol start="2">
+<li>从何处调页：<br>将外存分为两部分，用于存放文件的文件区和用于存放对换页面的对换区，对换区采用连续分配方式，文件区采用离散分配方式，对换区的IO速度比文件区的高</li>
+</ol>
+<ul>
+<li>对换区：全部从对换区调入所需页面，快</li>
+<li>文件区：修改过的页面换出到对换区，稍慢</li>
+<li>UNIX方式：未运行过的页面，都应从文件区调入。曾经运行过但又被换出的页面，从对换区调入。对共享页，应判断其是否在内存区。</li>
+</ul>
+<ol>
+<li>页面调入过程</li>
+</ol>
+<h2 id="5-3-页面置换算法"><a href="#5-3-页面置换算法" class="headerlink" title="5.3 页面置换算法"></a>5.3 页面置换算法</h2><p>抖动：一个进程在运行中把大部分时间花在页面置换工作上，称为该进程发生了抖动</p>
+<h3 id="5-3-1-最佳置换算法和先进先出置换算法"><a href="#5-3-1-最佳置换算法和先进先出置换算法" class="headerlink" title="5.3.1 最佳置换算法和先进先出置换算法"></a>5.3.1 最佳置换算法和先进先出置换算法</h3><ol>
+<li><p>最佳置换算法</p>
+<ul>
+<li>理论上的，实际上无法实现的</li>
+<li>可以获得最低的缺页率</li>
+</ul>
+</li>
+<li><p>先进先出（FIFO）置换算法</p>
+</li>
+<li><p>LRU置换算法<br>需要硬件实现</p>
+</li>
+</ol>
+<h2 id="5-4-抖动和工作集"><a href="#5-4-抖动和工作集" class="headerlink" title="5.4 抖动和工作集"></a>5.4 抖动和工作集</h2><p>系统花在页面替换上的时间远远大于执行进程的时间，从而导致处理机的利用率急剧下降并趋于0的情况</p>
+<p>抖动产生的原因：由于分配给进程的页面数大小少于进程所需要的最低页面数，导致出现接连不断的缺页中断，引起抖动。</p>
+<h3 id="5-4-3-抖动的预防方法"><a href="#5-4-3-抖动的预防方法" class="headerlink" title="5.4.3 抖动的预防方法"></a>5.4.3 抖动的预防方法</h3><p>多道程序度指在内存中并发执行的程序数目</p>
+<p>CPU利用率与多道程序度的关系：多道程序度指在内存中并发执行的程序数目。两者关系如下：在低度情况下，CPU利用率呈线性变化关系。随着度的上升，CPU利用率也逐渐上升，最终上升到一个最大值，若在这种情况下，进一步增加度，则系统发生抖动，且CPU利用率将迅速恶化。</p>
+<p>系统可以利用CPU利用率与多道程序度进行比较的方法检测抖动，一旦发生抖动，可以通过减少多道程序度的方法来消除。</p>
+<h2 id="5-5-请求分段存储管理方式"><a href="#5-5-请求分段存储管理方式" class="headerlink" title="5.5 请求分段存储管理方式"></a>5.5 请求分段存储管理方式</h2><h3 id="5-5-1-请求分段中的硬件支持"><a href="#5-5-1-请求分段中的硬件支持" class="headerlink" title="5.5.1 请求分段中的硬件支持"></a>5.5.1 请求分段中的硬件支持</h3><ol>
+<li><p>请求分段机制<br>在段表项中， 除了段名(号)、 段长、 段在内存中的起始地址外， 还增加了以下诸项：</p>
+<ul>
+<li>存取方式：段是信息的逻辑单位，用只执行、只读和读/写来对信息进行保护</li>
+<li>访问字段A：用于记录被访问的频繁程度</li>
+<li>修改位M。</li>
+<li>存在位P。</li>
+<li>增补位：特有，表示是否做过动态增长</li>
+<li>外存始址。 </li>
+</ul>
+</li>
+<li><p>缺段中断机构<br>因为段是信息的逻辑单位，所以不可能出现一条指令被分割在两个分段中和一组信息被分割在两个分段中的情况</p>
+</li>
+</ol>
+<h3 id="5-5-2-分段的共享和保护"><a href="#5-5-2-分段的共享和保护" class="headerlink" title="5.5.2 分段的共享和保护"></a>5.5.2 分段的共享和保护</h3><ol>
+<li>共享段表</li>
+<li>共享段表的分配和回收<ul>
+<li>共享段表的分配</li>
+<li>共享段表的回收</li>
+</ul>
+</li>
+<li>分段保护</li>
+</ol>
+<h1 id="第6章-输入输出系统"><a href="#第6章-输入输出系统" class="headerlink" title="第6章 输入输出系统"></a>第6章 输入输出系统</h1><h2 id="6-1-I-O系统的功能、模型和接口"><a href="#6-1-I-O系统的功能、模型和接口" class="headerlink" title="6.1 I/O系统的功能、模型和接口"></a>6.1 I/O系统的功能、模型和接口</h2><h1 id="第7章-文件管理"><a href="#第7章-文件管理" class="headerlink" title="第7章 文件管理"></a>第7章 文件管理</h1><h2 id="7-1-文件和文件系统"><a href="#7-1-文件和文件系统" class="headerlink" title="7.1 文件和文件系统"></a>7.1 文件和文件系统</h2><h2 id="7-1-1-数据项、记录和文件"><a href="#7-1-1-数据项、记录和文件" class="headerlink" title="7.1.1 数据项、记录和文件"></a>7.1.1 数据项、记录和文件</h2><ol>
+<li>数据项</li>
+</ol>
+<ul>
+<li>基本数据项：可命名的最小逻辑单位/字段</li>
+<li>组合数据项：由若干基本数据项组成</li>
+<li>基本数据项的类型和数据</li>
+</ul>
+<ol start="2">
+<li>记录</li>
+</ol>
+<ul>
+<li>一组相关数据项的集合</li>
+<li>关键字：能唯一地标识出记录的基本/组合数据项</li>
+</ul>
+<ol start="3">
+<li>文件</li>
+</ol>
+<ul>
+<li>具有文件名的一组相关信息的集合</li>
+<li>文件属性：文件类型、文件长度、物理位置、建立时间等。</li>
+<li>是文件系统中最大的数据单位</li>
+</ul>
+<h3 id="7-1-2-文件名和类型"><a href="#7-1-2-文件名和类型" class="headerlink" title="7.1.2 文件名和类型"></a>7.1.2 文件名和类型</h3><h3 id="7-1-3-文件系统的层次结构"><a href="#7-1-3-文件系统的层次结构" class="headerlink" title="7.1.3 文件系统的层次结构"></a>7.1.3 文件系统的层次结构</h3><h2 id="7-2-文件的逻辑结构"><a href="#7-2-文件的逻辑结构" class="headerlink" title="7.2 文件的逻辑结构"></a>7.2 文件的逻辑结构</h2><p>无结构文件：流式文件</p>
+<ul>
+<li>以字节为单位，利用读/写指针进行访问</li>
+</ul>
+<h3 id="7-2-3-记录寻址"><a href="#7-2-3-记录寻址" class="headerlink" title="7.2.3 记录寻址"></a>7.2.3 记录寻址</h3><p>为了访问顺序文件的一条记录，首先要找到该记录的地址，查找地址有两种方式</p>
+<p>隐式寻址方式</p>
+<ul>
+<li>对于定长记录的顺序文件：如果已知当前记录的逻辑地址，便很容易确定下一个记录的逻辑地址。</li>
+<li>对于变长记录的顺序文件：每次都需要从正在读（写）的记录中，读出该记录的长度。</li>
+</ul>
+<p>显式寻址方式</p>
+<ul>
+<li>通过文件中记录的位置，该方式可用于对定长记录的文件，实现直接或随机访问。</li>
+<li>利用关键字，用户必须指定一个字段作为关键字，通过指定的关键字来查找该记录。当用户给出要检索记录的关键字时，系统将利用该关键字顺序地从第一个记录开始，与每一个记录的关键字进行比较，直到找到匹配的记录。</li>
+</ul>
+<h3 id="7-2-4-索引文件"><a href="#7-2-4-索引文件" class="headerlink" title="7.2.4 索引文件"></a>7.2.4 索引文件</h3><ol>
+<li><p>按关键字建立索引</p>
+<p> 为变长记录文件建立一张索引表，对主文件中的每个记录，在索引表中设有一个相应表项，用于记录该记录的长度L，以及指向该记录的指针(指向该记录在逻辑地址空间的首址)。</p>
+<p>   由于索引表是按关键字排序的，是一个定长记录的顺序文件，这样就把<br> 对变长记录顺序文件的顺序检索，转变为对定长记录索引文件的随机检索，<br> 从而加快对记录检索的速度，能实现直接存取。</p>
+</li>
+<li><p>具有多个索引表的索引文件 </p>
+<p> 不同的用户，为了不同的目的，希望能按不同的属性（或不同的关键字）<br> 来检索一条记录。</p>
+<p> 为实现此要求，需要为顺序文件建立多个索引表，即为每一种可能成为检索条件的域（属性或关键字），都配置一张索引表。在每一个索引表中，都是按相应的一种属性或关键字进行排序。这样用户也就可以根据自己的需要，用不同的关键字来进行检索。<br>索引文件的主要优点</p>
+</li>
+</ol>
+<ul>
+<li>提高了对文件的查找速度</li>
+<li>插入和删除记录非常方便<br>索引文件的缺点</li>
+<li>增加了存储开销</li>
+</ul>
+<h3 id="7-2-5-索引顺序文件"><a href="#7-2-5-索引顺序文件" class="headerlink" title="7.2.5 索引顺序文件"></a>7.2.5 索引顺序文件</h3><p>保留了顺序文件的关键特征，即记录<br>是按关键字的顺序组织起来的。<br> 增加了两个新特征：<br> ①引入了文件索引表，通过该表可以实现对索引顺序文件的随机访问；<br> ②另一个是增加了溢出文件，用它来记录新增加的、删除的和修改的记录。 </p>
+<h3 id="7-2-6-直接文件和哈希文件"><a href="#7-2-6-直接文件和哈希文件" class="headerlink" title="7.2.6 直接文件和哈希文件"></a>7.2.6 直接文件和哈希文件</h3><p>1.直接文件<br> 可根据给定的关键字，直接获得指定记录的物理地址，即关键字本身就<br>决定了记录的物理地址。这种由关键字到记录物理地址的转换，被称为键值<br>转换。</p>
+<p>利用Hash函数(或称散列函数)，可将关键字转换为相应记录的地址。但为了能实现文件存储空间的动态分配，通常由Hash函数所求得的并非是相应记录的地址，而是指向某一目录表相应表目的指针，该表目的内容指向相应记录所在的物理块，如图所示。</p>
+<h2 id="7-3-文件目录"><a href="#7-3-文件目录" class="headerlink" title="7.3 文件目录"></a>7.3 文件目录</h2><p>文件目录：将文件名――map―― 外存物理位置，使用户按名存取。 </p>
+<p>功能：<br>（1）按名存取；<br>（2）提高检索速度；<br>（3）文件共享；<br>（4）允许文件重名。<br>目录文件：其内容为文件目录。<br>文件目录：文件控制块的有序集合（FDT） </p>
+<ol>
+<li>文件控制块FCB</li>
+</ol>
+<h3 id="7-3-2-简单的文件目录"><a href="#7-3-2-简单的文件目录" class="headerlink" title="7.3.2 简单的文件目录"></a>7.3.2 简单的文件目录</h3><ol>
+<li>单级文件目录<br>新建文件时–&gt;有无同名–&gt;加入目录表<br>删除文件–&gt;回收块–&gt;清除占用目录项 </li>
+</ol>
+<p>特点：<br>简单<br>速度慢/不允许重名/不便于共享(不能用不同名字访问同一文件)。 </p>
+<ol start="2">
+<li>两级文件目录</li>
+</ol>
+<p>MFD+UFD，特点:<br>（1）提高了速度<br>（2）可重名<br>（3）可共享（但不方<br>便） </p>
+<h3 id="7-3-3-树形结构目录"><a href="#7-3-3-树形结构目录" class="headerlink" title="7.3.3 树形结构目录"></a>7.3.3 树形结构目录</h3><h3 id="7-3-4-目录查询技术"><a href="#7-3-4-目录查询技术" class="headerlink" title="7.3.4 目录查询技术"></a>7.3.4 目录查询技术</h3><ol>
+<li>线性检索法<ul>
+<li>过程：文件名——目录项（FCB）或索引结点——盘块号—— 启动磁盘—— 驱动程序</li>
+<li>例：/usr/ast/mbox<br>（1）根中得usr的索引结点号6;<br>（2）6中得usr目录文件为132#；<br>（3）132#中得/usr/ast的索引结点是26；<br>（4）26中的/usr/ast目录文件中496#；<br>（5）496#中得/usr/ast/mbox的索引结点是60；<br>（6）60中得/usr/ast/mbox的物理地址。</li>
+</ul>
+</li>
+<li>hash方法</li>
+</ol>
+<h2 id="7-4-文件共享"><a href="#7-4-文件共享" class="headerlink" title="7.4 文件共享"></a>7.4 文件共享</h2><p>文件共享是指不同的用户可以使用同一个文件。文件共享可以节省外存空间。文件的共享有两种方法：一种是用户直接通过路径名来访问共享文件；另一种是对需要共享的文件进行链接。</p>
+<h3 id="7-4-1-基于有向无循环图实现文件共享"><a href="#7-4-1-基于有向无循环图实现文件共享" class="headerlink" title="7.4.1 基于有向无循环图实现文件共享"></a>7.4.1 基于有向无循环图实现文件共享</h3><ol>
+<li><p>有向无循环图DAG<br>如果目录确定包含了磁盘地址，链接文件时，必须在B目录中记录磁盘地址的复制。那么，如果B或C随后往该文件添加内容，则新的数据块只列入进行添加工作用户的目录，其他用户对此改变是不知道的，所以违背了共享的目的。</p>
+</li>
+<li><p>利用索引结点<br> 说明：索引结点需要增加count记录共享该文件的用户数，owner记录文件主。存在问题：当count≠0时，文件主不能删除文件。</p>
+</li>
+</ol>
+<h3 id="7-4-2-利用符号链接实现文件共享"><a href="#7-4-2-利用符号链接实现文件共享" class="headerlink" title="7.4.2 利用符号链接实现文件共享"></a>7.4.2 利用符号链接实现文件共享</h3><p>在利用符号链方式实现文件共享时， 只是文件主才拥有指向其索引结点的指针；而共享该文件的其他用户，则只有该文件的路径名，并不拥有指向其索引结点的指针。这样， 也就不会发生在文件主删除一共享文件后留下一悬空指针的情况。</p>
+<p>当文件的拥有者把一个共享文件删除后，其他用户试图通过符号链去访问一个已被删除的共享文件时，会因系统找不到该文件而使访问失败，于是再将符号链删除，此时不会产生任何影响。</p>
+<h1 id="第八章-磁盘存储器的管理"><a href="#第八章-磁盘存储器的管理" class="headerlink" title="第八章 磁盘存储器的管理"></a>第八章 磁盘存储器的管理</h1><h2 id="8-1-外存的组织方式"><a href="#8-1-外存的组织方式" class="headerlink" title="8.1 外存的组织方式"></a>8.1 外存的组织方式</h2></section>
+    <!-- Tags START -->
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/ed1son67.github.io/2019/11/01/《深入浅出React和Redux》学习笔记-第六章 React高阶组件/">
+        <span class="nav-arrow">← </span>
+        
+          《深入浅出React和Redux》学习笔记-第六章 React高阶组件
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/ed1son67.github.io/2019/12/20/数据库复习笔记/">
+        
+          数据库复习笔记
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <!-- No Comment -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#第1章-绪论"><span class="toc-nav-text">第1章 绪论</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#第二章-进程的描述和控制"><span class="toc-nav-text">第二章 进程的描述和控制</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-1-前驱图和程序执行"><span class="toc-nav-text">2.1 前驱图和程序执行</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-2-进程的描述"><span class="toc-nav-text">2.2 进程的描述</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-3-1-操作系统内核"><span class="toc-nav-text">2.3.1 操作系统内核</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-4-1-进程同步的基本概念"><span class="toc-nav-text">2.4.1 进程同步的基本概念</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-7-线程"><span class="toc-nav-text">2.7 线程</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#第三章-处理机调度和死锁"><span class="toc-nav-text">第三章 处理机调度和死锁</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-1-处理机调度的层次和调度算法的目标"><span class="toc-nav-text">3.1 处理机调度的层次和调度算法的目标</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-1-1-处理机调度的层次"><span class="toc-nav-text">3.1.1 处理机调度的层次</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-1-2-处理机调度算法的目标"><span class="toc-nav-text">3.1.2 处理机调度算法的目标</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-2-作业与作业调度"><span class="toc-nav-text">3.2 作业与作业调度</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-2-1-批处理中的作业"><span class="toc-nav-text">3.2.1 批处理中的作业</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-3-进程调度"><span class="toc-nav-text">3.3 进程调度</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-5-死锁"><span class="toc-nav-text">3.5 死锁</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#第4章"><span class="toc-nav-text">第4章</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-1-存储器第层次结构"><span class="toc-nav-text">4.1 存储器第层次结构</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-2-程序的装入和链接"><span class="toc-nav-text">4.2 程序的装入和链接</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-2-1-程序的装入"><span class="toc-nav-text">4.2.1 程序的装入</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-2-2-程序的链接"><span class="toc-nav-text">4.2.2 程序的链接</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-2-连续分配存储管理方式"><span class="toc-nav-text">4.2 连续分配存储管理方式</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-3-1-单一连续分配："><span class="toc-nav-text">4.3.1 单一连续分配：</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-3-2-固定分区分配："><span class="toc-nav-text">4.3.2 固定分区分配：</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-3-3-动态分区分配"><span class="toc-nav-text">4.3.3 动态分区分配</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-3-4-基于顺序搜索的动态分区分配算法"><span class="toc-nav-text">4.3.4 基于顺序搜索的动态分区分配算法</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-3-5-基于索引搜索的动态分区分配算法"><span class="toc-nav-text">4.3.5 基于索引搜索的动态分区分配算法</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-3-6-动态可重定位分区分配"><span class="toc-nav-text">4.3.6 动态可重定位分区分配</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-4-对换"><span class="toc-nav-text">4.4 对换</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-4-1-多道程序环境下的对换技术"><span class="toc-nav-text">4.4.1 多道程序环境下的对换技术</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-4-2-对换空间的管理"><span class="toc-nav-text">4.4.2 对换空间的管理</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-4-3-进程的换出和换入"><span class="toc-nav-text">4.4.3 进程的换出和换入</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-5-分页存储管理方式"><span class="toc-nav-text">4.5 分页存储管理方式</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-5-1-分页存储管理的基本方法"><span class="toc-nav-text">4.5.1 分页存储管理的基本方法</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-5-2-地址变换机构"><span class="toc-nav-text">4.5.2 地址变换机构</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-5-4-两级和多级页表"><span class="toc-nav-text">4.5.4 两级和多级页表</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-6-分段存储管理方式"><span class="toc-nav-text">4.6 分段存储管理方式</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-6-1-分段存储管理方式的引入"><span class="toc-nav-text">4.6.1 分段存储管理方式的引入</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-6-2-分段系统的基本原理"><span class="toc-nav-text">4.6.2 分段系统的基本原理</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-5-4-段页式存储管理方式"><span class="toc-nav-text">4.5.4 段页式存储管理方式</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#第5章-虚拟存储器"><span class="toc-nav-text">第5章 虚拟存储器</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#5-1-虚拟存储器概述"><span class="toc-nav-text">5.1 虚拟存储器概述</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#5-1-2-虚拟存储器第定义和特征"><span class="toc-nav-text">5.1.2 虚拟存储器第定义和特征</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#5-1-3-虚拟存储器的实现方法"><span class="toc-nav-text">5.1.3 虚拟存储器的实现方法</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#5-2-请求分页存储管理方式"><span class="toc-nav-text">5.2 请求分页存储管理方式</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#5-2-1-请求分页中的硬件支持"><span class="toc-nav-text">5.2.1 请求分页中的硬件支持</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#5-2-2-请求分页中的内存分配"><span class="toc-nav-text">5.2.2 请求分页中的内存分配</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#5-2-3-页面调入策略"><span class="toc-nav-text">5.2.3 页面调入策略</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#5-3-页面置换算法"><span class="toc-nav-text">5.3 页面置换算法</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#5-3-1-最佳置换算法和先进先出置换算法"><span class="toc-nav-text">5.3.1 最佳置换算法和先进先出置换算法</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#5-4-抖动和工作集"><span class="toc-nav-text">5.4 抖动和工作集</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#5-4-3-抖动的预防方法"><span class="toc-nav-text">5.4.3 抖动的预防方法</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#5-5-请求分段存储管理方式"><span class="toc-nav-text">5.5 请求分段存储管理方式</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#5-5-1-请求分段中的硬件支持"><span class="toc-nav-text">5.5.1 请求分段中的硬件支持</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#5-5-2-分段的共享和保护"><span class="toc-nav-text">5.5.2 分段的共享和保护</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#第6章-输入输出系统"><span class="toc-nav-text">第6章 输入输出系统</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#6-1-I-O系统的功能、模型和接口"><span class="toc-nav-text">6.1 I/O系统的功能、模型和接口</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#第7章-文件管理"><span class="toc-nav-text">第7章 文件管理</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#7-1-文件和文件系统"><span class="toc-nav-text">7.1 文件和文件系统</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#7-1-1-数据项、记录和文件"><span class="toc-nav-text">7.1.1 数据项、记录和文件</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#7-1-2-文件名和类型"><span class="toc-nav-text">7.1.2 文件名和类型</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#7-1-3-文件系统的层次结构"><span class="toc-nav-text">7.1.3 文件系统的层次结构</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#7-2-文件的逻辑结构"><span class="toc-nav-text">7.2 文件的逻辑结构</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#7-2-3-记录寻址"><span class="toc-nav-text">7.2.3 记录寻址</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#7-2-4-索引文件"><span class="toc-nav-text">7.2.4 索引文件</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#7-2-5-索引顺序文件"><span class="toc-nav-text">7.2.5 索引顺序文件</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#7-2-6-直接文件和哈希文件"><span class="toc-nav-text">7.2.6 直接文件和哈希文件</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#7-3-文件目录"><span class="toc-nav-text">7.3 文件目录</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#7-3-2-简单的文件目录"><span class="toc-nav-text">7.3.2 简单的文件目录</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#7-3-3-树形结构目录"><span class="toc-nav-text">7.3.3 树形结构目录</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#7-3-4-目录查询技术"><span class="toc-nav-text">7.3.4 目录查询技术</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#7-4-文件共享"><span class="toc-nav-text">7.4 文件共享</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#7-4-1-基于有向无循环图实现文件共享"><span class="toc-nav-text">7.4.1 基于有向无循环图实现文件共享</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#7-4-2-利用符号链接实现文件共享"><span class="toc-nav-text">7.4.2 利用符号链接实现文件共享</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#第八章-磁盘存储器的管理"><span class="toc-nav-text">第八章 磁盘存储器的管理</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#8-1-外存的组织方式"><span class="toc-nav-text">8.1 外存的组织方式</span></a></li></ol></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'https://ed1son67.github.io/ed1son67.github.io/2019/12/15/操作系统学习笔记/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+    // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+  })();
+</script>
+
+
+
+
+
+
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2020 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/ed1son67.github.io/js/script.js"></script>
+  </body>
+</html>
