@@ -10,7 +10,7 @@
   
   <title>
     
-      Ed1son&#39;s blog
+      《深入浅出React和Redux》学习笔记-第三章 从Flux到Redux | Ed1son&#39;s blog
     
   </title>
   <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -138,67 +138,131 @@
 </header>
 
     <div id="article-banner">
-  <h2>Archives</h2>
-  <p class="post-date">文章归档</p>
+  <h2>《深入浅出React和Redux》学习笔记-第三章 从Flux到Redux</h2>
+  <p class="post-date">2019-09-26</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
 </div>
-<main class="app-body" id="archives">
-  
-  
-  
-    <section class="time-section">
-  <h1 class="section-year">
-    2019
-  </h1>
-  <div class="section-list">
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="3-1-Flux"><a href="#3-1-Flux" class="headerlink" title="3.1 Flux"></a>3.1 Flux</h2><h3 id="MVC框架的缺点"><a href="#MVC框架的缺点" class="headerlink" title="MVC框架的缺点"></a>MVC框架的缺点</h3><p>在传统的MVC框架下开发的前端项目，如果代码数量过于庞大，项目将难以维护。主要是因为在前端项目的实际开发中View和Model可以直接通信，而服务端的MVC框架很少出现这种情况，因为服务器端只要在Controller-Model-View走一个流程返回结果就可以销毁进程了，严格意义上讲是一个单向数据流。但浏览端页面渲染出来后，Model和View仍然存在，这个时候就会诱惑开发者为了便利，让Model和View对话，导致出现非常高的耦合度。</p>
+<p>为了对数据流进行更严格的控制，Facebook用Flux框架代替了MVC框架。</p>
+</section>
+    <!-- Tags START -->
     
-    
-      <div class="section-list-item">
-        <a href="/ed1son67.github.io/2019/09/26/《深入浅出React和Redux》学习笔记-第三章 从Flux到Redux/" class="archive-title">《深入浅出React和Redux》学习笔记-第三章 从Flux到Redux</a>
-        <p class="archive-date">09-26</p>
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/ed1son67.github.io/ed1son67.github.io/tags#JavaScript" >
+    <span class="tag-code">JavaScript</span>
+  </a>
+
+  <a href="/ed1son67.github.io/ed1son67.github.io/tags#React" >
+    <span class="tag-code">React</span>
+  </a>
+
       </div>
     
-      <div class="section-list-item">
-        <a href="/ed1son67.github.io/2019/09/24/《深入浅出React和Redux》学习笔记-第一章/" class="archive-title">《深入浅出React和Redux》学习笔记 第一章</a>
-        <p class="archive-date">09-24</p>
-      </div>
+    <!-- Tags END -->
+    <!-- NAV START -->
     
-      <div class="section-list-item">
-        <a href="/ed1son67.github.io/2019/09/24/JavaScript面向对象/" class="archive-title">JavaScript面向对象</a>
-        <p class="archive-date">09-24</p>
-      </div>
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
     
-      <div class="section-list-item">
-        <a href="/ed1son67.github.io/2019/09/24/《ES6标准入门》学习笔记第19章 Class的基本语法/" class="archive-title">《ES6标准入门》学习笔记第19章 Class的基本语法</a>
-        <p class="archive-date">09-24</p>
-      </div>
+      <a class="nav-left" href="/ed1son67.github.io/2019/09/24/《深入浅出React和Redux》学习笔记-第一章/">
+        <span class="nav-arrow">← </span>
+        
+          《深入浅出React和Redux》学习笔记 第一章
+        
+      </a>
     
-      <div class="section-list-item">
-        <a href="/ed1son67.github.io/2019/09/24/《ES6标准入门》学习笔记第20章 Class的继承/" class="archive-title">《ES6标准入门》学习笔记第20章 Class的继承</a>
-        <p class="archive-date">09-24</p>
-      </div>
-    
-      <div class="section-list-item">
-        <a href="/ed1son67.github.io/2019/09/22/《ES6标准入门》学习笔记第23章 Module的加载实现/" class="archive-title">《ES6标准入门》学习笔记第23章 Module的加载实现</a>
-        <p class="archive-date">09-22</p>
-      </div>
-    
-      <div class="section-list-item">
-        <a href="/ed1son67.github.io/2019/09/21/《ES6标准入门》学习笔记第22章Module的语法/" class="archive-title">《ES6标准入门》学习笔记第22章 Module的语法</a>
-        <p class="archive-date">09-21</p>
-      </div>
     
   </div>
-</section>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <!-- No Comment -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
   
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-1-Flux"><span class="toc-nav-text">3.1 Flux</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#MVC框架的缺点"><span class="toc-nav-text">MVC框架的缺点</span></a></li></ol></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
 </main>
 
 <script>
   (function () {
-    var url = 'https://ed1son67.github.io/ed1son67.github.io/archives/2019/index.html';
-    $('#article-banner').geopattern(url);
-    $('.header').removeClass('fixed-header');
+    var url = 'https://ed1son67.github.io/ed1son67.github.io/2019/09/26/《深入浅出React和Redux》学习笔记-第三章 从Flux到Redux/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+    // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
   })();
 </script>
+
+
+
+
+
+
+
     <div class="scroll-top">
   <span class="arrow-icon"></span>
 </div>
