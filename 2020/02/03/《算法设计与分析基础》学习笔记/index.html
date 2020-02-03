@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Ed1son&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/ed1son67.github.io/css/images/logo.png">
+  
+  <title>
+    
+      《算法设计与分析基础》学习笔记 | Ed1son&#39;s blog
+    
+  </title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/ed1son67.github.io/css/style.css">
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+  
+  
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png">
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/ed1son67.github.io/">
+      <div class="logo"></div>
+      <span>Ed1son's blog</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>《算法设计与分析基础》学习笔记</h2>
+  <p class="post-date">2020-02-03</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h1 id="第2章-算法效率分析基础"><a href="#第2章-算法效率分析基础" class="headerlink" title="第2章 算法效率分析基础"></a>第2章 算法效率分析基础</h1><h2 id="2-1-分析框架"><a href="#2-1-分析框架" class="headerlink" title="2.1 分析框架"></a>2.1 分析框架</h2><p>主要从两个方面去描述一个分析算法效率，时间效率和空间效率，也叫时间复杂度和空间复杂度。目前主要关注时间复杂度。基本操作的执行次数用C(n)表示，算法的运行时间也用C(n)表示。</p>
+<h2 id="2-2-渐进符号和基本效率类型"><a href="#2-2-渐进符号和基本效率类型" class="headerlink" title="2.2 渐进符号和基本效率类型"></a>2.2 渐进符号和基本效率类型</h2><p>用t(n)表示一个算法的运行时间（常用操作次数C(n)表示)，g(n)是一个用来与t(n)比较的函数。O(g(n))是增长次数小于等于g(n)的函数集合。Ω(g(n))代表增长次数大于等于g(n)的函数集合。Θ(g(n))是增长次数等于g(n)的函数集合。</p>
+<h3 id="2-2-5-渐进符号的有用特性"><a href="#2-2-5-渐进符号的有用特性" class="headerlink" title="2.2.5 渐进符号的有用特性"></a>2.2.5 渐进符号的有用特性</h3><p>定理：如果t1(n)∈O(g1(n)), t2(n)∈(g2(n)), t1(n)+t2(n)∈O(max{g1(n),g2(n)})<br>对于两个连续执行部分组成的算法，算法的整体效率是由具有较大增长次数的部分来决定的，即它最差的那部分。</p>
+<h3 id="2-2-6-利用极限比较增长次数"><a href="#2-2-6-利用极限比较增长次数" class="headerlink" title="2.2.6 利用极限比较增长次数"></a>2.2.6 利用极限比较增长次数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">求s = t(n)/g(n)的极限</span><br><span class="line">&#123;</span><br><span class="line">    s=0, t比g小</span><br><span class="line">    s&gt;0, t和g相同</span><br><span class="line">    无穷, t比g大</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="第3章-蛮力法"><a href="#第3章-蛮力法" class="headerlink" title="第3章 蛮力法"></a>第3章 蛮力法</h1><h2 id="3-1-选择排序和冒泡排序"><a href="#3-1-选择排序和冒泡排序" class="headerlink" title="3.1 选择排序和冒泡排序"></a>3.1 选择排序和冒泡排序</h2><h3 id="3-1-1-选择排序"><a href="#3-1-1-选择排序" class="headerlink" title="3.1.1 选择排序"></a>3.1.1 选择排序</h3><p>在排序开始的时候，找到它最小的元素，与第一个元素交换，将最小元素放到它在有序表中的最终位置上，然后从第二个元素开始扫描列表，找到最<br>后n-1个元素中的最小元素，再和第二个元素交换位置，这就是第二小的元素，在n-1遍扫描后，这个列表都被排好序了。</p>
+<p>伪代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">SelectionSort(A[0...n-1])</span><br><span class="line">    for i &lt;- 0 to n-2 do</span><br><span class="line">        min &lt;- i</span><br><span class="line">        for j &lt;- i+1 to n-1 do</span><br><span class="line">            if A[j] &lt; A[min]</span><br><span class="line">                min &lt;- j</span><br><span class="line">            swap A[j] and A[min]</span><br></pre></td></tr></table></figure>
+
+<p>基本操作是A[j] &lt; A[min]，执行次数仅依赖于数组的规模，时间复杂度是n^2</p>
+<h3 id="3-1-2-冒泡排序"><a href="#3-1-2-冒泡排序" class="headerlink" title="3.1.2 冒泡排序"></a>3.1.2 冒泡排序</h3><p>比较列表中相邻的元素，如果它们是逆序的，交换位置，多次重复后，最大的元素就沉到了列表的最后一个位置，第二遍操作将第二大的元素沉下去，n-1遍比较厚，列表就排好序了</p>
+<p>伪代码：<br>BubbleSort(A[0…n-1])<br>    for i &lt;- 0 to n-2 do<br>        for j &lt;-0 to n-2-i do<br>            if A[j+1] &lt; A[j]<br>                swap A[j] and A[j+1]<br>基本操作是A[j+1] &lt; A[j]，执行次数仅依赖于数组的规模，时间复杂度是n^2</p>
+<h2 id="3-2-顺序查找和蛮力字符串匹配"><a href="#3-2-顺序查找和蛮力字符串匹配" class="headerlink" title="3.2 顺序查找和蛮力字符串匹配"></a>3.2 顺序查找和蛮力字符串匹配</h2><h3 id="3-2-1-顺序查找"><a href="#3-2-1-顺序查找" class="headerlink" title="3.2.1 顺序查找"></a>3.2.1 顺序查找</h3><p>伪代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">SequentialSearch(A[0...n-1], k)</span><br><span class="line">    // 输入：n位元素的数组A和要查找的元素K</span><br><span class="line">    // 输出：第一个值等于K的元素的位置，如果找不到，返回-1</span><br><span class="line">    A[n] &lt;- L</span><br><span class="line">    i &lt;- 0</span><br><span class="line">    while A[i] != K do</span><br><span class="line">        i &lt;- i+1</span><br><span class="line">    if i &lt; n return i</span><br><span class="line">    eles return -1</span><br></pre></td></tr></table></figure>
+
+<p>基本操作是A[i] != K，执行次数仅依赖于数组的规模，时间复杂度是n</p>
+<h3 id="3-2-2-蛮力字符串匹配"><a href="#3-2-2-蛮力字符串匹配" class="headerlink" title="3.2.2 蛮力字符串匹配"></a>3.2.2 蛮力字符串匹配</h3><p>给定一个n个字符组成的字符串，称为文本（text），一个m（m&lt;=n）个字符的字符串，称为模式（pattren），从文本中寻找匹配模式的子串，返回文本中第一个匹配子串的最左元素的下标，使得ti=p0,…,ti+j=pj,…,ti+m-1=pm-1</p>
+<p>伪代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">BruteForceStringMatch(T[0...n-1], p[0...n-1])</span><br><span class="line">    // 输入：n个字符的数组T，代表文本</span><br><span class="line">    //      m个字符的数组P，代表一个模式</span><br><span class="line">    // 输出：如果查成功，返回文本的第一个匹配子串中第一个字符的位置，否则返回-1</span><br><span class="line">    for i&lt;-0 to n-m do</span><br><span class="line">        j&lt;-0</span><br><span class="line">        while j &lt; m and p[j] == T[i+j] do</span><br><span class="line">            j &lt;- j+1</span><br><span class="line">        if j == m return i</span><br><span class="line">    return -1</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-3-最近对和凸包问题的蛮力算法"><a href="#3-3-最近对和凸包问题的蛮力算法" class="headerlink" title="3.3 最近对和凸包问题的蛮力算法"></a>3.3 最近对和凸包问题的蛮力算法</h2><h3 id="3-3-1-最近对问题"><a href="#3-3-1-最近对问题" class="headerlink" title="3.3.1 最近对问题"></a>3.3.1 最近对问题</h3><p>最近对问题要求在一个包含n个点的集合中，找出距离最近的两个点</p>
+<h1 id="第4章-减治法"><a href="#第4章-减治法" class="headerlink" title="第4章 减治法"></a>第4章 减治法</h1><p>减治法的3种主要表现形式：</p>
+<ol>
+<li>减常量</li>
+<li>减常量因子</li>
+<li>减可变规模</li>
+</ol>
+<h2 id="4-1-插入排序"><a href="#4-1-插入排序" class="headerlink" title="4.1 插入排序"></a>4.1 插入排序</h2><p>这个算法将数组分为两个部分，可以从右到左扫描这个有序的子数组，知道遇到第一个小于等于An-1的元素，然后把这个元素插入到还元素的后面<br>伪代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">InsertionSort(A[0..n-1]) </span><br><span class="line">    for (i &lt;- 1 to n-1) do</span><br><span class="line">        v&lt;-A[i]</span><br><span class="line">        j&lt;-i-1</span><br><span class="line">        while j&gt;=0 and A[j]&gt;v do</span><br><span class="line">            A[j+1] = A[j]</span><br><span class="line">            j&lt;-j-1</span><br><span class="line">        A[j+1] &lt;- v</span><br></pre></td></tr></table></figure>
+
+<p>本算法的基本操作是A[j]&gt;v，当且仅当输入是一个严格递减的数组时才会出现</p>
+<h2 id="4-4-减常因子算法"><a href="#4-4-减常因子算法" class="headerlink" title="4.4 减常因子算法"></a>4.4 减常因子算法</h2><h3 id="4-4-1-折半查找"><a href="#4-4-1-折半查找" class="headerlink" title="4.4.1 折半查找"></a>4.4.1 折半查找</h3><p>通过比较查找键K和数组中间元素A[m]来完成查找工作<br>伪代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// 非递归版本</span><br><span class="line">BinarySearch(A[0...n-1], K)</span><br><span class="line">    i &lt;- 0; r &lt;- n-1</span><br><span class="line">    while i &lt;= r do </span><br><span class="line">        m &lt;- (i+r) / 2</span><br><span class="line">        if (K == A[m])</span><br><span class="line">            return m</span><br><span class="line">        else if K &lt; A[m] </span><br><span class="line">            r &lt;- m-1</span><br><span class="line">        else </span><br><span class="line">            i &lt;- m+1</span><br><span class="line">    return -1</span><br></pre></td></tr></table></figure>
+
+<p>时间复杂度：log2n</p>
+<h2 id="4-5-减可变规模算法"><a href="#4-5-减可变规模算法" class="headerlink" title="4.5 减可变规模算法"></a>4.5 减可变规模算法</h2><h3 id="4-5-1-计算中值和选择问题"><a href="#4-5-1-计算中值和选择问题" class="headerlink" title="4.5.1 计算中值和选择问题"></a>4.5.1 计算中值和选择问题</h3><p>选择问题是求一个n个数列表的第k个最小元素的问题，这个数字被称为第k个顺序统计量，中值问题就是在序列中找出一个值比一半元素小，比另一半元素大的那个元素。<br>Lomuto划分：将数组A[l..r]按顺序分为三段，第一个元素p作为中轴，第一段是已知小于p的元素，第二段是已知大于p的元素，第三段是未同p比较过的元素。从i=l+1开始，从左到右扫描数组A，每一次迭代中都将未知段的第一个元素（用i指向）与中轴p比较，如果A[i]&gt;=p，i+1，相当于大于p的段扩大了，否则s+1，s指向最小段最后一个元素，然后交换A[i]和A[s]，i+1，使之指向未处理段的第一个元素，在未处理段元素为空的时候，把中轴和A[s]交换，就得到我们所要求的划分。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">| p | &lt;p | &gt;=p | ? |</span><br><span class="line">  l      s     i r</span><br></pre></td></tr></table></figure>
+
+<p>伪代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">LomutoPartition(A[l..r])</span><br><span class="line">    p &lt;- A[l]</span><br><span class="line">    s &lt;- l</span><br><span class="line">    for i &lt;- l+1 to r do</span><br><span class="line">        if A[i] &lt; p</span><br><span class="line">            s &lt;- s+1;</span><br><span class="line">            swap(A[s], A[i])</span><br><span class="line">    swap(A[l], A[s])</span><br><span class="line">    return s</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-5-3-插值查找"><a href="#4-5-3-插值查找" class="headerlink" title="4.5.3 插值查找"></a>4.5.3 插值查找</h3><h1 id="第5章-分治法"><a href="#第5章-分治法" class="headerlink" title="第5章 分治法"></a>第5章 分治法</h1><h3 id="5-1-归并排序"><a href="#5-1-归并排序" class="headerlink" title="5.1 归并排序"></a>5.1 归并排序</h3><p>伪代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">MergeSort(A[0..n-1])</span><br><span class="line">    if n &gt; 1</span><br><span class="line">        copy A[0..n/2-1] to B[0..n/2-1]</span><br><span class="line">        copy A[n/2..n-1] to C[0..n/2-1]</span><br><span class="line">        MergeSort(B[0..n/2-1])</span><br><span class="line">        MergeSort(C[0..n/2-1])</span><br><span class="line">        Merge(B,C,A)</span><br><span class="line">Merge(B[0..p-1], C[0..q-1], A[0..p+q-1])</span><br><span class="line">    i&lt;-0; j&lt;-0; k&lt;-0</span><br><span class="line">    while i &lt; p and j &lt; q do</span><br><span class="line">        if B[i] &lt;= C[j]</span><br><span class="line">            A[k] &lt;- B[i]; i++</span><br><span class="line">        else </span><br><span class="line">            A[k] &lt;- B[j]; j++</span><br><span class="line">        k++</span><br><span class="line">    if i == p</span><br><span class="line">        copy C[j..q-1] to A[k..p+q-1]</span><br><span class="line">    else </span><br><span class="line">        copy B[i..p-q] to A[k..p+q-1]</span><br></pre></td></tr></table></figure>
+
+<p>时间复杂度：nlogn，是一个稳定的排序算法</p>
+<h3 id="5-2-快速排序"><a href="#5-2-快速排序" class="headerlink" title="5.2 快速排序"></a>5.2 快速排序</h3><p>快速排序的划分是使A[s]左边的元素都小于等于A[s]，右边的元素都大于A[s]，和归并排序不一样，快排的主要工作在划分，不需要再去合并子问题的解。</p>
+<p>伪代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">QuickSort(A[l..r])</span><br><span class="line">    if l &lt; r</span><br><span class="line">        s &lt;- HoarePartition(A[l..r])</span><br><span class="line">        QuickSort(A[l..s-1])</span><br><span class="line">        QuickSort(A[s+1..r])</span><br></pre></td></tr></table></figure>
+
+<p>划分方法使用霍尔划分<br>伪代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">HoarePartition(A[l..r])</span><br><span class="line">    p &lt;- A[l]</span><br><span class="line">    i &lt;- l; j &lt;- r+1</span><br><span class="line">    while i &lt; j</span><br><span class="line">        while i &lt; j and A[j] &gt; p</span><br><span class="line">            j--</span><br><span class="line">        if i &lt; j</span><br><span class="line">            A[i++] = A[j]</span><br><span class="line">        else break</span><br><span class="line">        while i &lt; j and A[i] &lt; p)</span><br><span class="line">            i++</span><br><span class="line">        if (i &lt; j)</span><br><span class="line">            A[j--] = A[i]</span><br><span class="line">        else break</span><br><span class="line">    A[i] = p</span><br><span class="line">    return i</span><br><span class="line">        </span><br><span class="line">```     </span><br><span class="line">时间复杂度nlogn</span><br><span class="line"># 第8章 动态规划</span><br><span class="line">动态规划的大多数应用都是求解最优化问题，最优化法则认为大多数情况下，最优化问题任一实例的最优解都是由子实例的最优解构成的。解决动态规划问题的关键就是找出问题实例的递推关系。</span><br><span class="line"></span><br><span class="line">## 8.2 背包问题</span><br><span class="line">用Wn表示物品重量，Vn表示物品价值，F(i, j)为最优解的总价值，可以把前i个物品中能够放进承重量为j的背包的子集分为两个类别：包括第i个物品的子集和不包括第i个物品的子集。</span><br><span class="line">定义：</span><br><span class="line">1. 在不包括第i个物品的子集中，最优子集的价值是F(i-1, j)</span><br><span class="line">2. 在包括第i个物品的子集中，最优子集是由该物品和前i-1个物品中能够放进承重量为j-wi的背包的最优子集组成，就是vi+F(i-1, j-wi)</span><br><span class="line">递推公式：</span><br><span class="line">F(i, j) = &#123;</span><br><span class="line">    max&#123;F(i-1, j), vi+F(i-1, j-Wi)&#125;, j-Wi &gt;= 0,</span><br><span class="line">    F(i-1, j), j-Wi &lt; 0 // 第i个物品放不进🎒里的情况</span><br><span class="line">&#125;</span><br><span class="line">伪代码：</span><br></pre></td></tr></table></figure>
+
+<p>DPKnapsack(w[1..n], v[1..n], W)<br>    // wi表示第i个物品的重量<br>    // vi表示第i个物品的价值<br>    // W表示背包的总重量<br>    // F表示背包的最大价值<br>    for i &lt;- 0 to n do<br>        F[i, 0] &lt;- 0<br>    for j &lt;- 0 to W do<br>        F[0,j] &lt;- 0<br>    for i&lt;-1 to n do<br>        for j&lt;-1 to W do<br>            if j - w[i] &gt;= 0<br>                F[i,j] &lt;- max{F[i-1, j], v[i]+F[i-1, j-w[i]]}<br>            else<br>                F[i,j] &lt;- F[i-1, j]<br>    return F[0..n, 0..W]</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">时间复杂度：nW</span><br><span class="line"></span><br><span class="line">## 8.4 Warshall算法和Floyd算法</span><br><span class="line">计算有向图的传递闭包的Warshall算法和计算完全最短路径的Floyd算法</span><br><span class="line"></span><br><span class="line">### 8.4.1 Warshall算法</span><br><span class="line">假设图有n个结点，建立n个矩阵R[0..n-1]，R0是图的邻接矩阵，通过第k-1个矩阵来求第k个矩阵，Rk-1中等于1的顶点rij在Rk中也是1，等于0的顶点，当且仅当rik ==rkj==1时在Rk中rij=1，核心公式 r[k][i][j] = r[k-1][i][j] 或 r[k-1][i][k] &amp;&amp; r[k-1][k][j]</span><br><span class="line">伪代码：</span><br></pre></td></tr></table></figure>
+
+<p>Warshall(A[1..n, 1..n])<br>    // 输入：包括n个顶点的邻接矩阵A<br>    // 输出：该有向图的传递闭包<br>    define R[n]<br>    R[0] &lt;- A<br>    for k &lt;- 1 to n do<br>        for i &lt;- 1 to n do<br>            for j &lt;- 1 to n do<br>                R[k][i, j] &lt;- R[k-1] or R[k-1][i, k] an R[k-1][k,j]<br>    return R[n]</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">时间复杂度：n3</span><br><span class="line">### 8.4.2 Floyd算法</span><br></pre></td></tr></table></figure>
+
+<p>Floyd(W[1..n, 1..n])<br>    D&lt;-W<br>    for k &lt;- to n do<br>        for i &lt;- 1 to n do<br>            for j &lt;- 1 to n do<br>                D[i,j] &lt;- min{D[i,j], D[i,k] + D[k,j]}<br>    return D</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 第9章</span><br><span class="line">## 9.1 Prim算法</span><br><span class="line">生成树是包含图的所有顶点的连通无环子图，加权连通图的一个最小生成树是图的一棵权重最小的生成树，树的权重定义为所有边的权重总和，最小生成树问题就是求一个给定的加权连通图的最小生成树问题。</span><br><span class="line"></span><br><span class="line">Prim算法随机选取一个顶点作为树的根，将这个点所在的集合称为Vt，剩余的点所在的集合称为V-Vt，每次从V-Vt中查找与Vt中的点相邻的点，取它们的距离最小的点，将这个点加入到Vt中，从V-Vt中删除，直到V-Vt为空。</span><br><span class="line">伪代码：</span><br></pre></td></tr></table></figure>
+
+<p>Prim(G)<br>    // 输入：加权连通图G=&lt;V, E&gt;<br>    // 输出：Et，组成G的最小生成树的边的集合<br>    Vt &lt;- {V0} // 取第一个顶点为树的起点<br>    Et &lt;- null<br>    for i &lt;- 1 to |V|-1 do<br>        e* = (v<em>, u</em>) // 求权重最小的边e<em>，使得v<em>在Vt中, u</em>在V-Vt中<br>        Vt &lt;- Vt ∪ {u</em>}<br>        Et &lt;- Et ∪ {e*}<br>    return Et</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">时间复杂度：</span><br><span class="line">如果优先序列是无序数组，是n2，如果优先序列是最小堆，是(|E|log|V|)</span><br><span class="line"></span><br><span class="line">## 9.2 Kruskal算法</span><br><span class="line">该算法开始的时候会按照权重的非递减顺序将图中的边进行排序，从一个空子图开始，每次从列表中的下一条边加入到当前子图中，这条边不能与子图产生回路，直到列表为空。</span><br><span class="line">伪代码：</span><br></pre></td></tr></table></figure>
+
+<p>Kruskal(G<br>    // G=&lt;V, E&gt;<br>    // Et<br>    Et &lt;- null<br>    ecount &lt;- 0<br>    i &lt;- 0<br>    e = E<br>    根据权重对e进行非递减排序<br>    while ecount &lt; |V| - 1 do<br>        i++<br>        if Et ∪ {ei} == null // 如果没有回路<br>            Et &lt;- Et ∪ {ei}; ecount++<br>    return Et<br>```<br>时间复杂度：<br>如果使用了高效的排序算法，时间效率将会是|E|log|E|</p>
+<p>  ·</p>
+</section>
+    <!-- Tags START -->
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/ed1son67.github.io/2019/12/20/数据库复习笔记/">
+        <span class="nav-arrow">← </span>
+        
+          数据库复习笔记
+        
+      </a>
+    
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <!-- No Comment -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#第2章-算法效率分析基础"><span class="toc-nav-text">第2章 算法效率分析基础</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-1-分析框架"><span class="toc-nav-text">2.1 分析框架</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-2-渐进符号和基本效率类型"><span class="toc-nav-text">2.2 渐进符号和基本效率类型</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-2-5-渐进符号的有用特性"><span class="toc-nav-text">2.2.5 渐进符号的有用特性</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-2-6-利用极限比较增长次数"><span class="toc-nav-text">2.2.6 利用极限比较增长次数</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#第3章-蛮力法"><span class="toc-nav-text">第3章 蛮力法</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-1-选择排序和冒泡排序"><span class="toc-nav-text">3.1 选择排序和冒泡排序</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-1-1-选择排序"><span class="toc-nav-text">3.1.1 选择排序</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-1-2-冒泡排序"><span class="toc-nav-text">3.1.2 冒泡排序</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-2-顺序查找和蛮力字符串匹配"><span class="toc-nav-text">3.2 顺序查找和蛮力字符串匹配</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-2-1-顺序查找"><span class="toc-nav-text">3.2.1 顺序查找</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-2-2-蛮力字符串匹配"><span class="toc-nav-text">3.2.2 蛮力字符串匹配</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-3-最近对和凸包问题的蛮力算法"><span class="toc-nav-text">3.3 最近对和凸包问题的蛮力算法</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-3-1-最近对问题"><span class="toc-nav-text">3.3.1 最近对问题</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#第4章-减治法"><span class="toc-nav-text">第4章 减治法</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-1-插入排序"><span class="toc-nav-text">4.1 插入排序</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-4-减常因子算法"><span class="toc-nav-text">4.4 减常因子算法</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-4-1-折半查找"><span class="toc-nav-text">4.4.1 折半查找</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-5-减可变规模算法"><span class="toc-nav-text">4.5 减可变规模算法</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-5-1-计算中值和选择问题"><span class="toc-nav-text">4.5.1 计算中值和选择问题</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-5-3-插值查找"><span class="toc-nav-text">4.5.3 插值查找</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#第5章-分治法"><span class="toc-nav-text">第5章 分治法</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#5-1-归并排序"><span class="toc-nav-text">5.1 归并排序</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#5-2-快速排序"><span class="toc-nav-text">5.2 快速排序</span></a></li></ol></li></ol></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'https://ed1son67.github.io/ed1son67.github.io/2020/02/03/《算法设计与分析基础》学习笔记/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+    // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+  })();
+</script>
+
+
+
+
+
+
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2020 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/ed1son67.github.io/js/script.js"></script>
+  </body>
+</html>
