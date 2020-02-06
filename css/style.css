@@ -771,7 +771,7 @@ h2.article-head {
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  height: 350px;
+  height: 400px;
 }
 #about-banner:after {
   position: absolute;
@@ -790,7 +790,7 @@ h2.article-head {
   }
 }
 .author {
-  margin-top: -50px;
+  margin-top: -65px;
   width: 100%;
   background: #f8f8f8;
   text-align: center;
@@ -798,8 +798,9 @@ h2.article-head {
   box-sizing: border-box;
 }
 .author .head {
-  width: 100px;
-  height: 100px;
+  overflow: hidden;
+  width: 130px;
+  height: 130px;
   border-radius: 50%;
   padding: 3px;
   background: #fff;
@@ -811,10 +812,13 @@ h2.article-head {
   transition: all 0.4s;
 }
 .author .head img {
-  width: 100%;
   height: 100%;
-  display: block;
-  border-radius: 50%;
+  height: 180px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-top: -100px;
+  margin-left: -155px;
 }
 .author h3 {
   font-size: 1.4em;
