@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Ed1son&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/ed1son67.github.io/css/images/logo.png">
+  
+  <title>
+    
+      计算机网络复习 | Ed1son&#39;s blog
+    
+  </title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/ed1son67.github.io/css/style.css">
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+  
+  
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png">
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/ed1son67.github.io/">
+      <div class="logo"></div>
+      <span>Ed1son's blog</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>计算机网络复习</h2>
+  <p class="post-date">2020-02-13</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="TCP-IP协议族"><a href="#TCP-IP协议族" class="headerlink" title="TCP/IP协议族"></a>TCP/IP协议族</h2><p>把互联网相关联的协议集合起来总称TCP/IP族。</p>
+<p>TCP/IP协议族分为以下四个层次：</p>
+<ul>
+<li>应用层：应用层面向用户，决定了向用户提供应用服务时通信的活动，如FTP和DNS、HTTP就位于应用层</li>
+<li>传输层：传输层是应用层的下层，提供处于网络连接中的两台计算机之间的数据传输。传输层中有TCP（传输控制协议）和UDP（用户数据协议）</li>
+<li>网络层：网路层用来处理在网络上流动的数据包，数据包是网络传输的最小数据单位，网络层的作用就是选择一条合适的传输路线。IP协议是网络层的</li>
+<li>链路层（又叫数据链路层，网络接口层）：来用连接网络的硬件部分，硬件上的范畴均在链路层的作用范围内</li>
+</ul>
+<p>使用TCP/IP协议族进行网络通信，会通过分层顺序与对方进行通信，发送端从应用层往下走，接收端则往应用层上走。<br><img src="//ed1son67.github.io/ed1son67.github.io/2020/02/13/计算机网络复习/1.jpg" alt></p>
+<p>发送端在层与层之间传输数据时，每经过一层必定会被打上一个该层的首部信息，反之，接收端会逐层减去这些头部信息。<br><img src="//ed1son67.github.io/ed1son67.github.io/2020/02/13/计算机网络复习/2.jpg" alt><br>如客户端发送一个http请求，在传输层（tcp）将http报文分割，每个报文打上标记序号及端口号转发给网络层，网络层（ip）添加mac地址后转发给链路层</p>
+<h3 id="IP（Internet-Protocol）网际协议"><a href="#IP（Internet-Protocol）网际协议" class="headerlink" title="IP（Internet Protocol）网际协议"></a>IP（Internet Protocol）网际协议</h3><p>IP位于网络层，作用是确保将数据包传送给对方，IP地址指明了双方的地址，MAC地址是卡所属的固定地址，IP可以更换，MAC不可以换。</p>
+<p>IP间的通信依赖MAC地址，在网络中需要通过设备中转才能连接到对方，会采用ARP协议去解析IP地址，反查出MAC地址</p>
+<h3 id="确保可靠性的TCP协议"><a href="#确保可靠性的TCP协议" class="headerlink" title="确保可靠性的TCP协议"></a>确保可靠性的TCP协议</h3><p>TCP位于传输层，提供可靠的字节流服务，为了方便传输，字节流服务是指将大块数据分割为以报文段为单位的数据包进行管理了，同时TCP能够确认数据是否送达，所以是可靠的。</p>
+<h4 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h4><p>为了实现可靠性，TCP采用了<em>三次握手策略</em>，发送端首先发送一个带SYN标志的数据包给对方，接收端收到后，回传一个带有SYN/ACK标志的数据包，最后，发送端再回传一个带ACK标志的数据包，代表握手结束。<br>如果在握手过程中某个阶段中断了，TCP会再次以相同的顺序发送相同的数据包。<br><img src="//ed1son67.github.io/ed1son67.github.io/2020/02/13/计算机网络复习/3.jpg" alt></p>
+<h3 id="负责域名解析的DNS（Domain-Name-System）"><a href="#负责域名解析的DNS（Domain-Name-System）" class="headerlink" title="负责域名解析的DNS（Domain Name System）"></a>负责域名解析的DNS（Domain Name System）</h3><p>DNS位于应用层，域名只是为了方便人们使用互联网，DNS提供域名到IP地址之间的解析服务。</p>
+<h2 id="URI和URL"><a href="#URI和URL" class="headerlink" title="URI和URL"></a>URI和URL</h2><p>URL（统一资源定位符）是使用浏览器访问网页的时候要输入的地址，比如<a href="http://www.baidu.com就是URL，URI（统一资源标识符），URI用字符串标识某一互联网资源，URL标示该资源的位置，URL是URI的子集" target="_blank" rel="noopener">www.baidu.com就是URL，URI（统一资源标识符），URI用字符串标识某一互联网资源，URL标示该资源的位置，URL是URI的子集</a></p>
+<h2 id="HTTP1-1"><a href="#HTTP1-1" class="headerlink" title="HTTP1.1"></a>HTTP1.1</h2><p>HTTP用于客户端和服务端之间的通信，请求资源的一端叫客户端，提供资源的一端叫服务端，发送请求的必然是客户端，服务端在没有接收到请求之前不会响应。</p>
+<p>HTTP是一种无状态协议，不能持久化，因此要引入cookie技术。</p>
+<p>这是一个客户端发送给某个HTTP服务器的请求报文<br><img src="//ed1son67.github.io/ed1son67.github.io/2020/02/13/计算机网络复习/4.jpg" alt><br>GET表示请求方法，/index.htm表示请求URI，HTTP/1.1表示使用了http协议1.1版本</p>
+<p>请求报文是由以下几个部分构成的：</p>
+<ul>
+<li>请求方法</li>
+<li>URI</li>
+<li>协议版本</li>
+<li>请求头（可选）</li>
+<li>内容<br><img src="//ed1son67.github.io/ed1son67.github.io/2020/02/13/计算机网络复习/5.jpg" alt></li>
+</ul>
+<p>响应报文由以下几个部分构成：</p>
+<ul>
+<li>协议版本</li>
+<li>状态码</li>
+<li>原因短语</li>
+<li>响应头</li>
+<li>响应主体<br><img src="//ed1son67.github.io/ed1son67.github.io/2020/02/13/计算机网络复习/7.jpg" alt></li>
+</ul>
+<p>HTTP通过URI定位互联网上的资源<br><img src="//ed1son67.github.io/ed1son67.github.io/2020/02/13/计算机网络复习/6.jpg" alt></p>
+<h3 id="请求方法"><a href="#请求方法" class="headerlink" title="请求方法"></a>请求方法</h3><h4 id="PUT"><a href="#PUT" class="headerlink" title="PUT"></a>PUT</h4><p>用于传输文件，但是1.1版本的PUT方法不带验证机制，所以存在安全问题，除了REST架构的网站，其他的一般都不会使用该方法<br><img src="//ed1son67.github.io/ed1son67.github.io/2020/02/13/计算机网络复习/8.jpg" alt></p>
+<h4 id="DELETE"><a href="#DELETE" class="headerlink" title="DELETE"></a>DELETE</h4><p>用来删除文件，跟PUT的作用相反</p>
+<h4 id="OPTION"><a href="#OPTION" class="headerlink" title="OPTION"></a>OPTION</h4><p>用于查询针对请求URI制定资源支持的方法<br><img src="//ed1son67.github.io/ed1son67.github.io/2020/02/13/计算机网络复习/10.jpg" alt></p>
+<h4 id="HEAD"><a href="#HEAD" class="headerlink" title="HEAD"></a>HEAD</h4><p>HEAD和GET一样，只是不返回报文的主体内容，用于确认URI的有效性以及资源更新的日期等。<br><img src="//ed1son67.github.io/ed1son67.github.io/2020/02/13/计算机网络复习/9.jpg" alt></p>
+<p>1.0和1.1支持的方法<br><img src="//ed1son67.github.io/ed1son67.github.io/2020/02/13/计算机网络复习/11.jpg" alt></p>
+<h3 id="连接持久化"><a href="#连接持久化" class="headerlink" title="连接持久化"></a>连接持久化</h3><p>早期每进行一次HTTP通信就要断开一次TCP连接，通常访问一个网页的时候，也会请求该网页的图片和其他资源，如果频繁连接断开TCP，会造成通信量的开销，</p>
+<p><img src="//ed1son67.github.io/ed1son67.github.io/2020/02/13/计算机网络复习/13.jpg" alt></p>
+<p>所以1.1提出了持久链接，也叫keep-alive，只要任意一端没有提出明确断开连接，就要保持TCP连接状态。<br><img src="//ed1son67.github.io/ed1son67.github.io/2020/02/13/计算机网络复习/12.jpg" alt><br>在1.1中，所有的连接都是默认持久连接的，1.0中有部分实现了hack持久连接</p>
+<h3 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h3><p>HTTP是无状态协议，它不对之前发生过的请求和响应的状态进行管理，cookie会根据从服务器发送的响应报文内的一个叫做set-Cookie的响应头来提醒客户端保存Cookie，<br>当下次客户端再往服务器发送请求的时候，客户端会自动在请求报文中加入Cookie值后发送出去。服务器端获得cookie后，对比服务上的记录，找出是哪个客户端发来的请求，最后得到状态信息。</p>
+<p><img src="//ed1son67.github.io/ed1son67.github.io/2020/02/13/计算机网络复习/14.jpg" alt></p>
+<h2 id="HTTP报文内的HTTP信息"><a href="#HTTP报文内的HTTP信息" class="headerlink" title="HTTP报文内的HTTP信息"></a>HTTP报文内的HTTP信息</h2><p>报文分为请求报文和响应报文，报文又分为首部和主体<br><img src="//ed1son67.github.io/ed1son67.github.io/2020/02/13/计算机网络复习/15.jpg" alt><br>首部又分为：</p>
+<ul>
+<li>请求行：请求方法、URI和HTTP版本</li>
+<li>状态行：状态码、原因短语和HTTP版本</li>
+<li>首部字段：通用首部、请求首部、响应首部和实体首部</li>
+<li>其他：如cookie</li>
+</ul>
+<p>报文是HTTP通信的基本单位，由8位组字节流组成</p>
+<h3 id="压缩传输的内容"><a href="#压缩传输的内容" class="headerlink" title="压缩传输的内容"></a>压缩传输的内容</h3><p>保持实体信息原样压缩，内容编码后的实体由客户端接受并负责解码<br><img src="//ed1son67.github.io/ed1son67.github.io/2020/02/13/计算机网络复习/16.jpg" alt></p>
+<h3 id="分块传输编码"><a href="#分块传输编码" class="headerlink" title="分块传输编码"></a>分块传输编码</h3><p>在传输大容量数据时，会将数据分割为多块，让浏览器逐步显示页面。分块传输编码会讲实体主体分为多块，每一块用十六进制来标记块的大小，而实体的最后一块以0标记，由客户端负责解码。</p>
+<h3 id="多部分对象集合"><a href="#多部分对象集合" class="headerlink" title="多部分对象集合"></a>多部分对象集合</h3><p>MIME扩展中有一种称为多部分对象集合Multipart的方法，来容纳多份不同类型的数据<br>content-type字段</p>
+<h2 id="状态码"><a href="#状态码" class="headerlink" title="状态码"></a>状态码</h2><p>状态码如<code>200 OK</code>，由三位数字和原因短语组成</p>
+<ul>
+<li>1xx：信息性状态码 接受的请求正在处理</li>
+<li>2xx：成功状态码 请求正常处理完毕</li>
+<li>3xx：重定向状态码 需要进行附加操作以完成请求</li>
+<li>4xx：客户端错误状态码 服务器无法处理请求</li>
+<li>5xx：服务器错误状态码 服务器处理请求出错</li>
+</ul>
+<h3 id="常见的状态码"><a href="#常见的状态码" class="headerlink" title="常见的状态码"></a>常见的状态码</h3><ul>
+<li>400 Bad Request：请求报文存在语法错误，需要修改请求内容后再次发送请求</li>
+<li>403 Forbidden：服务器拒绝访问资源</li>
+<li>404 Not Found：服务器没有该资源</li>
+<li>500 Interal Server Error 服务器发送错误</li>
+</ul>
+<h2 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h2><h3 id="代理"><a href="#代理" class="headerlink" title="代理"></a>代理</h3><p>代理服务器的基本行为就是接收客户端的请求然后转发给其他服务器，代理不改变请求的URI，拥有资源实体的服务器称为源服务器。<br>在HTTP通信过程中，可以连接多台代理服务器，转发时，需要附加Via首部字段标记经过的主机信息<br><img src="//ed1son67.github.io/ed1son67.github.io/2020/02/13/计算机网络复习/17.jpg" alt></p>
+<p>缓存代理，将资源的缓存保存在代理服务器中，可以优化性能</p>
+<p>透明代理：不对报文进行任何加工的代理称为透明代理，反之是非透明代理</p>
+<p>正向代理：需要客户端主动设置代理服务器的IP，是代理客户端，为客户端收发请求，使真是客户端对服务器不可见，典型例子是翻墙</p>
+<p>反向代理：反向代理是代理服务器，客户端只需要设置真实的服务器地址，典型例子：负载均衡、跨域</p>
+<h2 id="HTTPS"><a href="#HTTPS" class="headerlink" title="HTTPS"></a>HTTPS</h2><p>HTTP可以和SSL或者TLS组合使用，加密HTTP的内容，称为HTTPS</p>
+<p>HTTP + 加密 + 认证 + 完整性保护 = HTTPS</p>
+<p>对称加密：加密和解密都用同一个密钥称为对称加密</p>
+<p>非对称加密：使用一对非对称密钥，一把叫私钥，一把叫公钥</p>
+<p>HTTP采用混合加密：使用非对称加密交换对称加密的密钥，然后后面使用对称加密的密钥通信<br><img src="//ed1son67.github.io/ed1son67.github.io/2020/02/13/计算机网络复习/18.jpg" alt></p>
+<h3 id="HTTPS的通信步骤"><a href="#HTTPS的通信步骤" class="headerlink" title="HTTPS的通信步骤"></a>HTTPS的通信步骤</h3><p><img src="//ed1son67.github.io/ed1son67.github.io/2020/02/13/计算机网络复习/19.jpg" alt></p>
+<ol>
+<li>客户端发送Client Hello开始SSL通信，报文中包含客户端支持的SSL指定版本、使用的加密算法及密钥长度等</li>
+<li>服务器响应Server Hello报文，包含SSL版本和从客户端报文中挑选出来的加密算法等</li>
+<li>服务器发送Certificate报文，包含公开密钥证书</li>
+<li>最后服务器发送Server Hello Done，SSL握手协商部分结束</li>
+<li>SSL第一次握手结束后，客户端发送Client Key Exchange报文，该报文内容是随机密码串使用3中的公钥加密</li>
+<li>接着客户端发送Change Cipher Spec报文，提示服务器，之后的通信会采用这个密码串也就是密钥加密通信</li>
+<li>客户端发送finished报文</li>
+<li>服务器同样发送Change Cipher Spec报文</li>
+<li>服务器同样发送finished报文</li>
+<li>开始HTTP通信</li>
+<li>最后客户端断开连接</li>
+</ol>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/ed1son67.github.io/ed1son67.github.io/tags#计算机网络" >
+    <span class="tag-code">计算机网络</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/ed1son67.github.io/2020/02/13/高阶函数/">
+        <span class="nav-arrow">← </span>
+        
+          高阶函数
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/ed1son67.github.io/2020/02/14/浏览器缓存机制探索/">
+        
+          浏览器缓存机制探索
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <!-- No Comment -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#TCP-IP协议族"><span class="toc-nav-text">TCP/IP协议族</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#IP（Internet-Protocol）网际协议"><span class="toc-nav-text">IP（Internet Protocol）网际协议</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#确保可靠性的TCP协议"><span class="toc-nav-text">确保可靠性的TCP协议</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#三次握手"><span class="toc-nav-text">三次握手</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#负责域名解析的DNS（Domain-Name-System）"><span class="toc-nav-text">负责域名解析的DNS（Domain Name System）</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#URI和URL"><span class="toc-nav-text">URI和URL</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#HTTP1-1"><span class="toc-nav-text">HTTP1.1</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#请求方法"><span class="toc-nav-text">请求方法</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#PUT"><span class="toc-nav-text">PUT</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#DELETE"><span class="toc-nav-text">DELETE</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#OPTION"><span class="toc-nav-text">OPTION</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#HEAD"><span class="toc-nav-text">HEAD</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#连接持久化"><span class="toc-nav-text">连接持久化</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#cookie"><span class="toc-nav-text">cookie</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#HTTP报文内的HTTP信息"><span class="toc-nav-text">HTTP报文内的HTTP信息</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#压缩传输的内容"><span class="toc-nav-text">压缩传输的内容</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#分块传输编码"><span class="toc-nav-text">分块传输编码</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#多部分对象集合"><span class="toc-nav-text">多部分对象集合</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#状态码"><span class="toc-nav-text">状态码</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#常见的状态码"><span class="toc-nav-text">常见的状态码</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#服务器"><span class="toc-nav-text">服务器</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#代理"><span class="toc-nav-text">代理</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#HTTPS"><span class="toc-nav-text">HTTPS</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#HTTPS的通信步骤"><span class="toc-nav-text">HTTPS的通信步骤</span></a></li></ol></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'https://ed1son67.github.io/ed1son67.github.io/2020/02/13/计算机网络复习/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+    // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+  })();
+</script>
+
+
+
+
+
+
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2020 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/ed1son67.github.io/js/script.js"></script>
+  </body>
+</html>

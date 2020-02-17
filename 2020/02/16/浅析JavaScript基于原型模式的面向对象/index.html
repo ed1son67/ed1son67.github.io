@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Ed1son&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/ed1son67.github.io/css/images/logo.png">
+  
+  <title>
+    
+      浅析JavaScript基于原型模式的面向对象 | Ed1son&#39;s blog
+    
+  </title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/ed1son67.github.io/css/style.css">
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+  
+  
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png">
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/ed1son67.github.io/">
+      <div class="logo"></div>
+      <span>Ed1son's blog</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>浅析JavaScript基于原型模式的面向对象</h2>
+  <p class="post-date">2020-02-16</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近在学习设计模式，正好看到了原型模式，解开了我以前的一些疑惑。也趁着复习的积极性，来回顾和加深一下JavaScript基于原型模式的面向对象机制。</p>
+<h2 id="原型模式"><a href="#原型模式" class="headerlink" title="原型模式"></a>原型模式</h2><p>首先得弄清楚一些概念，JavaScript是没有类的概念的，对是没有的。JavaScript是一门基于原型模式的语言，什么是原型模式？先来看一个例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Person = <span class="function"><span class="keyword">function</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">this</span>.name = name;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> tom = <span class="keyword">new</span> Person(<span class="string">'tom'</span>);</span><br></pre></td></tr></table></figure>
+
+<p>以上例子中，如果熟悉面向对象的同学很快就会发现，这是一个类的经典继承例子，但准确来说，在JavaScript，Person不是一个类，是一个函数构造器，也称为构造函数。<br>而且是通过原型链实现继承的。</p>
+<h3 id="对象的定义"><a href="#对象的定义" class="headerlink" title="对象的定义"></a>对象的定义</h3><p>得先看一下ECMAScript中关于对象的定义：</p>
+<blockquote>
+<p>An object is a collection of properties and has a single prototype object. The prototype may be either an object or the null value.<br>Object是一个属性的集合，并且都拥有一个单独的原型对象[prototype object]. 这个原型对象[prototype object]可以是一个object或者null值。</p>
+</blockquote>
+<p>意思就是每一个对象拥有一个原型对象，我们将它称为对象的原型，一个对象的原型是一个内部的[[prototype]]属性的引用。而浏览器厂商对这个属性的实现通常是<code>__proto__</code>，通过<code>__proto__</code>可以找到对象的原型对象。<br>我们可以还通过手动设置<code>__proto__</code>来调整对象的原型。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> foo = &#123;</span><br><span class="line">  x: <span class="number">10</span>,</span><br><span class="line">  y: <span class="number">20</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><img src="//ed1son67.github.io/ed1son67.github.io/2020/02/16/浅析JavaScript基于原型模式的面向对象/1.jpg" alt><br>可以看到foo有两个显式属性x和y，还有一个<code>__proto__</code>，指向它的原型对象。</p>
+<h3 id="对象是怎么创建的"><a href="#对象是怎么创建的" class="headerlink" title="对象是怎么创建的"></a>对象是怎么创建的</h3><p>在基于原型模式的语言系统中，有以下的特点，JavaScript也是如此：</p>
+<blockquote>
+<p>要得到一个对象，不是通过实例类，而是找到一个对象作为一个原形并克隆它</p>
+</blockquote>
+<p>实际上，JavaScript中的根对象是Object.prototype对象，所有的对象都是从Object.prototype对象克隆而来的，Object.prototype就是它们的原型。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj1 = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line"><span class="keyword">let</span> obj2 = &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 利用ES5的Object.getPrototypeOf获得对象的原型</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.getPrototypeOf(obj1) === <span class="built_in">Object</span>.prototype) <span class="comment">//true</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.getPrototypeOf(obj2) === <span class="built_in">Object</span>.prototype) <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+
+<p>当我们调用new或者字面量创建一个对象的时候，内部引擎都会从Object.prototype上克隆一个对象出来，同时做了一些额外的处理，我们不需要关心这些细节，但可以通过一些例子验证这个结论。</p>
+<p>现在看回文章开头的例子，调用new Person创建了一个对象tom，熟悉new的过程的同学会发现，在new的内部，首先是创建了一个新的对象，这个对象就是从Object.prototype上克隆而来的,<br>然后再改变新的对象的原型对象，改为Person.prototype，如果成功返回这个新对象，这个新对象就是tom。</p>
+<p>所以tom的原型对象是Person.prototype</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.getPrototypeOf(tom) === Person.prototype) <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+
+<p>那么为什么要引入原型对象这个概念，这里又要引出一个概念：<em>原型链</em></p>
+<h3 id="原型链的定义"><a href="#原型链的定义" class="headerlink" title="原型链的定义"></a>原型链的定义</h3><p>ECMAScript中关于原型链（Prototype chain）的定义：</p>
+<blockquote>
+<p>A prototype chain is a finite chain of objects which is used to implemented inheritance and shared properties.<br>原型链是一个由对象组成的，用于实现继承和共享属性的有限链</p>
+</blockquote>
+<p>通俗来讲，原型对象也是普通的对象，并且也有可能有自己的原型，如果一个原型对象的原型不为null的话，我们就称之为原型链（prototype chain）。</p>
+<p>在基于类[class-based]的系统中，重用相同的方法或者属性叫做类的继承，而原型链的设计也是为了重用代码，通过原型链实现的继承称为<em>基于委托的继承</em><br>（delegation based inheritance），也叫做原型继承。</p>
+<p>为什么说是基于委托的继承呢？看下面的例子</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = &#123;</span><br><span class="line">	x: <span class="number">10</span>,</span><br><span class="line">	print: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">this</span>.x + <span class="keyword">this</span>.y;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> b = &#123;</span><br><span class="line">	y: <span class="number">20</span>,</span><br><span class="line">	__proto__: a</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">b.print() <span class="comment">// 30</span></span><br></pre></td></tr></table></figure>
+
+<p>以上的例子中，调用<code>b.print()</code>会执行以下过程：</p>
+<ol>
+<li>首先尝试遍历对象b中的所有属性，但没有找到print方法</li>
+<li>将查找print的请求委托给对象b的原型，在上面的例子中手动设置了b的<code>__proto__</code>为a，所以b的原型是a对象</li>
+<li>在a对象中遍历查找print方法，如果找到了第一个print方法，返回它</li>
+<li>如果在a中也没有找到print方法，会将请求委托给a的原型对象，重复这个过程直到遍历完整个原型链（null），如果没有找到，返回undefined</li>
+</ol>
+<p>值得注意的是，当b调用print函数的时候，this是指向b的，所以y是20，而b中没有x，this.x是从原型链上查找的，也就是a的10，所以才会打印出30。</p>
+<h3 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h3><p>构造函数(constructor) 做了一件有用的事情，自动为创建的新对象设置了原型对象(prototype object) 。原型对象存放于 ConstructorFunction.prototype 属性中。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line">obj.__proto__ === Objcet.prototype; <span class="comment">// true;</span></span><br></pre></td></tr></table></figure>
+
+<p>别忘了，Object也是一个构造函数，<code>typeof Object</code>输出的应该是”function”</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 构造函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params">y</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 构造函数将会以特定模式创建对象：被创建的对象都会有"y"属性</span></span><br><span class="line">  <span class="keyword">this</span>.y = y;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="comment">// "Foo.prototype"存放了新建对象的原型引用</span></span><br><span class="line"><span class="comment">// 所以我们可以将之用于定义继承和共享属性或方法</span></span><br><span class="line"><span class="comment">// 所以，和上例一样，我们有了如下代码：</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">// 继承属性"x"</span></span><br><span class="line">Foo.prototype.x = <span class="number">10</span>;</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 继承方法"calculate"</span></span><br><span class="line">Foo.prototype.calculate = <span class="function"><span class="keyword">function</span> (<span class="params">z</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.x + <span class="keyword">this</span>.y + z;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 使用foo模式创建 "b" and "c"</span></span><br><span class="line"><span class="keyword">var</span> b = <span class="keyword">new</span> Foo(<span class="number">20</span>);</span><br><span class="line"><span class="keyword">var</span> c = <span class="keyword">new</span> Foo(<span class="number">30</span>);</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 调用继承的方法</span></span><br><span class="line">b.calculate(<span class="number">30</span>); <span class="comment">// 60</span></span><br><span class="line">c.calculate(<span class="number">40</span>); <span class="comment">// 80</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">// 让我们看看是否使用了预期的属性</span></span><br><span class="line"> </span><br><span class="line"><span class="built_in">console</span>.log(</span><br><span class="line"> </span><br><span class="line">  b.__proto__ === Foo.prototype, <span class="comment">// true</span></span><br><span class="line">  c.__proto__ === Foo.prototype, <span class="comment">// true</span></span><br><span class="line"> </span><br><span class="line">  <span class="comment">// "Foo.prototype"自动创建了一个特殊的属性"constructor"</span></span><br><span class="line">  <span class="comment">// 指向a的构造函数本身</span></span><br><span class="line">  <span class="comment">// 实例"b"和"c"可以通过授权找到它并用以检测自己的构造函数</span></span><br><span class="line"> </span><br><span class="line">  b.constructor === Foo, <span class="comment">// true</span></span><br><span class="line">  c.constructor === Foo, <span class="comment">// true</span></span><br><span class="line">  Foo.prototype.constructor === Foo <span class="comment">// true</span></span><br><span class="line"> </span><br><span class="line">  b.calculate === b.__proto__.calculate, <span class="comment">// true</span></span><br><span class="line">  b.__proto__.calculate === Foo.prototype.calculate <span class="comment">// true</span></span><br><span class="line"> </span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>构造函数本身也是一个对象，所以构造函数也有自己的原型，也就是<code>__proto__</code>属性，一般指向Function.prototype，而Function.prototype的原形是Object.prototype.<br>以上例子可以用这个图描述。<br><img src="//ed1son67.github.io/ed1son67.github.io/2020/02/16/浅析JavaScript基于原型模式的面向对象/2.jpg" alt></p>
+<p>再来分析一个例子，通常我们想要实现一个“类“继承另一个“类“的时候，在JS中通常这么写：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> A = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line">A.prototype.name = <span class="string">'A'</span></span><br><span class="line"><span class="keyword">let</span> a = <span class="keyword">new</span> A();</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> B = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line">B.prototype = a;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> b = <span class="keyword">new</span> B();</span><br><span class="line"><span class="built_in">console</span>.log(b.name); <span class="comment">// A;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>new A</code>后，返回一个对象a，<code>a.__proto__ === A.prototype // true</code>，将<code>B.prototype</code>设置为a，所以<code>B.prototype.__proto__ === A.prototype // true</code>，<br><code>new B</code>后，返回一个对象b，<code>b.__proto__ === B.prototype // true</code>，则<code>b.__proto__.__proto__ === A.prototype // true</code>，实现了原型链的连接</p>
+<p>图我就不画了，懒。</p>
+<p>多提一嘴，<code>Object.create()</code>来实现继承更能体现原型模式的精髓，但好像效率没有构造函数高，我们还可以通过<code>Object.create(null)</code>来创建一个没有原型的对象。<br><img src="//ed1son67.github.io/ed1son67.github.io/2020/02/16/浅析JavaScript基于原型模式的面向对象/3.jpg" alt><br>可以看到，obj是空的。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.cnblogs.com/TomXu/archive/2012/01/12/2308594.html#4440742" target="_blank" rel="noopener"></a><br>《javascript 设计模式与开发实践》</p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/ed1son67.github.io/ed1son67.github.io/tags#JavaScript" >
+    <span class="tag-code">JavaScript</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/ed1son67.github.io/2020/02/14/浏览器缓存机制探索/">
+        <span class="nav-arrow">← </span>
+        
+          浏览器缓存机制探索
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/ed1son67.github.io/2020/02/17/JavaScript核心概念-执行上下文/">
+        
+          JavaScript核心概念-执行上下文
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <!-- No Comment -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#前言"><span class="toc-nav-text">前言</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#原型模式"><span class="toc-nav-text">原型模式</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#对象的定义"><span class="toc-nav-text">对象的定义</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#对象是怎么创建的"><span class="toc-nav-text">对象是怎么创建的</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#原型链的定义"><span class="toc-nav-text">原型链的定义</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#构造函数"><span class="toc-nav-text">构造函数</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#参考"><span class="toc-nav-text">参考</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'https://ed1son67.github.io/ed1son67.github.io/2020/02/16/浅析JavaScript基于原型模式的面向对象/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+    // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+  })();
+</script>
+
+
+
+
+
+
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2020 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/ed1son67.github.io/js/script.js"></script>
+  </body>
+</html>

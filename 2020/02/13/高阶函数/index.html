@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Ed1son&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/ed1son67.github.io/css/images/logo.png">
+  
+  <title>
+    
+      高阶函数 | Ed1son&#39;s blog
+    
+  </title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/ed1son67.github.io/css/style.css">
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+  
+  
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png">
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/ed1son67.github.io/">
+      <div class="logo"></div>
+      <span>Ed1son's blog</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>高阶函数</h2>
+  <p class="post-date">2020-02-13</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="什么是高阶函数"><a href="#什么是高阶函数" class="headerlink" title="什么是高阶函数"></a>什么是高阶函数</h2><p>高阶函数英文叫 Higher-order function。高阶函数是对其他函数进行操作的函数，操作可以是将它们作为参数，或者返回它们。<br>简单总结为高阶函数是一个接收函数作为参数或者将函数作为返回输出的函数。</p>
+<h2 id="函数作为参数情况"><a href="#函数作为参数情况" class="headerlink" title="函数作为参数情况"></a>函数作为参数情况</h2><p>Array.prototype.map，Array.prototype.filter，Array.prototype.reduce和Array.prototype.sort是JavaScript中内置的高阶函数。<br>它们接受一个函数作为参数，并应用这个函数到列表的每一个元素。下面是一些内置高阶函数的具体说明讲解，以及和不使用高阶函数情况下的对比</p>
+<h3 id="Array-prototype-map"><a href="#Array-prototype-map" class="headerlink" title="Array.prototype.map"></a>Array.prototype.map</h3><p>map()(映射)方法最后生成一个新数组，不改变原始数组的值。其结果是该数组中的每个元素都调用一个提供的函数后返回的结果。</p>
+<p>传递给 map 的回调函数（callback）接受三个参数，分别是currentValue——正在遍历的元素、index（可选）——元素索引、array（可选）——原数组本身，除了 callback 之外还可以接受 this 值（可选），用于执行 callback 函数时使用的this 值。</p>
+<p>callback需要有return值，否则会出现所有项映射为undefind；</p>
+<h4 id="map高阶函数对应的一道经典面试题"><a href="#map高阶函数对应的一道经典面试题" class="headerlink" title="map高阶函数对应的一道经典面试题"></a>map高阶函数对应的一道经典面试题</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//输出结果</span><br><span class="line">[&quot;1&quot;, &quot;2&quot;, &quot;3&quot;].map(parseInt);</span><br></pre></td></tr></table></figure>
+
+<p>输出结果不是[1,2,3],而是[1,NaN,NaN],因为parseInt接受两个参数,一个是要处理的string,一个是进制,所以map把index当作进制传递到函数了,所以是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">parseInt(&apos;1&apos;, 0); // 0会被忽略,以字符串的开头来判断</span><br><span class="line">praseInt(&apos;2&apos;, 1); // 转为1进制,因为超过1,NaN</span><br><span class="line">praseInt(&apos;3&apos;, 2); // 转为2进制,因为超过2,NaN</span><br></pre></td></tr></table></figure>
+
+<h2 id="Array-prototype-reduce"><a href="#Array-prototype-reduce" class="headerlink" title="Array.prototype.reduce"></a>Array.prototype.reduce</h2><p>reduce() 方法对数组中的每个元素执行一个提供的 reducer 函数(升序执行)，将其结果汇总为单个返回值。<br>传递给 reduce 的回调函数（callback）接受四个参数，<br>分别是</p>
+<ol>
+<li>accumulator——累加器 、</li>
+<li>currentValue——正在操作的元素、</li>
+<li>currentIndex（可选）——元素索引，但是它的开始会有特殊说明、a</li>
+<li>array（可选）——原始数组本身，<br>除了 callback 之外还可以接受初始值 initialValue 值（可选）。</li>
+</ol>
+<p>如果没有提供 initialValue，那么第一次调用 callback 函数时，accumulator 使用原数组中的第一个元素，currentValue 即是数组中的第二个元素。 在没有初始值的空数组上调用 reduce 将报错。</p>
+<p>如果提供了 initialValue，那么将作为第一次调用 callback 函数时的第一个参数的值，即 accumulator 为initialValue, currentValue 使用原数组中的第一个元素。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const arr = [0, 1, 2, 3, 4];</span><br><span class="line">let sum = arr.reduce((accumulator, currentValue, currentIndex, array) =&gt; &#123;</span><br><span class="line">  return accumulator + currentValue;</span><br><span class="line">&#125;, 10);</span><br><span class="line"></span><br><span class="line">console.log( sum );</span><br><span class="line">// 20</span><br><span class="line">console.log( arr );</span><br><span class="line">// [0, 1, 2, 3, 4]</span><br></pre></td></tr></table></figure>
+
+<h3 id="Array-prototype-filter"><a href="#Array-prototype-filter" class="headerlink" title="Array.prototype.filter"></a>Array.prototype.filter</h3><p>filter(过滤，筛选) 方法创建一个新数组,原始数组不发生改变。<br>其包含通过提供函数实现的测试的所有元素。接收的参数和 map 是一样的，filter的callback函数需要返回布尔值true或false. 如果为true则表示通过.<br>如果为false则失败，其返回值是一个新数组，由通过测试为true的所有元素组成，如果没有任何数组元素通过测试，则返回空数组。</p>
+<p>内部使用的是==,过滤测试的返回值只要是弱等于== true/false就可以了</p>
+<h3 id="Array-prototype-sort"><a href="#Array-prototype-sort" class="headerlink" title="Array.prototype.sort"></a>Array.prototype.sort</h3><p>sort()方法用原地算法对数组的元素进行排序，并返回数组，该排序方法会在原数组上直接进行排序，并不会生成一个排好序的新数组。<br>排序算法现在是稳定的。默认排序顺序是根据字符串Unicode码点。</p>
+<p>compareFunction参数是可选的，用来指定按某种顺序进行排列的函数。注意该函数有两个参数：</p>
+<p>参数1:firstEl</p>
+<p>第一个用于比较的元素。</p>
+<p>参数2:secondEl</p>
+<p>第二个用于比较的元素。</p>
+<p>如果没有指明 compareFunction ，那么元素会按照转换为的字符串的诸个字符的Unicode位点进行排序。<br>例如 “Banana” 会被排列到 “cherry” 之前。<br>当数字按由小到大排序时，10 出现在 2 之前，但因为（没有指明 compareFunction），<br>比较的数字会先被转换为字符串，所以在Unicode顺序上 “10” 要比 “2” 要靠前。</p>
+<p>如果指明了 compareFunction ，那么数组会按照调用该函数的返回值排序。即 a 和 b 是两个将要被比较的元素：</p>
+<ul>
+<li>如果 compareFunction(a, b) 小于 0 ，那么 a 会被排列到 b 之前；</li>
+<li>如果 compareFunction(a, b) 等于 0 ， a 和 b 的相对位置不变。</li>
+<li>如果 compareFunction(a, b) 大于 0 ， b 会被排列到 a 之前。<br>compareFunction(a, b) 必须总是对相同的输入返回相同的比较结果，否则排序的结果将是不确定的。</li>
+</ul>
+<p>数量小于等于22的数组使用 InsertionSort，比22大的数组则使用 QuickSort</p>
+<h2 id="函数作为返回值输出"><a href="#函数作为返回值输出" class="headerlink" title="函数作为返回值输出"></a>函数作为返回值输出</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">add(1); // 1</span><br><span class="line">add(1)(2);  // 3</span><br><span class="line">add(1)(2)(3)； // 6</span><br></pre></td></tr></table></figure>
+
+<p>打印函数时会自动调用 toString()方法,函数 add(a) 返回一个sum(b)函数，函数 sum() 中累加计算 a = a + b，<br>只需要重写sum.toString()方法返回变量 a 就可以了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function add(a) &#123;</span><br><span class="line">    function sum(b) &#123; // 使用闭包</span><br><span class="line">        a = a + b; // 累加</span><br><span class="line">        return sum;</span><br><span class="line">    &#125;</span><br><span class="line">    sum.toString = function() &#123; // 重写toString()方法</span><br><span class="line">        return a;</span><br><span class="line">    &#125;</span><br><span class="line">     return sum; // 返回一个函数</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="自己创建一个高阶函数例子"><a href="#自己创建一个高阶函数例子" class="headerlink" title="自己创建一个高阶函数例子"></a>自己创建一个高阶函数例子</h2><p>模拟map函数的实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function _map(arr, fn) &#123;</span><br><span class="line">	let res = []; </span><br><span class="line">	for (let i = 0; i &lt; arr.length; i++) &#123;</span><br><span class="line">		res.push(fn(arr[i]));</span><br><span class="line">	&#125;</span><br><span class="line">	return res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">_map([1, 2,3], item =&gt; &#123;</span><br><span class="line">	return ++item;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="高阶函数实现AOP"><a href="#高阶函数实现AOP" class="headerlink" title="高阶函数实现AOP"></a>高阶函数实现AOP</h2><p>AOP（面向切面编程）的主要作用是把一些与核心业务逻辑模块无关的功能抽离出来，这些跟业务逻辑无关的功能通常包括日志统计、安全控制、异常处理等。<br>再通过“动态织入”的方式加入到业务逻辑模块中，好处是可以保持业务逻辑模块的纯净和高内聚性。</p>
+<p>通常，在JS中实现AOP是将一个函数动态织入到另外一个函数中，实现的技术有很种。</p>
+<h3 id="扩展Function-prototype"><a href="#扩展Function-prototype" class="headerlink" title="扩展Function.prototype"></a>扩展Function.prototype</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.before = <span class="function"><span class="keyword">function</span>(<span class="params">beforefn</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">let</span> _self = <span class="keyword">this</span>; <span class="comment">// 保存原引用</span></span><br><span class="line">	<span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">		beforefn.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>); <span class="comment">// 执行新函数，修正this</span></span><br><span class="line">		<span class="keyword">return</span> _self.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>); <span class="comment">// </span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">Function</span>.prototype.after = <span class="function"><span class="keyword">function</span>(<span class="params">afterfn</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">let</span> _self = <span class="keyword">this</span>; <span class="comment">// 保存原引用</span></span><br><span class="line">	<span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">		<span class="keyword">let</span> ret = _self.allpy(<span class="keyword">this</span>, <span class="built_in">arguments</span>);</span><br><span class="line">		afterfn.apply(<span class="keyword">this</span>, <span class="built_in">arguments</span>); <span class="comment">// 执行新函数，修正this</span></span><br><span class="line">		<span class="keyword">return</span> ret;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> func = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="number">2</span>);</span><br><span class="line">&#125;</span><br><span class="line">func = func.before(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="number">1</span>);</span><br><span class="line">&#125;).after(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="number">3</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">func();</span><br><span class="line"><span class="comment">//1</span></span><br><span class="line"><span class="comment">//2</span></span><br><span class="line"><span class="comment">//3</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="高阶函数实现函数柯里化"><a href="#高阶函数实现函数柯里化" class="headerlink" title="高阶函数实现函数柯里化"></a>高阶函数实现函数柯里化</h2><p>函数柯里化（function currying)又称部分求值，一个curring函数首先会接受一些参数，该函数不会立即求值，而是继续返回另外一个函数。<br>刚才传入的函数会被闭包保护起来，等到函数真正求值的时候，之前传入的函数都会一次性被用于求值。</p>
+<p>通用的currying function</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">currying</span>(<span class="params">fn</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">let</span> args = [];</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (<span class="built_in">arguments</span>.length === <span class="number">0</span>) </span><br><span class="line">			<span class="keyword">return</span> fn.apply(<span class="keyword">this</span>, args);</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="built_in">Array</span>.prototype.push(args, <span class="built_in">arguments</span>);</span><br><span class="line">			<span class="keyword">return</span> <span class="built_in">arguments</span>.callee; <span class="comment">// 返回匿名函数</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> cost = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">let</span> money = <span class="number">0</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="built_in">arguments</span>.length; i++)</span><br><span class="line">			money += <span class="built_in">arguments</span>[i];</span><br><span class="line">		<span class="keyword">return</span> money;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">cost = currying(cost);</span><br><span class="line"></span><br><span class="line">cost(<span class="number">100</span>) <span class="comment">// 未求值</span></span><br><span class="line">cost(<span class="number">200</span>) <span class="comment">// 未求值</span></span><br><span class="line">cost(<span class="number">300</span>) <span class="comment">// 未求值</span></span><br><span class="line"></span><br><span class="line">cost(); <span class="comment">// 真正求值</span></span><br></pre></td></tr></table></figure>
+
+<p>调用cost的时候，如果明确带上了参数，则不会求值，如果不带参数执行，才会真正求值。</p>
+<h2 id="函数节流（throttle）"><a href="#函数节流（throttle）" class="headerlink" title="函数节流（throttle）"></a>函数节流（throttle）</h2><p>避免函数被频繁调用，常运用在计算BOM的参数上，如window.onresize，监听浏览器窗口大小的改变，触发的频率非常高，会造成大量的重绘和回流，引起性能的损失。</p>
+<p>短时间内多次调用函数，只在设定时间间隔n内执行一次函数，即 2n 秒内执行 2 次，会稀释执行频率<br>借助setTimeout实现函数节流</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">throttle</span>(<span class="params">fn, interval</span>) </span>&#123;</span><br><span class="line">	firstTime = <span class="literal">true</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">		<span class="keyword">let</span> args = <span class="built_in">arguments</span>,</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (firstTime) &#123;</span><br><span class="line">			fn.apply(<span class="keyword">this</span>, args);</span><br><span class="line">			<span class="keyword">return</span> fisrtTime = <span class="literal">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (timer) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		timer = setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">			clearTimeout(timer);</span><br><span class="line">			timer = <span class="literal">null</span>;</span><br><span class="line">			fn.apply(<span class="keyword">this</span>, args);</span><br><span class="line">		&#125;, interval || <span class="number">500</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">window</span>.onresize = throttle(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="number">1</span>);</span><br><span class="line">&#125;, <span class="number">500</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="函数防抖（debounce）"><a href="#函数防抖（debounce）" class="headerlink" title="函数防抖（debounce）"></a>函数防抖（debounce）</h2><p>函数防抖也是避免多次调用同一个函数，多次调用函数，只执行最后一次，或者只执行最开始的一次，中间的不执行。函数防抖有两个版本</p>
+<h3 id="非立即执行版本"><a href="#非立即执行版本" class="headerlink" title="非立即执行版本"></a>非立即执行版本</h3><p>非立即执行版的意思是触发事件后函数不会立即执行，而是在 n 秒后执行，如果在 n 秒内又触发了事件，则会重新计算函数执行时间</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">debounce</span>(<span class="params">fun, interval</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> timer = <span class="literal">null</span>;</span><br><span class="line">	</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">let</span> context = <span class="keyword">this</span>; <span class="comment">// 注意 this 指向</span></span><br><span class="line">      <span class="keyword">let</span> args = <span class="built_in">arguments</span>; <span class="comment">// arguments中存着e</span></span><br><span class="line">         </span><br><span class="line">      <span class="keyword">if</span> (timer) clearTimeout(timer);</span><br><span class="line"> </span><br><span class="line">      timer = setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        fun.apply(<span class="keyword">this</span>, args)</span><br><span class="line">      &#125;, interval)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="立即执行版本"><a href="#立即执行版本" class="headerlink" title="立即执行版本"></a>立即执行版本</h3><p>立即执行版的意思是触发事件后函数会立即执行，然后 n 秒内不触发事件才能继续执行函数的效果</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">debounce</span>(<span class="params">func, wait</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> timer;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">let</span> context = <span class="keyword">this</span>; <span class="comment">// 这边的 this 指向谁?</span></span><br><span class="line">      <span class="keyword">let</span> args = <span class="built_in">arguments</span>; <span class="comment">// arguments中存着e</span></span><br><span class="line"> </span><br><span class="line">      <span class="keyword">if</span> (timer) clearTimeout(timer);</span><br><span class="line"> </span><br><span class="line">      <span class="keyword">let</span> callNow = !timer;</span><br><span class="line"> </span><br><span class="line">      timer = setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        timer = <span class="literal">null</span>;</span><br><span class="line">      &#125;, wait)</span><br><span class="line"> </span><br><span class="line">      <span class="keyword">if</span> (callNow) func.apply(context, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="惰性加载函数"><a href="#惰性加载函数" class="headerlink" title="惰性加载函数"></a>惰性加载函数</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> addEvent = <span class="function"><span class="keyword">function</span>(<span class="params">elem, type, handler</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (<span class="built_in">window</span>.addEventListener) &#123;</span><br><span class="line">		addEvent = <span class="function"><span class="keyword">function</span>(<span class="params">elem, type, handler</span>) </span>&#123;</span><br><span class="line">			elem.addEventListener(type, handler, <span class="literal">false</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">window</span>.attachEvent) &#123;</span><br><span class="line">		addEvent = <span class="function"><span class="keyword">function</span>(<span class="params">elem, type, handler</span>) </span>&#123;</span><br><span class="line">			elem.attachEvent(<span class="string">'on'</span> + type, handler);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	addEvent(elem, type, handler); <span class="comment">// 最后还要执行一遍 </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="PS"><a href="#PS" class="headerlink" title="PS"></a>PS</h4><ol>
+<li>attachEvent函数里面的this是window，而addEventListener函数里面的this是当前元素对象</li>
+<li>attachEvent只有事件捕获</li>
+<li>attachEvent是IE7，8的兼容性写法</li>
+</ol>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/ed1son67.github.io/ed1son67.github.io/tags#JavaScript" >
+    <span class="tag-code">JavaScript</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/ed1son67.github.io/2020/02/13/前端中间件总结/">
+        <span class="nav-arrow">← </span>
+        
+          前端中间件总结
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/ed1son67.github.io/2020/02/13/计算机网络复习/">
+        
+          计算机网络复习
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <!-- No Comment -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#什么是高阶函数"><span class="toc-nav-text">什么是高阶函数</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#函数作为参数情况"><span class="toc-nav-text">函数作为参数情况</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Array-prototype-map"><span class="toc-nav-text">Array.prototype.map</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#map高阶函数对应的一道经典面试题"><span class="toc-nav-text">map高阶函数对应的一道经典面试题</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Array-prototype-reduce"><span class="toc-nav-text">Array.prototype.reduce</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Array-prototype-filter"><span class="toc-nav-text">Array.prototype.filter</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Array-prototype-sort"><span class="toc-nav-text">Array.prototype.sort</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#函数作为返回值输出"><span class="toc-nav-text">函数作为返回值输出</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#自己创建一个高阶函数例子"><span class="toc-nav-text">自己创建一个高阶函数例子</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#高阶函数实现AOP"><span class="toc-nav-text">高阶函数实现AOP</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#扩展Function-prototype"><span class="toc-nav-text">扩展Function.prototype</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#高阶函数实现函数柯里化"><span class="toc-nav-text">高阶函数实现函数柯里化</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#函数节流（throttle）"><span class="toc-nav-text">函数节流（throttle）</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#函数防抖（debounce）"><span class="toc-nav-text">函数防抖（debounce）</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#非立即执行版本"><span class="toc-nav-text">非立即执行版本</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#立即执行版本"><span class="toc-nav-text">立即执行版本</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#惰性加载函数"><span class="toc-nav-text">惰性加载函数</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#PS"><span class="toc-nav-text">PS</span></a></li></ol></li></ol></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'https://ed1son67.github.io/ed1son67.github.io/2020/02/13/高阶函数/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+    // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+  })();
+</script>
+
+
+
+
+
+
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2020 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/ed1son67.github.io/js/script.js"></script>
+  </body>
+</html>

@@ -160,7 +160,7 @@
 <h4 id="常规递归法"><a href="#常规递归法" class="headerlink" title="常规递归法"></a>常规递归法</h4><p>将钢条从左边切下长度为i的一段，然后对右边剩下的长度n-i继续进行切割，进行递归求解<br><code>rn = max(pi + rn-1), 1&lt;=i&lt;=n</code><br>伪代码</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cut-rod(p, n)</span><br><span class="line">	if n == 0</span><br><span class="line">		return 0</span><br><span class="line">	q = -1</span><br><span class="line">	for i = 1 to n</span><br><span class="line">		q = max(q, p[i]+cut-rod(p, n-i))</span><br><span class="line">	return q</span><br></pre></td></tr></table></figure>
 
-<p>通过递归树可以看出对子问题造成了多次求解<br><img src="//ed1son67.github.io/ed1son67.github.io/2020/02/06/《算法导论》学习笔记/1.png" alt="132"></p>
+<p>通过递归树可以看出对子问题造成了多次求解<br><img src="//ed1son67.github.io/ed1son67.github.io/2020/02/06/《算法导论》学习笔记/1.png" alt="1"></p>
 <h4 id="动态规划法"><a href="#动态规划法" class="headerlink" title="动态规划法"></a>动态规划法</h4><p>常规的递归法会造成对子问题的重复求解，dp只对每一个子问题进行一次求解，用额外的空间将解保存，是一种典型的时空权衡，但对时间效率的提升是很显著的。<br>dp有两种等价的实现方法，一种是使用递归的带备忘的自顶向下法，第二种是使用迭代的自底向上法。</p>
 <p>带备忘的自顶向下法：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">new r[n]</span><br><span class="line">cut-rod(p,n,r)</span><br><span class="line">	if r[n] &gt;= 0</span><br><span class="line">		return r[n]</span><br><span class="line">	if n == 0</span><br><span class="line">		q = 0</span><br><span class="line">	else</span><br><span class="line">		max = -1</span><br><span class="line">		for i = 1 to n</span><br><span class="line">			q = max(q, p[i] + cut-rod(p, n - i, r))</span><br><span class="line">	r[n] = q</span><br><span class="line">	return q</span><br></pre></td></tr></table></figure>
@@ -168,6 +168,8 @@
 <p>迭代的自底向上法：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cut-rod(p,n)</span><br><span class="line">	let r[n]</span><br><span class="line">	r[0] = 0;</span><br><span class="line">	for j = 1 to n</span><br><span class="line">		q = -1</span><br><span class="line">		for i = 1 to j</span><br><span class="line">			q = max(q, p[i] + r[j - i])</span><br><span class="line">		r[j] = q</span><br><span class="line">	return r[n]</span><br></pre></td></tr></table></figure>
 
+<p>动态规划法的子问题图，可以将子问题图看作自顶向下递归调用树的简化版<br><img src="//ed1son67.github.io/ed1son67.github.io/2020/02/06/《算法导论》学习笔记/2.png" alt="2"></p>
+<h3 id="最长公共子序列LCS"><a href="#最长公共子序列LCS" class="headerlink" title="最长公共子序列LCS"></a>最长公共子序列LCS</h3><p>二维DP</p>
 </section>
     <!-- Tags START -->
     
@@ -194,6 +196,13 @@
       </a>
     
     
+      <a class="nav-right" href="/ed1son67.github.io/2020/02/11/JavaScript设计模式/">
+        
+          JavaScript设计模式
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
   </div>
 
     <!-- NAV END -->
@@ -214,7 +223,7 @@
   <div class="toc-main">
     <strong class="toc-title">Catalog</strong>
     
-      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#动态规划"><span class="toc-nav-text">动态规划</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#锯钢条问题"><span class="toc-nav-text">锯钢条问题</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#常规递归法"><span class="toc-nav-text">常规递归法</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#动态规划法"><span class="toc-nav-text">动态规划法</span></a></li></ol></li></ol></li></ol>
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#动态规划"><span class="toc-nav-text">动态规划</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#锯钢条问题"><span class="toc-nav-text">锯钢条问题</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#常规递归法"><span class="toc-nav-text">常规递归法</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#动态规划法"><span class="toc-nav-text">动态规划法</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#最长公共子序列LCS"><span class="toc-nav-text">最长公共子序列LCS</span></a></li></ol></li></ol>
     
   </div>
 </aside>

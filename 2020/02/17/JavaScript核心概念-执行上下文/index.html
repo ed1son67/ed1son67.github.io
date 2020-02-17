@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Ed1son&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/ed1son67.github.io/css/images/logo.png">
+  
+  <title>
+    
+      JavaScript核心概念-执行上下文 | Ed1son&#39;s blog
+    
+  </title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/ed1son67.github.io/css/style.css">
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+  
+  
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png">
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/ed1son67.github.io/">
+      <div class="logo"></div>
+      <span>Ed1son's blog</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>JavaScript核心概念-执行上下文</h2>
+  <p class="post-date">2020-02-17</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在学习JavaScript这些核心部分的时候，看了<a href="https://www.cnblogs.com/TomXu/archive/2012/01/13/2308101.html" target="_blank" rel="noopener">汤姆大叔的博客</a>，<br>发现是从外国的一个开发者<a href="http://dmitrysoshnikov.com/ecmascript/chapter-1-execution-contexts/" target="_blank" rel="noopener">Dmitry Soshnikov</a>翻译过来的，</p>
+<p>可能是我有点菜，被绕晕了，那干脆不如我自己去翻译别人的文章，用我的理解，从一个初学者的角度去翻译，看下自己能不能理解，可能会帮助到一些人也不一定？</p>
+<p>所以本文是从自己的理解出发的，难免会有错误，非常期待能得到批评指正，我们一起讨论一起进步。</p>
+<h2 id="执行上下文（execution-contexts）"><a href="#执行上下文（execution-contexts）" class="headerlink" title="执行上下文（execution contexts）"></a>执行上下文（execution contexts）</h2><p>执行上下文（execution contexts）是当前JavaScript代码被解析和执行时所在环境的抽象概念。</p>
+<p>标准规范没有从技术的角度去定义执行上下文的准确类型和结构，具体实现是由厂商实现JS引擎时决定。</p>
+<p><strong>执行上下文的类型</strong></p>
+<ul>
+<li>全局执行上下文</li>
+<li>函数执行上下文</li>
+<li>eval执行上下文</li>
+</ul>
+<p>每个执行上下文有三个重要的属性：</p>
+<ul>
+<li>变量对象(Variable object，VO)</li>
+<li>作用域链(Scope chain)</li>
+<li>this</li>
+</ul>
+<p>但今天不讲属性，先讲讲执行上下文的概念。</p>
+<h3 id="执行栈"><a href="#执行栈" class="headerlink" title="执行栈"></a>执行栈</h3><p>JS引擎在处理执行上下文的时候，从逻辑上是一个后进先出的顺序，所以我们可以具象为用一个栈的结构去存储执行上下文，也就是我们俗称的执行栈，执行栈的底部总是会有一个全局执行上下文，顶部是当前执行上下文，</p>
+<p>我们甚至可以将一个执行栈定义为一个数组，以方便我们的理解。</p>
+<p><code>ECStack = []</code></p>
+<p>每次当执行一个函数的时候（包括递归调用，作为构造函数调用或者是作为eval函数的内部函数），执行栈会将相应的执行上下文压入执行栈中。</p>
+<h3 id="可执行代码的类型"><a href="#可执行代码的类型" class="headerlink" title="可执行代码的类型"></a>可执行代码的类型</h3><p>要理解执行上下文，首先要理解可执行代码（executable code）的概念，在某些时刻，可执行代码与执行上下文完全有可能是等价的。</p>
+<p>在JavaScript中，可执行代码可以分为以下三种：</p>
+<h4 id="全局可执行代码（Global-code）"><a href="#全局可执行代码（Global-code）" class="headerlink" title="全局可执行代码（Global code）"></a>全局可执行代码（Global code）</h4><blockquote>
+<p>全局可执行代码是<code>&lt;script&gt;&lt;/script&gt;</code> 标签内或者是从外部加载的js文件中<strong>不存在于任何在函数体内</strong>的代码</p>
+</blockquote>
+<p>这么理解就行了，除了定义在函数内的代码，其他代码都是全局可执行代码。</p>
+<p>全局可执行代码，还记得上面定义的执行栈吗，在JS程序开始的时候，执行栈会被初始化，往里面<code>push</code>一个全局执行上下文</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ECStack = [</span><br><span class="line">  globalContext</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<h4 id="函数可执行代码（function-code）"><a href="#函数可执行代码（function-code）" class="headerlink" title="函数可执行代码（function code）"></a>函数可执行代码（function code）</h4><p>每当执行一个函数（所有类型的函数）的时候，执行栈会<code>push</code>一个新的<strong>函数执行上下文</strong>，但函数执行上下文不包括当前函数的内部函数。</p>
+<p>要理解这句话，还是得看一个例子</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">flag</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (flag) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  foo(<span class="literal">true</span>);</span><br><span class="line">&#125;)(<span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
+
+<p>这是一个立即执行函数，这个函数会递归调用自身函数一次，也就是说在一个函数内部调用了一个函数，执行栈会发生这样的变化：</p>
+<p>当调用foo的时候，执行栈会<code>push</code>一个新的函数执行上下文<code>&lt;foo&gt; functionContext</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ECStack = [</span><br><span class="line">  &lt;foo&gt; functionContext</span><br><span class="line">  globalContext</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<p>当调用foo中递归调用foo的时候，执行栈会<code>push</code>一个新的函数执行上下文<code>&lt;foo&gt; functionContext – recursively</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ECStack = [</span><br><span class="line">  &lt;foo&gt; functionContext – recursively </span><br><span class="line">  &lt;foo&gt; functionContext</span><br><span class="line">  globalContext</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<p>也就是说，foo第一次被调用时创建的执行上下文不包括递归调用的foo，递归调用的foo自己又创建了一个执行上下文。这么做的目的是为了明确执行权的交接，<br>因为每一个执行上下文中的函数return之后，执行栈就会将这个执行上下文<code>pop</code>出去，执行权交回当前栈顶的执行上下文。</p>
+<p>执行栈会不停地<code>push</code>和<code>pop</code>，但是栈底一直都会存在一个<code>globalContext</code>，它是一个兜底的执行上下文，当整个程序结束它才会销毁。</p>
+<h4 id="eval可执行代码（eval-code）"><a href="#eval可执行代码（eval-code）" class="headerlink" title="eval可执行代码（eval code）"></a>eval可执行代码（eval code）</h4><p>eval函数是一个独一无二的函数，它非常强大，但也有安全的隐患，所以一般不提倡使用，所以这里我就不看了。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
+<li>执行上下文分是可执行代码执行和解析的环境的一个抽象概念</li>
+<li>执行上下文有三种，可执行代码也有三种，有时候这两个概念可以理解为是相同的</li>
+<li>JS引擎在处理执行上下文的时候，从逻辑上是一个后进先出的顺序，所以我们可以具象为用一个栈的结构去存储执行上下文，称为执行栈</li>
+</ol>
+<p>理解执行上下文的概念是理解变量对象、作用域链、this、闭包的基础，后面我也会写一些文章去介绍一下。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://dmitrysoshnikov.com/ecmascript/chapter-1-execution-contexts/#function-code" target="_blank" rel="noopener">http://dmitrysoshnikov.com/ecmascript/chapter-1-execution-contexts/#function-code</a><br><a href="https://github.com/yygmind/blog/issues/12" target="_blank" rel="noopener">https://github.com/yygmind/blog/issues/12</a><br><a href="https://www.cnblogs.com/TomXu/archive/2012/01/13/2308101.html" target="_blank" rel="noopener">https://www.cnblogs.com/TomXu/archive/2012/01/13/2308101.html</a><br><a href="https://www.cnblogs.com/justinw/archive/2010/04/16/1713086.html" target="_blank" rel="noopener">https://www.cnblogs.com/justinw/archive/2010/04/16/1713086.html</a></p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/ed1son67.github.io/ed1son67.github.io/tags#JavaScript" >
+    <span class="tag-code">JavaScript</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/ed1son67.github.io/2020/02/16/浅析JavaScript基于原型模式的面向对象/">
+        <span class="nav-arrow">← </span>
+        
+          浅析JavaScript基于原型模式的面向对象
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/ed1son67.github.io/2020/02/17/JavaScript核心概念-变量对象/">
+        
+          JavaScript核心概念-变量对象
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <!-- No Comment -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#前言"><span class="toc-nav-text">前言</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#执行上下文（execution-contexts）"><span class="toc-nav-text">执行上下文（execution contexts）</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#执行栈"><span class="toc-nav-text">执行栈</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#可执行代码的类型"><span class="toc-nav-text">可执行代码的类型</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#全局可执行代码（Global-code）"><span class="toc-nav-text">全局可执行代码（Global code）</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#函数可执行代码（function-code）"><span class="toc-nav-text">函数可执行代码（function code）</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#eval可执行代码（eval-code）"><span class="toc-nav-text">eval可执行代码（eval code）</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#总结"><span class="toc-nav-text">总结</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#参考"><span class="toc-nav-text">参考</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'https://ed1son67.github.io/ed1son67.github.io/2020/02/17/JavaScript核心概念-执行上下文/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+    // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+  })();
+</script>
+
+
+
+
+
+
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2020 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/ed1son67.github.io/js/script.js"></script>
+  </body>
+</html>
