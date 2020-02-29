@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Ed1son&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/ed1son67.github.io/css/images/logo.png">
+  
+  <title>
+    
+      实现一个webpack插件 | Ed1son&#39;s blog
+    
+  </title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/ed1son67.github.io/css/style.css">
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+  
+  
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png">
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/ed1son67.github.io/">
+      <div class="logo"></div>
+      <span>Ed1son's blog</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>实现一个webpack插件</h2>
+  <p class="post-date">2020-02-26</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="webpack核心"><a href="#webpack核心" class="headerlink" title="webpack核心"></a>webpack核心</h2><h3 id="tapable"><a href="#tapable" class="headerlink" title="tapable"></a>tapable</h3><p>Webpack 本质上是一种事件流的机制，它的工作流程就是将各个插件串联起来，而实现这一切的核心就是 tapable，Compiler 和 Compilation都是tapable的实例。</p>
+<h3 id="钩子的种类"><a href="#钩子的种类" class="headerlink" title="钩子的种类"></a>钩子的种类</h3><p>不同种类的钩子函数提供不同的事件流执行机制，大体上分为同步钩和异步钩</p>
+<h4 id="SyncHook"><a href="#SyncHook" class="headerlink" title="SyncHook"></a>SyncHook</h4><p>串行同步钩，不关心callback的返回值，在触发事件之后会按事件注册的顺序执行事件处理函数。</p>
+<h4 id="SyncBailHook"><a href="#SyncBailHook" class="headerlink" title="SyncBailHook"></a>SyncBailHook</h4><p>同样为串行同步执行，如果事件处理函数执行时有一个返回值不为空（即返回值为 undefined），则跳过剩下未执行的事件处理函数（如类的名字，意义在于保险）。</p>
+<h4 id="SyncWaterfallHook"><a href="#SyncWaterfallHook" class="headerlink" title="SyncWaterfallHook"></a>SyncWaterfallHook</h4><p>串行同步执行，上一个事件处理函数的返回值作为参数传递给下一个事件处理函数，所以叫瀑布钩子</p>
+<h4 id="SyncLoopHook"><a href="#SyncLoopHook" class="headerlink" title="SyncLoopHook"></a>SyncLoopHook</h4><p>串行同步执行，事件处理函数返回 true 表示继续循环，即循环执行当前事件处理函数，返回 undefined 表示结束循环，如果一直返回true会一直循环。</p>
+<h4 id="AsyncParallelHook"><a href="#AsyncParallelHook" class="headerlink" title="AsyncParallelHook"></a>AsyncParallelHook</h4><p>异步并行执行，通过 tapAsync 注册的事件，通过 callAsync 触发，通过 tapPromise 注册的事件，通过 promise 触发（返回值可以调用 then 方法）。</p>
+<p>所有 tabAsync 注册的事件处理函数最后一个参数都为一个回调函数 done，每个事件处理函数在异步代码执行完毕后调用 done 函数，则可以保证 callAsync 会在所有异步函数都执行完毕后执行</p>
+<p>这里的并行是指如果有三个定时器，那么将会在最后一个定时器被执行的时候调用done函数，才会将前面的两个函数一起调用，所以三个事件处理函数是几乎同时执行的，不需等待。</p>
+<h4 id="AsyncSeriesHook"><a href="#AsyncSeriesHook" class="headerlink" title="AsyncSeriesHook"></a>AsyncSeriesHook</h4><p>异步串行执行，需要排队执行</p>
+<h3 id="触发钩子的方式"><a href="#触发钩子的方式" class="headerlink" title="触发钩子的方式"></a>触发钩子的方式</h3><ul>
+<li>tap：同步钩</li>
+<li>tapAsync：异步钩</li>
+<li>tapPromise：异步钩，返回promise<br>使用异步钩子需要调用callback函数或者resolve函数</li>
+</ul>
+<p>监听某个钩子事件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">compiler.hooks.someHook.tapType(<span class="string">'MyPlugin'</span>, (params) =&gt; &#123;</span><br><span class="line">    </span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Compiler-和-Compilation"><a href="#Compiler-和-Compilation" class="headerlink" title="Compiler 和 Compilation"></a>Compiler 和 Compilation</h3><p>Compiler对象代表了完整的webpack环境配置，这个对象在启动webpack时被建立，并配置好所有可操作的设置，包括 options，loader 和 plugin。<br>当在 webpack 环境中应用一个插件时，插件将收到此 compiler 对象的引用。可以使用它来访问 webpack 的主环境。</p>
+<p>Compilation对象代表一次资源版本构建，compilation 继承于compiler，包含 compiler 所有内容，当运行webpack-dev-middleware的时候，每监测到一个文件变化，就会生成一个新的Compilation，<br>从而生成一组新的编译资源，一个Compilation对象代表当前的模块资源、编译生成资源、变化的文件以及被跟踪依赖的状态信息，compilation 对象也提供了很多关键时机的回调，以供插件做自定义处理时选择使用。</p>
+<p>Compiler 负责编译，Compilation负责构建bundler</p>
+<h3 id="Compiler的部分钩子"><a href="#Compiler的部分钩子" class="headerlink" title="Compiler的部分钩子"></a>Compiler的部分钩子</h3><h4 id="entryOption：webpack执行完option之后"><a href="#entryOption：webpack执行完option之后" class="headerlink" title="entryOption：webpack执行完option之后"></a>entryOption：webpack执行完option之后</h4><h4 id="afterPluginswebpack执行完预设的插件之后"><a href="#afterPluginswebpack执行完预设的插件之后" class="headerlink" title="afterPluginswebpack执行完预设的插件之后"></a>afterPluginswebpack执行完预设的插件之后</h4><h4 id="afterResolvers"><a href="#afterResolvers" class="headerlink" title="afterResolvers"></a>afterResolvers</h4><h4 id="environment"><a href="#environment" class="headerlink" title="environment"></a>environment</h4><h4 id="afterEnvironment"><a href="#afterEnvironment" class="headerlink" title="afterEnvironment"></a>afterEnvironment</h4><h4 id="beforeRun"><a href="#beforeRun" class="headerlink" title="beforeRun"></a>beforeRun</h4><h4 id="run"><a href="#run" class="headerlink" title="run"></a>run</h4><h4 id="watchRun"><a href="#watchRun" class="headerlink" title="watchRun"></a>watchRun</h4><h4 id="normalModuleFactory"><a href="#normalModuleFactory" class="headerlink" title="normalModuleFactory"></a>normalModuleFactory</h4><h4 id="contextModuleFactory"><a href="#contextModuleFactory" class="headerlink" title="contextModuleFactory"></a>contextModuleFactory</h4><h4 id="compile"><a href="#compile" class="headerlink" title="compile"></a>compile</h4><h4 id="thisCompilation"><a href="#thisCompilation" class="headerlink" title="thisCompilation"></a>thisCompilation</h4><h4 id="compilation"><a href="#compilation" class="headerlink" title="compilation"></a>compilation</h4><h4 id="make"><a href="#make" class="headerlink" title="make"></a>make</h4><h4 id="afterCompile"><a href="#afterCompile" class="headerlink" title="afterCompile"></a>afterCompile</h4><h4 id="shouldEmit"><a href="#shouldEmit" class="headerlink" title="shouldEmit"></a>shouldEmit</h4><h4 id="emit"><a href="#emit" class="headerlink" title="emit"></a>emit</h4><h4 id="afterEmit"><a href="#afterEmit" class="headerlink" title="afterEmit"></a>afterEmit</h4><h4 id="assetEmitted"><a href="#assetEmitted" class="headerlink" title="assetEmitted"></a>assetEmitted</h4><h4 id="done"><a href="#done" class="headerlink" title="done"></a>done</h4><h4 id="failed"><a href="#failed" class="headerlink" title="failed"></a>failed</h4><h4 id="invalid"><a href="#invalid" class="headerlink" title="invalid"></a>invalid</h4><h4 id="watchClose"><a href="#watchClose" class="headerlink" title="watchClose"></a>watchClose</h4><h4 id="infrastructureLog"><a href="#infrastructureLog" class="headerlink" title="infrastructureLog"></a>infrastructureLog</h4><h4 id="log"><a href="#log" class="headerlink" title="log"></a>log</h4><h2 id="编写一个插件"><a href="#编写一个插件" class="headerlink" title="编写一个插件"></a>编写一个插件</h2><p>插件是一个函数，需要暴露一个apply插件，webpack会在plugin属性取出所有插件的实例，然后调用一次apply函数，并将compiler的实例作为参数传入apply中，<br>让你可以自行选择注册钩子</p>
+<p><a href="https://juejin.im/post/5e5309ece51d4526e03f9e53#heading-0" target="_blank" rel="noopener"></a><br>这个插件的目的是在bunler.js文件的后面带一个查询字符串，是一个动态生成的时间戳，可以解决cdn缓存问题</p>
+<ul>
+<li>插件首先是一个函数，要在prototype上重写一个apply函数</li>
+<li>指定一个绑定到 webpack 自身的事件钩子</li>
+<li>处理webpack内部实例的特定数据</li>
+<li>功能完成后调用webpack提供的回调</li>
+</ul>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>思路是先钩住compilation钩子，在编译创建之后，生成文件之前执行插件，<br>然后监听html-webpack-plugin构建完成但还没有输出文件的事件（html-webpack-plugin-before-html-processing），<br>把要输出的内容改为一个可以生成动态时间戳的script脚本</p>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">MyExampleWebpackPlugin</span>(<span class="params">options</span>) </span>&#123;</span><br><span class="line">&#125;;</span><br><span class="line">MyExampleWebpackPlugin.prototype.apply = <span class="function"><span class="keyword">function</span>(<span class="params">compiler</span>) </span>&#123;</span><br><span class="line">    compiler.hooks.compilation.tap(<span class="string">'MyExampleWebpackPlugin'</span>, (compilation, callback) =&gt; &#123;</span><br><span class="line">        compilation.hooks.optimize.tap(<span class="string">"html-webpack-plugin-before-html-processing"</span>,</span><br><span class="line">        <span class="function"><span class="keyword">function</span>(<span class="params">htmlPluginData, callback</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">let</span> src = htmlPluginData.assets.js[<span class="number">0</span>];</span><br><span class="line">            htmlPluginData.assets.js = [];</span><br><span class="line">            <span class="keyword">let</span> res = <span class="string">`</span></span><br><span class="line"><span class="string">                &lt;script&gt;</span></span><br><span class="line"><span class="string">                    let scriptDOM = document.createElement("script");</span></span><br><span class="line"><span class="string">                    let jsScr = "./<span class="subst">$&#123;src&#125;</span>";</span></span><br><span class="line"><span class="string">                    scriptDOM.src = jsScr + "?" + new Date().getTime();</span></span><br><span class="line"><span class="string">                    document.body.appendChild(scriptDOM)</span></span><br><span class="line"><span class="string">                &lt;/script&gt;</span></span><br><span class="line"><span class="string">            `</span></span><br><span class="line">            <span class="keyword">let</span> resultHTML = htmlPluginData.html.replace(</span><br><span class="line">                <span class="string">"&lt;!--SetScriptTimestampPlugin inset script--&gt;"</span>, res</span><br><span class="line">            );</span><br><span class="line">            htmlPluginData.html = resultHTML;</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">module</span>.exports = MyExampleWebpackPlugin;</span><br></pre></td></tr></table></figure>
+
+<h2 id="tree-shaking"><a href="#tree-shaking" class="headerlink" title="tree-shaking"></a>tree-shaking</h2><p>tree-shaking能够利用ES6的静态引入规范，减少包的体积，避免不必要的代码引入。</p>
+</section>
+    <!-- Tags START -->
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/ed1son67.github.io/2020/02/19/ECMAScript5核心概念-词法环境/">
+        <span class="nav-arrow">← </span>
+        
+          ECMAScript5核心概念-词法环境
+        
+      </a>
+    
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <!-- No Comment -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#webpack核心"><span class="toc-nav-text">webpack核心</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#tapable"><span class="toc-nav-text">tapable</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#钩子的种类"><span class="toc-nav-text">钩子的种类</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#SyncHook"><span class="toc-nav-text">SyncHook</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#SyncBailHook"><span class="toc-nav-text">SyncBailHook</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#SyncWaterfallHook"><span class="toc-nav-text">SyncWaterfallHook</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#SyncLoopHook"><span class="toc-nav-text">SyncLoopHook</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#AsyncParallelHook"><span class="toc-nav-text">AsyncParallelHook</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#AsyncSeriesHook"><span class="toc-nav-text">AsyncSeriesHook</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#触发钩子的方式"><span class="toc-nav-text">触发钩子的方式</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Compiler-和-Compilation"><span class="toc-nav-text">Compiler 和 Compilation</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Compiler的部分钩子"><span class="toc-nav-text">Compiler的部分钩子</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#entryOption：webpack执行完option之后"><span class="toc-nav-text">entryOption：webpack执行完option之后</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#afterPluginswebpack执行完预设的插件之后"><span class="toc-nav-text">afterPluginswebpack执行完预设的插件之后</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#afterResolvers"><span class="toc-nav-text">afterResolvers</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#environment"><span class="toc-nav-text">environment</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#afterEnvironment"><span class="toc-nav-text">afterEnvironment</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#beforeRun"><span class="toc-nav-text">beforeRun</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#run"><span class="toc-nav-text">run</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#watchRun"><span class="toc-nav-text">watchRun</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#normalModuleFactory"><span class="toc-nav-text">normalModuleFactory</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#contextModuleFactory"><span class="toc-nav-text">contextModuleFactory</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#compile"><span class="toc-nav-text">compile</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#thisCompilation"><span class="toc-nav-text">thisCompilation</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#compilation"><span class="toc-nav-text">compilation</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#make"><span class="toc-nav-text">make</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#afterCompile"><span class="toc-nav-text">afterCompile</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#shouldEmit"><span class="toc-nav-text">shouldEmit</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#emit"><span class="toc-nav-text">emit</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#afterEmit"><span class="toc-nav-text">afterEmit</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#assetEmitted"><span class="toc-nav-text">assetEmitted</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#done"><span class="toc-nav-text">done</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#failed"><span class="toc-nav-text">failed</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#invalid"><span class="toc-nav-text">invalid</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#watchClose"><span class="toc-nav-text">watchClose</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#infrastructureLog"><span class="toc-nav-text">infrastructureLog</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#log"><span class="toc-nav-text">log</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#编写一个插件"><span class="toc-nav-text">编写一个插件</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#思路"><span class="toc-nav-text">思路</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#实现"><span class="toc-nav-text">实现</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#tree-shaking"><span class="toc-nav-text">tree-shaking</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'https://ed1son67.github.io/ed1son67.github.io/2020/02/26/实现一个webpack插件/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+    // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+  })();
+</script>
+
+
+
+
+
+
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2020 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/ed1son67.github.io/js/script.js"></script>
+  </body>
+</html>

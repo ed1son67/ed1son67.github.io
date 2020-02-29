@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Ed1son&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/ed1son67.github.io/css/images/logo.png">
+  
+  <title>
+    
+      ECMAScript3核心概念-this | Ed1son&#39;s blog
+    
+  </title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/ed1son67.github.io/css/style.css">
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+  
+  
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png">
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/ed1son67.github.io/">
+      <div class="logo"></div>
+      <span>Ed1son's blog</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>ECMAScript3核心概念-this</h2>
+  <p class="post-date">2020-02-17</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本系列文章基于ES3规范</p>
+<p>在前面两篇文章中，介绍了执行上下文和变量对象的概念，这篇文章继续介绍执行上下文的一个相关概念：this关键字，<br>this是JavaScript中一个非常重要的概念，也非常容易搞混它的指向，导致出现一些隐藏得很深的bug，<br>所以下面让我们更详细的了解一下，在JavaScript中this的值到底是什么？</p>
+<h2 id="this的定义"><a href="#this的定义" class="headerlink" title="this的定义"></a>this的定义</h2><p>还记得执行上下文执行代码分为两个阶段吗，先来复习一下</p>
+<ol>
+<li>进入执行上下文阶段</li>
+<li>执行阶段</li>
+</ol>
+<p>而前面介绍的VO，是执行上下文的一个属性，而今天要介绍的this，也是执行上下文的一个属性，可以这样表示：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">executionContext = &#123;</span><br><span class="line">	VO: &#123;</span><br><span class="line">		<span class="comment">// 变量、函数声明、函数形参</span></span><br><span class="line">	&#125;,</span><br><span class="line">	<span class="keyword">this</span>: thisValue</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>this的值在进入上下文时确定，并且当代码在上下文运行期间，this的值都不会改变。下面让我们更详细研究这些场景。</p>
+<h2 id="this在全局代码中的值"><a href="#this在全局代码中的值" class="headerlink" title="this在全局代码中的值"></a>this在全局代码中的值</h2><p>在全局代码中，this的值始终是全局对象本身，也就是this指向全局对象，所以可以通过this间接引用到全局对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">this</span>.a = <span class="number">10</span>; </span><br><span class="line"><span class="built_in">console</span>.log(a); <span class="comment">// global.a = 10</span></span><br><span class="line"> </span><br><span class="line">b = <span class="number">20</span>;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">this</span>.b); <span class="comment">// 20</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">var</span> c = <span class="number">30</span>;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">this</span>.c); <span class="comment">// 30</span></span><br></pre></td></tr></table></figure>
+
+<p>在上面的例子中，a定义为this的一个属性，而this又指向全局对象，所以a被创建到全局对象上，还记得吗，全局对象会省略掉前缀，所以<code>console.log(a)</code><br>相当于<code>console.log([[global]].a)</code>（[[global]]在浏览器中被定义为window对象）。</p>
+<p><code>b=20</code>是通过隐式定义，在执行上下文中的执行阶段被挂载到全局对象上了，所以<code>this.b</code>能够访问到，但是要注意，b不是规范上的变量，至于为什么，可以看我上一篇文章末尾写的那一段。</p>
+<p><code>var c = 30</code>则是变量声明，直接将c挂载到VO上，因为在全局执行上下文中，VO等于全局对象，所以this也能够访问到c。</p>
+<h2 id="this在函数代码中的值"><a href="#this在函数代码中的值" class="headerlink" title="this在函数代码中的值"></a>this在函数代码中的值</h2><p>在函数代码中，this的值是不固定的，上面提到过，this的值是在进入执行上下文的时候确定的，<br>在函数代码中，this每一次在<strong>进入执行上下文阶段</strong>都可能不一样。但在<strong>代码的执行阶段</strong>，this的值是不变的，所以this也不是一个变量，它的值在代码执行阶段是不能改变的。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> foo = &#123;<span class="attr">x</span>: <span class="number">10</span>&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">var</span> bar = &#123;</span><br><span class="line">  x: <span class="number">20</span>,</span><br><span class="line">  test: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span> === bar); <span class="comment">// true</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.x); <span class="comment">// 20</span></span><br><span class="line">     </span><br><span class="line">    <span class="keyword">this</span> = foo; <span class="comment">// error, can't change this value</span></span><br><span class="line">  </span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.x); <span class="comment">// if there wasn't an error, then would be 10, not 20</span></span><br><span class="line"> </span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line">bar.test(); <span class="comment">// true, 20</span></span><br><span class="line"> </span><br><span class="line">foo.test = bar.test;</span><br><span class="line"> </span><br><span class="line">foo.test(); <span class="comment">// false, 10</span></span><br></pre></td></tr></table></figure>
+
+<p>上面的例子中，我们尝试个在代码的运行阶段执行<code>this = foo</code>改变this的值，因为this不是一个变量，所以会报错。<br><code>bar.test()</code>在进入test函数执行上下文阶段，将this的值绑定到了bar上，<code>foo.test()</code>在进入test函数执行上下文阶段绑定到了foo上，至于为什么，下面会讲到绑定的过程。</p>
+<p>首先，在一个常规的函数调用环节，this是由激活执行上下文的调用者提供的，即调用函数的父级上下文（parent context），this的值由调用函数的方式决定（调用函数的几种方式）。</p>
+<p>其实关键点就是<strong>调用函数的方式影响了被调用的函数执行上下文中this的值</strong>，但是要理解this，先得看看引用类型：</p>
+<h3 id="引用类型"><a href="#引用类型" class="headerlink" title="引用类型"></a>引用类型</h3><p>用伪代码模拟一个引用类型的结构，可以把它看作是一个拥有两个属性的对象，一个属性是base，是存在堆里面的内存，是真正的对象，另一个属性是propertyName，是存在栈里面的属性名，是一个指向base的指针，<br>我们平时就是通过propertyName（赋给一个变量，就是变量名）去访问一个引用类型的值。<br>（不了解JS堆栈的同学还得去复习一下）。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> valueOfReferenceType = &#123;</span><br><span class="line">  base: &lt;base object&gt;,</span><br><span class="line">  propertyName: &lt;property name&gt;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>在一个函数上下文中，this由调用者提供，由调用函数的方式来决定。如果调用括号()的左边是引用类型的值，this将设为引用类型值的base对象（base object），在其他情况下（与引用类型不同的任何其它属性），这个值为null。不过，实际不存在this的值为null的情况，因为当this的值为null的时候，其值会被隐式转换为全局对象。<br>第5版的ECMAScript中，已经不强迫转换成全局变量了，而是赋值为undefined。</p>
+</section>
+    <!-- Tags START -->
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/ed1son67.github.io/2020/02/17/ECMAScript3核心概念-作用域链/">
+        <span class="nav-arrow">← </span>
+        
+          ECMAScript3核心概念-作用域链
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/ed1son67.github.io/2020/02/19/ECMAScript3核心概念-闭包/">
+        
+          ECMAScript3核心概念-闭包
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <!-- No Comment -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#前言"><span class="toc-nav-text">前言</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#this的定义"><span class="toc-nav-text">this的定义</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#this在全局代码中的值"><span class="toc-nav-text">this在全局代码中的值</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#this在函数代码中的值"><span class="toc-nav-text">this在函数代码中的值</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#引用类型"><span class="toc-nav-text">引用类型</span></a></li></ol></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'https://ed1son67.github.io/ed1son67.github.io/2020/02/17/ECMAScript3核心概念-this/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+    // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+  })();
+</script>
+
+
+
+
+
+
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2020 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/ed1son67.github.io/js/script.js"></script>
+  </body>
+</html>

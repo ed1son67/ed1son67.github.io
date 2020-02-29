@@ -150,7 +150,8 @@
     <section class="markdown-content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>先来看一个经典的JS继承例子</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 基于原形的继承</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Point</span>(<span class="params">x, y</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">this</span>.x = x;</span><br><span class="line">	<span class="keyword">this</span>.y = y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Point.prototype.toString = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.x + <span class="keyword">this</span>.y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> point = <span class="keyword">new</span> Point(<span class="number">1</span>, <span class="number">3</span>);</span><br></pre></td></tr></table></figure>
 
-<p>因为JavaScript是基于原形模式的，本质上是没有类这个概念的，所以要实现类的继承效果，要通过构造函数去实现，在语法上比较晦涩难懂，所以ES6引入了class关键字，<br>但从本质上，class也只是语法糖，它的大部分功能，es5都可以实现。</p>
+<p>因为JavaScript是基于原形模式的，本质上是没有类这个概念的，所以要实现类的继承效果，要通过构造函数去实现，在语法上比较晦涩难懂，所以ES6引入了class关键字。</p>
+<p>但从本质上，class也只是语法糖，它的大部分功能，es5都可以实现。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用class 改写</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point</span> </span>&#123;</span><br><span class="line">	<span class="keyword">constructor</span>(x, y) &#123;</span><br><span class="line">		<span class="keyword">this</span>.x = x;</span><br><span class="line">		<span class="keyword">this</span>.y = y;</span><br><span class="line">	&#125;</span><br><span class="line">	toString() &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">this</span>.x + <span class="keyword">this</span>.y;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>改写后的代码中，constructor就是构造函数，this代表实例对象</p>
@@ -173,12 +174,12 @@
       <div class="tags">
         <span>Tags:</span>
         
-  <a href="/ed1son67.github.io/ed1son67.github.io/tags#面向对象" >
-    <span class="tag-code">面向对象</span>
-  </a>
-
   <a href="/ed1son67.github.io/ed1son67.github.io/tags#JavaScript" >
     <span class="tag-code">JavaScript</span>
+  </a>
+
+  <a href="/ed1son67.github.io/ed1son67.github.io/tags#面向对象" >
+    <span class="tag-code">面向对象</span>
   </a>
 
       </div>

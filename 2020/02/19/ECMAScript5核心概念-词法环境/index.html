@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Ed1son&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/ed1son67.github.io/css/images/logo.png">
+  
+  <title>
+    
+      ECMAScript5核心概念-词法环境 | Ed1son&#39;s blog
+    
+  </title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/ed1son67.github.io/css/style.css">
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+  
+  
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png">
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/ed1son67.github.io/">
+      <div class="logo"></div>
+      <span>Ed1son's blog</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>ECMAScript5核心概念-词法环境</h2>
+  <p class="post-date">2020-02-19</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="导读"><a href="#导读" class="headerlink" title="导读"></a>导读</h2><p>在这个系列文章将会讨论词法环境的内容，词法环境是某些语言中用来管理静态作用域的机制，为了完全明白这种概念，我们也会简单讨论动态作用域（ECMAScript不使用它）。<br>我们会了解到词法环境是如何管理代码中错综复杂的词法（作用域）嵌套结构以及它和闭包的密不可分的关系。</p>
+<p>词法环境在ES5标准中被提出，但这是一个独立的概念，很多语言都使用它。</p>
+<p>实际上我们已经在ES3系列文章中讨论过与词法环境有关的技术。也就是变量对象和活动对象和作用域链。</p>
+<p>严格地讲，词法环境与ES3的概念相比，更加抽象和具有理论性。我推荐ES5后开始使用这些新的定义，但一些通用概念还是可以使用的，比如<br>调用栈（执行上下文栈）的一个活动记录（AO），但词法环境的抽象性更高一些。</p>
+<h2 id="静态（词法）作用域"><a href="#静态（词法）作用域" class="headerlink" title="静态（词法）作用域"></a>静态（词法）作用域</h2><p>在静态作用域中，一个标识符引用它最近的词法环境</p>
+<p>ES5中，进入执行上下文阶段被改为了：</p>
+<ol>
+<li>确定this的值：this binding</li>
+<li>LexicalEnvironment（词法环境）组件被创建</li>
+<li>VariableEnvironment（变量环境）组件被创建</li>
+</ol>
+<h2 id="词法环境（LexicalEnvironment）"><a href="#词法环境（LexicalEnvironment）" class="headerlink" title="词法环境（LexicalEnvironment）"></a>词法环境（LexicalEnvironment）</h2><p>词法环境有两个组成部分</p>
+<ol>
+<li>环境记录：存储变量和函数声明的实际位置</li>
+<li>对外部变量的引用：可以访问其外部词法环境</li>
+</ol>
+<p>词法环境有两种类型</p>
+<ol>
+<li>全局环境：是一个没有外部环境的词法环境，其外部环境引用为 null。拥有一个全局对象（window 对象）及其关联的方法和属性（例如数组方法）以及任何用户自定义的全局变量，this 的值指向这个全局对象。</li>
+<li>函数环境: 用户在函数中定义的变量被存储在环境记录中，包含了arguments 对象。对外部环境的引用可以是全局环境，也可以是包含内部函数的外部函数环境。</li>
+</ol>
+<p>伪代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">GolabalExectionContext = &#123;</span><br><span class="line">    LexicalEnvironment: &#123;</span><br><span class="line">        EnvironmentRecord: &#123;   		<span class="comment">// 环境记录</span></span><br><span class="line">            Type: <span class="string">"Object"</span>,      		   <span class="comment">// 全局环境</span></span><br><span class="line">            <span class="comment">// 标识符绑定在这里      		   </span></span><br><span class="line">        &#125;,</span><br><span class="line">        outer: &lt;null&gt;  	// 对外部环境的引用</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">FunctionExectionContext = &#123; // 函数执行上下文</span><br><span class="line">    LexicalEnvironment: &#123;  	  // 词法环境</span><br><span class="line">        EnvironmentRecord: &#123;  		// 环境记录</span><br><span class="line">            Type: "Declarative",  	   // 函数环境</span><br><span class="line">            // 标识符绑定在这里 			  // 对外部环境的引用</span><br><span class="line">        outer: &lt;Global or outer function environment reference&gt;  </span><br><span class="line">    &#125;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="变量环境（VariableEnvironment）"><a href="#变量环境（VariableEnvironment）" class="headerlink" title="变量环境（VariableEnvironment）"></a>变量环境（VariableEnvironment）</h2><p>变量环境也是一个词法环境，因此它具有上面定义的词法环境的所有属性。变量环境仅用于存储var声明的变量，<br>而词法环境用来存储函数声明和let、const声明的变量还有arguments对象。</p>
+<p>伪代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = <span class="number">20</span>;  </span><br><span class="line"><span class="keyword">const</span> b = <span class="number">30</span>;  </span><br><span class="line"><span class="keyword">var</span> c;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">multiply</span>(<span class="params">e, f</span>) </span>&#123;  </span><br><span class="line"> <span class="keyword">var</span> g = <span class="number">20</span>;  </span><br><span class="line"> <span class="keyword">return</span> e * f * g;  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">c = multiply(<span class="number">20</span>, <span class="number">30</span>);</span><br><span class="line"></span><br><span class="line">GolabalExectionContext = &#123;</span><br><span class="line">    ThisBinding: &lt;Global Object&gt;,</span><br><span class="line">    LexicalEnvironment: &#123;</span><br><span class="line">        EnvironmentRecord: &#123;   		</span><br><span class="line">            Type: "Object",      		   </span><br><span class="line">            a: undefined,</span><br><span class="line">            b: undefined,</span><br><span class="line">            multiply: &lt;funciton&gt; </span><br><span class="line">        &#125;,</span><br><span class="line">        outer: &lt;null&gt;  	   </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br><span class="line">FunctionExectionContext = &#123; </span><br><span class="line">    ThisBinding: &lt;Global Object&gt;,</span><br><span class="line">    LexicalEnvironment: &#123;  	 </span><br><span class="line">        EnvironmentRecord: &#123;  		</span><br><span class="line">            Type: "Declarative",  </span><br><span class="line">            Arguments: &#123;0: 20, 1: 30, length: 2&#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        outer: &lt;GolabalExectionContext&gt;</span><br><span class="line">    &#125;,</span><br><span class="line">    VariableEnvironment: &#123;  </span><br><span class="line">        EnvironmentRecord: &#123;  </span><br><span class="line">            Type: "Declarative",  </span><br><span class="line">            // 标识符绑定在这里  </span><br><span class="line">            g: undefined  </span><br><span class="line">        &#125;,  </span><br><span class="line">        outer: &lt;GlobalLexicalEnvironment&gt;  </span><br><span class="line">     &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/ed1son67.github.io/ed1son67.github.io/tags#JavaScript" >
+    <span class="tag-code">JavaScript</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/ed1son67.github.io/2020/02/19/ECMAScript3核心概念-闭包/">
+        <span class="nav-arrow">← </span>
+        
+          ECMAScript3核心概念-闭包
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/ed1son67.github.io/2020/02/26/实现一个webpack插件/">
+        
+          实现一个webpack插件
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <!-- No Comment -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#导读"><span class="toc-nav-text">导读</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#静态（词法）作用域"><span class="toc-nav-text">静态（词法）作用域</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#词法环境（LexicalEnvironment）"><span class="toc-nav-text">词法环境（LexicalEnvironment）</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#变量环境（VariableEnvironment）"><span class="toc-nav-text">变量环境（VariableEnvironment）</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'https://ed1son67.github.io/ed1son67.github.io/2020/02/19/ECMAScript5核心概念-词法环境/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+    // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+  })();
+</script>
+
+
+
+
+
+
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2020 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/ed1son67.github.io/js/script.js"></script>
+  </body>
+</html>

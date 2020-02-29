@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Ed1son&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/ed1son67.github.io/css/images/logo.png">
+  
+  <title>
+    
+      ECMAScript3核心概念-作用域链 | Ed1son&#39;s blog
+    
+  </title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/ed1son67.github.io/css/style.css">
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+  
+  
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png">
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/ed1son67.github.io/">
+      <div class="logo"></div>
+      <span>Ed1son's blog</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>ECMAScript3核心概念-作用域链</h2>
+  <p class="post-date">2020-02-17</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在前文我们已经知道了<a href="https://juejin.im/post/5e4a9bbb51882549236f7455" target="_blank" rel="noopener">变量对象</a>的概念，变量对象是<a href="https://juejin.im/post/5e4a334cf265da57455b3a74" target="_blank" rel="noopener">执行上下文</a>的一个属性，变量对象存放着包括变量声明、函数声明和函数的形参。</p>
+<p>解析和执行代码的时候，会用到执行上下文这个概念，执行上下文又分为进入执行上下文阶段和代码执行阶段，在进入执行上下文阶段，变量对象会被创建和被初始化值填满，而那些值在代码执行阶段会被更新。</p>
+<p>在前面介绍了执行上下文的两个属性：变量对象和<code>this</code>，本文继续介绍一个执行上下文非常重要的属性：作用域链。</p>
+<p><strong>请注意：本系列文章基于ES3标准展开，有些内容在ES5已经被修改了</strong></p>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>我们都知道JavaScript允许在函数的内创建函数，甚至还可以返回内函数（高阶函数的定义之一）。作用域链就跟内部函数有很大的关系。</p>
+<p>来复习一下：每一个执行上下文都有他自己的VO，全局执行上下文的VO是它本身，函数执行上下文的VO是AO。</p>
+<p>来看一下作用域链的定义：</p>
+<blockquote>
+<p>Scope chain is related with an execution context a chain of variable objects which is used for variables lookup at identifier resolution.</p>
+</blockquote>
+<p>大概意思就是：作用域链与一个执行上下文相关，是一条由变量对象组成的链，用于标识符解析过程中查找变量。</p>
+<p>所以一个内部函数的执行上下文的作用域链是它的AO加上它所有父上下文的VO组成的列表，作用域链是用来查找变量的。</p>
+<p>全局执行上下文的作用域链只有一个全局对象。</p>
+<p>函数执行上下文的作用域链在函数调用时创建，由AO和函数的内部属性<code>[[scope]]</code>组成。可以具象为这样的结构：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">activeExecutionContext = &#123;</span><br><span class="line">    VO: &#123;...&#125;, <span class="comment">// or AO</span></span><br><span class="line">    <span class="keyword">this</span>: thisValue,</span><br><span class="line">    Scope: [ <span class="comment">// 作用域链</span></span><br><span class="line">    ] </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>注意，这里的Scope指的是作用域链，而不是<code>[[scope]]</code>属性，通过下面的代码可以看得更清楚：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Scope = AO + [[Scope]]</span><br></pre></td></tr></table></figure>
+
+<p>我们可以将作用域链看为一个数组的结构：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Scope = [VO1, VO2, ..., VOn]; <span class="comment">// scope chain</span></span><br></pre></td></tr></table></figure>
+
+<p>我们也可以将它看为是链表的结构，通过VO的<code>__parent__</code>属性连接起来。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> VO1 = &#123;<span class="attr">__parent__</span>: <span class="literal">null</span>, ... other data&#125;; --&gt;</span><br><span class="line"><span class="keyword">var</span> VO2 = &#123;<span class="attr">__parent__</span>: VO1, ... other data&#125;; --&gt;</span><br><span class="line"><span class="comment">// etc.</span></span><br></pre></td></tr></table></figure>
+
+<p>但用数组更加便于我们的理解，因为使用什么样的数据结构是技术实现层面的事情，ECMAScript只是一个规范，每一个厂商对这份规范的实现都不尽相同，<br>所以这是一个抽象的概念，我们只需要用最简单的方式去理解这个概念就行，但要注意的是，无论是哪种阶段，<strong>作用域链都是有层级的</strong>，就好像执行上下文一样具有优先级的。</p>
+<p>说回作用域链，<code>AO + [[Scope]]</code>这个过程的细节，将会在下面讲到。</p>
+<h2 id="函数生命周期"><a href="#函数生命周期" class="headerlink" title="函数生命周期"></a>函数生命周期</h2><p>函数的生命周期分为创建和激活（调用）两个阶段。</p>
+<h3 id="函数创建阶段"><a href="#函数创建阶段" class="headerlink" title="函数创建阶段"></a>函数创建阶段</h3><p>前文讲过，在进入执行上下文阶段，函数的声明会被放进VO/AO中。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x = <span class="number">10</span>;</span><br><span class="line">  </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> y = <span class="number">20</span>;</span><br><span class="line">  alert(x + y);</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line">foo(); <span class="comment">// 30</span></span><br></pre></td></tr></table></figure>
+
+<p>上面的例子中，<code>foo</code>被调用的时候，能得到我们预期中的答案：<code>30</code>。但有没有仔细想过为什么会出现这种结果？</p>
+<p>在此之前我们都是谈论当前执行上下文的VO，经过简单的分析我们知道：y是存放在foo函数执行上下文AO中的。但<code>x</code>没有在<code>foo</code>函数执行上下文定义，所以不会被添加到AO中。<br>foo的AO这可以这么表示：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fooContext.AO = &#123;</span><br><span class="line">  y: <span class="literal">undefined</span> <span class="comment">// undefined // 执行代码阶段，y会变为20</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><code>y</code>在进入<code>foo</code>函数执行上下文阶段是<code>undefined</code>，而在执行代码阶段，<code>y</code>会变为<code>20</code>。但在这两个阶段中，<code>x</code>并没有出现在AO中，所以<code>foo</code>是怎样获取到x的值的？<br>x存放在全局执行上下文的VO中，也就是全局对象，所以唯一的可能是<code>foo</code>有办法去访问到更高一层的执行上下文的VO。实际上就是如此，这种机制是通过函数内部的<br><code>[[scope]]</code>属性实现的。</p>
+<blockquote>
+<p>[[Scope]] is a hierarchical chain of all parent variable objects, which are above the current function context; the chain is saved to the function at its creation.</p>
+</blockquote>
+<p>大概就是：<code>[[scope]]</code>属性是由当前函数执行上下文之上的所有父执行上下文的变量对象组成的层级链，在函数的创建阶段被保存在函数之中。</p>
+<p>好像很拗口的样子，但我已经尽量翻译得通俗了，没关系下面我们一步一步来分析。</p>
+<p>定义告诉我们，<code>[[scope]]</code>在函数的创建阶段保存在函数之中，<br>从创建开始知道函数被销毁，都是静态的（不变的）。也就是函数可以不被调用，但<code>[[scope]]</code>属性在函数创建的时候就被写入函数对象里面了。</p>
+<p>另外一个需要注意到的地方：<code>[[scope]]</code>跟作用域链（Scope）相比，前者是函数的一个属性，后者而是执行上下文的一个属性，要搞清楚这个区别。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">foo.[[Scope]] = [</span><br><span class="line">  globalContext.VO <span class="comment">// === Global</span></span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<p>从上面这个例子具象一下上面那些抽象的🌈屁。。。因为foo执行上下文的父执行上下文就只有全局执行上下文（可以理解为执行栈的顺序决定父子关系），<br>所以foo函数的<code>[[scope]]</code>属性中包含了全局执行上下文（globalContext）中的VO（Global），而且<code>[[scope]]</code>属性是定义在函数对象上的。<br>（当然我们一般是访问不到这个内部属性的，这个就类似于暴露出来的<code>__proto__</code>属性，它也是一个内部属性）</p>
+<p>我们知道在函数被调用的时候会进入函数的执行上下文，这个时候VO会被创建，this和作用域链的值会被确定，下面来分析这个过程。</p>
+<h3 id="函数调用阶段"><a href="#函数调用阶段" class="headerlink" title="函数调用阶段"></a>函数调用阶段</h3><p>文章一开头讲到：函数执行上下文的作用域链在函数调用时创建，由AO和函数的内部属性<code>[[scope]]</code>组成，这个过程可以理解为：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Scope = AO|VO + [[Scope]]</span><br></pre></td></tr></table></figure>
+
+<p>可以这么理解：当前函数执行上下文的AO是作用域链的最前端，如果把作用域链看成一个数组结构，可以这么表示：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Scope = [AO].concat([[Scope]]);</span><br></pre></td></tr></table></figure>
+
+<p>这个特点对标识符解析的过程非常重要，解析标识符的定义：</p>
+<blockquote>
+<p>Identifier resolution is a process of determination to which variable object in scope chain the variable (or the function declaration) belongs.</p>
+</blockquote>
+<p>翻译一下：标识符解析是一个确定变量（或者变量声明）属于哪个变量对象的过程</p>
+<p>标识符解析的过程包含变量名的查找，变量名的查找这个过程是从作用域链的VO开始查找的，而且是一个连续的过程，从最深的执行上下文的VO一直到作用域链顶部的VO。<br>（如果看成数组结构，就是从作用域链的前端往后找）</p>
+<p>因此，在查找变量的过程中，一个执行上下文的局部变量比它的父级执行上下文中定义的变量有更高的优先级，如果有两个相同名称但来自不同上下文（也叫作用域）的变量，<br>处于更深层次上下文的那个变量会被先发现。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x = <span class="number">10</span>;</span><br><span class="line">  </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">var</span> y = <span class="number">20</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> z = <span class="number">30</span>;</span><br><span class="line">    alert(x +  y + z);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  bar();</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line">foo(); <span class="comment">// 60</span></span><br></pre></td></tr></table></figure>
+
+<p>上面的例子中，我们可以知道全局执行上下文的VO长这样子</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">globalContext.VO === Global = &#123;</span><br><span class="line">  x: <span class="number">10</span></span><br><span class="line">  foo: &lt;reference to function&gt;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>在foo函数的创建阶段，<code>[[scope]]</code>属性会被创建：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">foo.[[Scope]] = [</span><br><span class="line">  globalContext.VO</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<p>在foo函数的调用阶段，<code>foo</code>的AO（foo函数执行上下文的VO）：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">foo.AO = [</span><br><span class="line">  y: <span class="number">20</span>,</span><br><span class="line">  bar: &lt;reference to function&gt;</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<p>foo函数执行上下文的作用域链：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fooContext.Scope = fooContext.AO + foo.[[Scope]] </span><br><span class="line"> </span><br><span class="line">fooContext.Scope = [fooContext.AO, globalContext.VO];</span><br></pre></td></tr></table></figure>
+
+<p>bar函数的<code>[[scope]]</code>属性；</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bar.[[Scope]] = [fooContext.AO, globalContext.VO];</span><br></pre></td></tr></table></figure>
+
+<p>当bar函数被调用的时候，bar函数执行上下文的AO；</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">bar.AO = &#123;</span><br><span class="line">	z: <span class="number">30</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>bar函数执行上下文的作用域链：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">barContext.Scope = barContext.AO + bar.[[Scope]] </span><br><span class="line"> </span><br><span class="line">barContext.Scope = [barContext.AO, fooContext.AO, globalContext.VO];</span><br></pre></td></tr></table></figure>
+
+<p>bar函数执行过程中对x、y、z的标识符解析的过程可以这么表示：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">- <span class="string">"x"</span></span><br><span class="line">-- barContext.AO <span class="comment">// not found</span></span><br><span class="line">-- fooContext.AO <span class="comment">// not found</span></span><br><span class="line">-- globalContext.VO <span class="comment">// found - 10</span></span><br><span class="line"></span><br><span class="line">- <span class="string">"y"</span></span><br><span class="line">-- barContext.AO <span class="comment">// not found</span></span><br><span class="line">-- fooContext.AO <span class="comment">// found - 20</span></span><br><span class="line"></span><br><span class="line">- <span class="string">"z"</span></span><br><span class="line">-- barContext.AO <span class="comment">// found - 30</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到，查找<code>x</code>、<code>y</code>、<code>z</code>变量的过程是从bar作用域链的底层开始往上查找的（如果看成数组，是从前后往后找的，其实更像一个队列的结构）。</p>
+<h2 id="作用域链的一些特点"><a href="#作用域链的一些特点" class="headerlink" title="作用域链的一些特点"></a>作用域链的一些特点</h2><p>与作用域相关的一些重要的特色功能有很多，比如闭包，但闭包有必要再开一篇文章专门来讲，这里先不讨论。</p>
+<h3 id="通过构造函数创建的-Scope-属性"><a href="#通过构造函数创建的-Scope-属性" class="headerlink" title="通过构造函数创建的[Scope]]属性"></a>通过构造函数创建的<code>[Scope]]</code>属性</h3><p>在上面的一些例子中，我们看到，在函数创建时会创建函数的<code>[Scope]]</code>属性，通过该属性可以访问到所有父级执行上下文的变量。<br>但是，这个规则有一个重要的例外，它涉及到通过函数构造函数创建的函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x = <span class="number">10</span>;</span><br><span class="line">  </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> y = <span class="number">20</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">barFD</span>(<span class="params"></span>) </span>&#123; <span class="comment">// 函数声明</span></span><br><span class="line">    alert(x);</span><br><span class="line">    alert(y);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">var</span> barFE = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="comment">// 函数表达式</span></span><br><span class="line">    alert(x);</span><br><span class="line">    alert(y);</span><br><span class="line">  &#125;;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">var</span> barFn = <span class="built_in">Function</span>(<span class="string">'alert(x); alert(y);'</span>); </span><br><span class="line">  </span><br><span class="line">  barFD(); <span class="comment">// 10, 20</span></span><br><span class="line">  barFE(); <span class="comment">// 10, 20</span></span><br><span class="line">  barFn(); <span class="comment">// 10, "y" is not defined</span></span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line">foo();</span><br></pre></td></tr></table></figure>
+
+<p>从上面的例子中我们可以看到，通过<code>Function</code>构造函数创建的barFn函数，访问不到变量y。但这不意味着barfn函数没有<code>[Scope]]</code>属性，否则它不应该访问到变量x。<br>问题在于通过Function构造函数创建的的函数的<code>[Scope]]</code>属性<strong>只包含了全局对象</strong>。</p>
+<h3 id="二维链查找"><a href="#二维链查找" class="headerlink" title="二维链查找"></a>二维链查找</h3><p>在作用域链的查找中一个很重要的点，变量对象的原型对象也应该被考虑其中（如果他们有），这是由于ECMAScript是基于原型模式的决定的。<br>如果一个对象的属性在作用域链中没有直接被找到，会从原型链中查找，也就是所谓的二维链查找。</p>
+<p>二维链查找的过程：</p>
+<ol>
+<li>从一个作用域开始查找</li>
+<li>没有找到，从当前作用域深入到VO/AO的原型链中查找</li>
+<li>没有找到，进入下一个作用域</li>
+<li>重复1-3过程</li>
+</ol>
+<p>我们可以通过在<code>Object.prototype</code>上定义属性来观察到这种效果：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  alert(x);</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line"><span class="built_in">Object</span>.prototype.x = <span class="number">10</span>;</span><br><span class="line">  </span><br><span class="line">foo(); <span class="comment">// 10</span></span><br></pre></td></tr></table></figure>
+
+<p>在标识符解析x的过程中，沿着作用域链到达了全局对象，这个时候也没有找到x，但全局对象的构造函数是Object，它的原型对象是<code>Object.prototype</code>（有些实现可能不是），<br>这个时候开始沿着原型链查找x，最后在<code>Object.prototype</code>上找到了x。再来看一个例子；</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">var</span> x = <span class="number">20</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    alert(x);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  bar();</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line"><span class="built_in">Object</span>.prototype.x = <span class="number">10</span>;</span><br><span class="line">  </span><br><span class="line">foo(); <span class="comment">// 20</span></span><br></pre></td></tr></table></figure>
+
+<p>这个例子中可以证明AO是没有原型对象的。如果它有原型对象，那么<code>bar</code>中的<code>x</code>应该被解析为<code>10</code>，因为它没有直接定义在<code>bar</code>函数的AO上，根据上面的算法，如果在<code>bar</code>的AO上找不到，<br>就从AO的原型链上查找，也就是在<code>Object.prototype</code>上找到x为10，但现在x是20，所以证明了AO是没有原型对象的。</p>
+<h3 id="代码执行时对作用域链的影响"><a href="#代码执行时对作用域链的影响" class="headerlink" title="代码执行时对作用域链的影响"></a>代码执行时对作用域链的影响</h3><p>在ECMAScript中，在代码执行阶段有两个声明能修改作用域链。这就是<code>with</code>声明和<code>catch</code>语句。它们会将一个对象添加到作用域链的最前端，从而影响标识符的解析。<br>这个过程可以这样描述：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Scope = withObject|catchObject + AO|VO + [[Scope]]</span><br></pre></td></tr></table></figure>
+
+<p>下面这个例子用with语句将一个对象添加到作用域链的最前端</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> foo = &#123;<span class="attr">x</span>: <span class="number">10</span>, <span class="attr">y</span>: <span class="number">20</span>&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">with</span> (foo) &#123;</span><br><span class="line">  alert(x); <span class="comment">// 10</span></span><br><span class="line">  alert(y); <span class="comment">// 20</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>来分析一个复杂一点的例子；</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x = <span class="number">10</span>, y = <span class="number">10</span>;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">with</span> (&#123;<span class="attr">x</span>: <span class="number">20</span>&#125;) &#123;</span><br><span class="line"> </span><br><span class="line">  <span class="keyword">var</span> x = <span class="number">30</span>, y = <span class="number">30</span>;</span><br><span class="line"> </span><br><span class="line">  alert(x); <span class="comment">// 30</span></span><br><span class="line">  alert(y); <span class="comment">// 30</span></span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">alert(x); <span class="comment">// 10</span></span><br><span class="line">alert(y); <span class="comment">// 30</span></span><br></pre></td></tr></table></figure>
+
+<p>进入全局执行上下文阶段，x和y已经被添加到VO中了，在代码执行阶段，会发生以下过程：</p>
+<ul>
+<li><code>x = 10</code>, <code>y = 10</code></li>
+<li><code>{x:20}</code>被添加到作用链的前端</li>
+<li>在<code>with</code>内部，遇到了<code>var</code>声明，当然什么也没创建，因为在进入上下文时，所有变量已被解析添加</li>
+<li>这个时候<code>x</code>被解析，获取到最前端的<code>{x:20}</code>，此时执行<code>x=30</code>，<code>x</code>变为<code>30</code>，注意，改变的是<code>{x:20}</code>这个对象中的<code>x</code></li>
+<li><code>y</code>也被改变。改为<code>30</code></li>
+<li><code>with</code>语句结束后，添加的特定对象会被移除，<code>{x:30}</code>被移除，此时<code>x===10</code></li>
+<li>最后输出<code>x===10</code>，<code>y===30</code></li>
+</ul>
+<p>从上面这个复杂的分析过程可以得出一个结论：尽量不要使用with语句，写出来的代码很容易变得难以维护。</p>
+<p>同样的，<code>catch</code>语句创建了一个异常对象，这个对象添加到作用域链的前端，运行结束后，恢复到之前的状态。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  ...</span><br><span class="line">&#125; <span class="keyword">catch</span> (ex) &#123;</span><br><span class="line">  alert(ex);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> catchObject = &#123;</span><br><span class="line">  ex: &lt;exception object&gt;</span><br><span class="line">&#125;;</span><br><span class="line">  </span><br><span class="line">Scope = catchObject + AO|VO + [[Scope]]</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
+<li>每一个执行上下文都有一个属性叫作用域链（Scope），是一条由变量对象组成的链，用于标识符解析过程中查找变量。</li>
+<li><code>[[scope]]</code>属性是由当前函数执行上下文之上的所有父执行上下文的变量对象组成的层级链，在函数的创建阶段保存在函数之中。</li>
+<li>函数的作用域链由当前函数执行上下文的AO和函数的<code>[[scope]]</code>属性组成，全局执行上下文的作用域链只有一个VO（全局对象）</li>
+<li>函数的生命周期分为创建和激活（调用）两个阶段，<code>[[scope]]</code>属性在函数创建的时候就被写入函数对象里面，在函数的调用阶段会进入函数的执行上下文，这个时候AO被创建，作用域链被创建。</li>
+<li>标志符解析是二维链查找：作用域链和原型链</li>
+<li>with和catch语句可以改变作用域链</li>
+</ol>
+<p>多提一嘴，ES5放弃了作用域链模型，而是使用了词法环境模型，但先从ES3开始理解会比较好，因为大部分概念都没有改变，</p>
+<p>看英文的效率真的不是很高，可能是我太菜了吧，也有可能是因为作者是个俄罗斯人，英文翻译可能有点问题，有一些词句我需要反复斟酌和参考其他文章才能敲定，所以文章里掺杂着私货，可能是对的，也有可能都是我的愚见，毕竟我还是个初学者，在这个领域只是略懂皮毛而已。所以我很欢迎能够被指出错误，非常期待您的评论。</p>
+<p>写完这篇文章，关于执行上下文的大部分东西都讲完了，接下来还会写闭包和ES5的词法环境模型，有兴趣的不妨可以关注一下。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://dmitrysoshnikov.com/ecmascript/chapter-4-scope-chain/" target="_blank" rel="noopener">http://dmitrysoshnikov.com/ecmascript/chapter-4-scope-chain/</a><br><a href="https://www.cnblogs.com/TomXu/archive/2012/01/18/2312463.html" target="_blank" rel="noopener">https://www.cnblogs.com/TomXu/archive/2012/01/18/2312463.html</a></p>
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/ed1son67.github.io/ed1son67.github.io/tags#JavaScript" >
+    <span class="tag-code">JavaScript</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/ed1son67.github.io/2020/02/17/ECMAScript3核心概念-变量对象/">
+        <span class="nav-arrow">← </span>
+        
+          ECMAScript3核心概念-变量对象
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/ed1son67.github.io/2020/02/17/ECMAScript3核心概念-this/">
+        
+          ECMAScript3核心概念-this
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <!-- No Comment -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#前言"><span class="toc-nav-text">前言</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#定义"><span class="toc-nav-text">定义</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#函数生命周期"><span class="toc-nav-text">函数生命周期</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#函数创建阶段"><span class="toc-nav-text">函数创建阶段</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#函数调用阶段"><span class="toc-nav-text">函数调用阶段</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#作用域链的一些特点"><span class="toc-nav-text">作用域链的一些特点</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#通过构造函数创建的-Scope-属性"><span class="toc-nav-text">通过构造函数创建的[Scope]]属性</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#二维链查找"><span class="toc-nav-text">二维链查找</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#代码执行时对作用域链的影响"><span class="toc-nav-text">代码执行时对作用域链的影响</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#总结"><span class="toc-nav-text">总结</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#参考"><span class="toc-nav-text">参考</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'https://ed1son67.github.io/ed1son67.github.io/2020/02/17/ECMAScript3核心概念-作用域链/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+    // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+  })();
+</script>
+
+
+
+
+
+
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2020 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/ed1son67.github.io/js/script.js"></script>
+  </body>
+</html>

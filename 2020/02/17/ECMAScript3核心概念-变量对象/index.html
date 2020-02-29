@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Ed1son&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/ed1son67.github.io/css/images/logo.png">
+  
+  <title>
+    
+      ECMAScript3核心概念-变量对象 | Ed1son&#39;s blog
+    
+  </title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/ed1son67.github.io/css/style.css">
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+  
+  
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png">
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/ed1son67.github.io/">
+      <div class="logo"></div>
+      <span>Ed1son's blog</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>ECMAScript3核心概念-变量对象</h2>
+  <p class="post-date">2020-02-17</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文接着前文所讲的执行上下文的概念，变量是和执行上下文息息相关的。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">10</span>; <span class="comment">// variable of the global context</span></span><br><span class="line"> </span><br><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> b = <span class="number">20</span>; <span class="comment">// local variable of the function context</span></span><br><span class="line">&#125;)();</span><br><span class="line">  </span><br><span class="line">alert(a); <span class="comment">// 10</span></span><br><span class="line">alert(b); <span class="comment">// "b" is not defined</span></span><br></pre></td></tr></table></figure>
+
+<p>在上面的例子中，很多开发者都知道为什么b访问不到的原因，因为b在一个局部作用域里面，也有很多开发者知道，JS有一个特点就是只能通过函数创建一个独立的局部作用域，<br>当然，在ES6里出现了let和const可以创建一个局部作用域，但我们现在先不讨论ES6的情况。</p>
+<h2 id="变量对象（variable-object）的定义"><a href="#变量对象（variable-object）的定义" class="headerlink" title="变量对象（variable object）的定义"></a>变量对象（variable object）的定义</h2><p>既然说执行上下文与变量是有关系的，那么执行上下文应该要知道变量存放在哪里和怎样获取变量。这种机制就称为<strong>变量对象（variable object）</strong>，简称VO</p>
+<blockquote>
+<p>A variable object (in abbreviated form — VO) is a special object related with an execution context and which stores:</p>
+<ul>
+<li>variables (var, VariableDeclaration);</li>
+<li>function declarations (FunctionDeclaration, in abbreviated form FD);</li>
+<li>and function formal parameters<br>declared in the context.</li>
+</ul>
+</blockquote>
+<p>翻译一下：一个变量对象是一个与某个执行上下文相关的特殊对象，它存储着：变量、函数声明和函数的形参。变量对象在执行上下文中声明。</p>
+<p>变量对象甚至可以用一个普通的对象来表示:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">VO = &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实际上，变量对象是执行上下文的一个属性，所以我们还可以这样表示：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">executionContext = &#123;</span><br><span class="line">	VO: &#123;</span><br><span class="line">		<span class="comment">// 变量、函数声明、函数形参</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>只有全局上下文允许通过VO的属性名称间接访问VO，其他上下文是不能直接访问到VO的，VO是引擎内部的机制。至于全局上下文为什么能访问到，下面会讲。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">10</span>;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> b = <span class="number">20</span>;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line">test(<span class="number">30</span>);</span><br></pre></td></tr></table></figure>
+
+<p>这个例子对应的VO可以这么表示：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 全局执行上下文的VO</span></span><br><span class="line">VO(globalContext) = &#123;</span><br><span class="line">  a: <span class="number">10</span>,</span><br><span class="line">  test: &lt;reference to function&gt;</span><br><span class="line">&#125;;</span><br><span class="line">  </span><br><span class="line">// "test" 函数上下文的VO</span><br><span class="line">VO(test functionContext) = &#123;</span><br><span class="line">  x: 30,</span><br><span class="line">  b: 20</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>实际上，在技术实现的层面上，VO是一个抽象的概念，在不同的执行上下文中，VO可能有不同的结构和名称，所以上面以及下面的例子中，<br>都只是为了方便理解，实际上可能不是这么回事。</p>
+<h2 id="变量对象在不同的执行上下文中的表现"><a href="#变量对象在不同的执行上下文中的表现" class="headerlink" title="变量对象在不同的执行上下文中的表现"></a>变量对象在不同的执行上下文中的表现</h2><p>在不同的执行上下文中，VO可能有不同的结构和名称，但在所有类型的执行上下文中，VO有一些操作和行为是相同的，比如变量的声明。从这个角度来看，将VO看成一个抽象的基本事物更容易理解，<br>函数执行上下文也可以通过VO定义一些相关的额外细节。</p>
+<h2 id="全局执行上下文中的变量对象"><a href="#全局执行上下文中的变量对象" class="headerlink" title="全局执行上下文中的变量对象"></a>全局执行上下文中的变量对象</h2><p>这里又引入了一个全局对象的概念，先来看看全局对象（Global object）的定义</p>
+<blockquote>
+<p>Global object is the object which is created before entering any execution context; this object exists in the single copy, its properties are accessible from any place of the program, the life cycle of the global object ends with program end.</p>
+</blockquote>
+<p>大概就是说：全局对象是一个在任何执行上下文还没推入执行栈之前就已经被创建的对象，这个对象只存在一份，在程序的任何地方都可以访问到该对象的属性。<br>它的生命周期随着程序的结束而结束。</p>
+<p>在全局对象创建的过程中，像Math、String、Date这些属性也会被初始化，甚至可以将全局对象的引用作为它自身的属性，例如在BOM中，全局对象的window属性指向全局对象，<br>所以可以理解为以下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">global = &#123;</span><br><span class="line">  <span class="built_in">Math</span>: &lt;...&gt;,</span><br><span class="line">  String: &lt;...&gt;</span><br><span class="line">  ...</span><br><span class="line">  ...</span><br><span class="line">  window: global</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>全局对象是不能通过名字直接访问的，所以当引用全局对象的属性的时候，一般都会将前缀省略掉。但可以通过全局执行上下文中的this去访问它，<br>同样也可以通过<strong>引用自身</strong>的属性去访问，比如BOM中的window属性，就是一个引用了全局对象自身的属性。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">String</span>(<span class="number">10</span>); <span class="comment">// 应该是global.String(10)，前缀被省略了</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">// with prefixes</span></span><br><span class="line"><span class="built_in">window</span>.a = <span class="number">10</span>; <span class="comment">// === global.window.a = 10 === global.a = 10;</span></span><br><span class="line"><span class="keyword">this</span>.b = <span class="number">20</span>; <span class="comment">// global.b = 20;</span></span><br></pre></td></tr></table></figure>
+
+<p>现在要告诉你的是，全局执行上下文的VO就是全局对象本身。也就是<code>VO(globalContext) === global</code>，<br>基于这个事实，对于在全局执行上下文中声明一个变量时，我们才可以通过全局对象的属性间接访问到这个变量，（例如我们事先不知道变量的名字）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> <span class="built_in">String</span>(<span class="string">'test'</span>);</span><br><span class="line"> </span><br><span class="line">alert(a); <span class="comment">// directly, is found in VO(globalContext): "test"</span></span><br><span class="line"> </span><br><span class="line">alert(<span class="built_in">window</span>[<span class="string">'a'</span>]); <span class="comment">// indirectly via global === VO(globalContext): "test"</span></span><br><span class="line">alert(a === <span class="keyword">this</span>.a); <span class="comment">// true</span></span><br><span class="line">  </span><br><span class="line"><span class="keyword">var</span> aKey = <span class="string">'a'</span>;</span><br><span class="line">alert(<span class="built_in">window</span>[aKey]); <span class="comment">// indirectly, with dynamic property name: "test"</span></span><br></pre></td></tr></table></figure>
+
+<p>上面的例子只是想证明一件事，就是为了能够访问到全局执行上下文的VO（一般的VO是不能直接访问的），就通过全局对象这个概念去访问VO，<br>而一般又不可以直接访问全局对象，只能通过全局对象的属性去访问，而全局对象的属性允许一个引用自身的值，这个值就是我们熟悉的window对象，<br>或者node实现的global对象，这个由厂商实现。</p>
+<p>至于为什么要大费周章访问全局执行上下文的VO，还记得上面说过吗，VO存放着变量、函数声明、函数参数这些东西，如果访问不到VO，那就访问不到所有的变量、函数了，<br>所以才会暴露一个全局对象的概念去让我们访问到这些变量和函数。那么函数执行上下文又怎么访问VO，接着往下看。</p>
+<h2 id="函数执行上下文中的变量对象"><a href="#函数执行上下文中的变量对象" class="headerlink" title="函数执行上下文中的变量对象"></a>函数执行上下文中的变量对象</h2><p>函数执行上下文中的变量对象值不能直接访问到的，要用活动对象（activation object）去扮演VO的角色，简称AO。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">VO(functionContext) === AO</span><br></pre></td></tr></table></figure>
+
+<p>活动对象是在进入函数执行上下文的时候被创建的，它通过函数的arguments属性被初始化，arguments属性的值是Arguments Object，<br>其实这个就是我们在函数里面常用的arguments属性，它的值是一个类数组对象，就叫Arguments Object。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">AO = &#123;</span><br><span class="line">  <span class="built_in">arguments</span>: &lt;Arguments Object&gt;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>arguments对象是AO的一个属性，它包括了以下的属性：</p>
+<ul>
+<li>callee：指向当前函数的引用；</li>
+<li>length：真正传递的参数的个数</li>
+<li>properties-indexes：也就是参数的索引</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">x, y, z</span>) </span>&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// quantity of defined function arguments (x, y, z)</span></span><br><span class="line">  alert(foo.length); <span class="comment">// 3</span></span><br><span class="line"> </span><br><span class="line">  <span class="comment">// quantity of really passed arguments (only x, y)</span></span><br><span class="line">  alert(<span class="built_in">arguments</span>.length); <span class="comment">// 2</span></span><br><span class="line"> </span><br><span class="line">  <span class="comment">// reference of a function to itself</span></span><br><span class="line">  alert(<span class="built_in">arguments</span>.callee === foo); <span class="comment">// true</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">// parameters sharing</span></span><br><span class="line"> </span><br><span class="line">  alert(x === <span class="built_in">arguments</span>[<span class="number">0</span>]); <span class="comment">// true</span></span><br><span class="line">  alert(x); <span class="comment">// 10</span></span><br><span class="line">  </span><br><span class="line">  <span class="built_in">arguments</span>[<span class="number">0</span>] = <span class="number">20</span>;</span><br><span class="line">  alert(x); <span class="comment">// 20</span></span><br><span class="line">  </span><br><span class="line">  x = <span class="number">30</span>;</span><br><span class="line">  alert(<span class="built_in">arguments</span>[<span class="number">0</span>]); <span class="comment">// 30</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">// however, for not passed argument z,</span></span><br><span class="line">  <span class="comment">// related index-property of the arguments</span></span><br><span class="line">  <span class="comment">// object is not shared</span></span><br><span class="line">  </span><br><span class="line">  z = <span class="number">40</span>;</span><br><span class="line">  alert(<span class="built_in">arguments</span>[<span class="number">2</span>]); <span class="comment">// undefined</span></span><br><span class="line">  </span><br><span class="line">  <span class="built_in">arguments</span>[<span class="number">2</span>] = <span class="number">50</span>;</span><br><span class="line">  alert(z); <span class="comment">// 40</span></span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line">foo(<span class="number">10</span>, <span class="number">20</span>);</span><br></pre></td></tr></table></figure>
+
+<p>但值得注意的是，Arguments Object中对变量的引用只能是实际上传进来的参数，那些没有传进来的参数是不能通过Arguments Object访问的，这个相信大家很容易理解。</p>
+<h2 id="分阶段处理执行上下文中的代码"><a href="#分阶段处理执行上下文中的代码" class="headerlink" title="分阶段处理执行上下文中的代码"></a>分阶段处理执行上下文中的代码</h2><p>变量对象已经介绍得差不多了，接下来就是核心的地方。处理执行上下文中的代码被分为了两个基本的阶段：</p>
+<ol>
+<li>进入执行上下文</li>
+<li>执行代码</li>
+</ol>
+<p>变量对象的改变与这两个阶段密切相关，而且两个阶段的处理是一种普遍的行为，不会因为执行上下文的种类不同而改变。</p>
+<h3 id="进入执行上下文阶段"><a href="#进入执行上下文阶段" class="headerlink" title="进入执行上下文阶段"></a>进入执行上下文阶段</h3><p>在进入执行上下文（在执行代码之前），VO会被以下的属性填满，而且，是按照这个顺序去填充的。</p>
+<ul>
+<li>函数的每一个形参（如果是在一个函数执行上下文中）</li>
+</ul>
+<ul>
+<li>作为VO的一个属性，由形式参数的名称和值组成，如果没有传入实际参数，就由形式参数的名称和undefined组成</li>
+</ul>
+<ul>
+<li>所有的函数声明(FunctionDeclaration, FD)</li>
+</ul>
+<ul>
+<li>作为VO的一个属性，由一个函数的名称和值组成，如果存在相同的名称，会完全替换前面按个属性。</li>
+</ul>
+<ul>
+<li>所有的变量声明(var, VariableDeclaration)</li>
+</ul>
+<ul>
+<li>作为VO的一个属性，变量名称和undefined值组成，如果变量名称和已经声明的形式参数或者函数名冲突，则变量声明不起作用</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> c = <span class="number">10</span>;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">d</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line">  <span class="keyword">var</span> e = <span class="function"><span class="keyword">function</span> <span class="title">_e</span>(<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line">  (<span class="function"><span class="keyword">function</span> <span class="title">x</span>(<span class="params"></span>) </span>&#123;&#125;);</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line">test(<span class="number">10</span>);</span><br></pre></td></tr></table></figure>
+
+<p>调用<code>test(10);</code>，可以理解为：进入“test”函数的执行上下文(传递参数10)，AO（也是VO，因为AO===VO，通过AO间接访问VO）如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">AO(test) = &#123;</span><br><span class="line">	a: <span class="literal">undefined</span>,</span><br><span class="line">	b: <span class="literal">undefined</span>,</span><br><span class="line">	c: <span class="literal">undefined</span>,</span><br><span class="line">	d: &lt;FunctionDeclaration "d"&gt;,</span><br><span class="line">	e: undefined</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>发现了没有，AO不包括函数x，因为x不是一个函数声明，而是一个函数表达式（FunctionExpression，简称FE），FE不会影响VO，<br>然而，_e也是一个FE，但它被赋给了变量e，可以通过e去访问。</p>
+<p>至此，进入执行上下文阶段结束了。</p>
+<h3 id="执行代码阶段"><a href="#执行代码阶段" class="headerlink" title="执行代码阶段"></a>执行代码阶段</h3><p>到了执行代码阶段阶段，AO/VO已经被属性填满了，但大部分都是系统默认的初始值undefined，没有得到真正的值。</p>
+<p>还是前面的那个例子，在这个阶段，AO/VO会被修改为：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">AO[<span class="string">'c'</span>] = <span class="number">10</span>;</span><br><span class="line">AO[<span class="string">'e'</span>] = &lt;reference to FunctionExpression "_e"&gt;;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，<code>c=10</code>语句被执行了，所以c变成了10，而_e被保存到了e上，但x不存在于AO/VO中，调用x会报错。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">alert(x); <span class="comment">// function</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">var</span> x = <span class="number">10</span>;</span><br><span class="line">alert(x); <span class="comment">// 10</span></span><br><span class="line"> </span><br><span class="line">x = <span class="number">20</span>;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">x</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"> </span><br><span class="line">alert(x); <span class="comment">// 20</span></span><br></pre></td></tr></table></figure>
+
+<p>再看一个例子，为什么第一个<code>alert(x)</code>语句表示x是一个函数，而且是在函数声明之前、变量声明之前调用的？<br>根据规范（上面有写），在第一个阶段，VO被填充的时候，是按照函数参数、函数声明、变量声明的顺序填充的，变量声明不会干扰VO中已经存在的同名函数声明或形式参数声明。<br>所以在进入全局执行上下文的阶段，VO的结构如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 先去找函数声明</span></span><br><span class="line">VO = &#123;</span><br><span class="line">	x: &lt;FunctionDeclaration "x"&gt;</span><br><span class="line">&#125;;</span><br><span class="line">// 找到var x = 10</span><br><span class="line">// 命名冲突，但不会起作用</span><br><span class="line">// VO不变</span><br><span class="line">VO = &#123;</span><br><span class="line">	x: &lt;FunctionDeclaration "x"&gt;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>随后在执行代码阶段，VO会做以下的修改：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">VO[<span class="string">'x'</span>] = <span class="number">10</span>;</span><br><span class="line">VO[<span class="string">'x'</span>] = <span class="number">20</span>;</span><br></pre></td></tr></table></figure>
+
+<p>这个时候，第二第三个<code>alert(x)</code>语句会打印10、20，而调用x函数，会发现提示x不是一个函数，因为VO已经被修改了。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> a = <span class="number">1</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="keyword">var</span> b = <span class="number">2</span>;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">alert(a); <span class="comment">// 1</span></span><br><span class="line">alert(b); <span class="comment">// undefined, but not "b is not defined"</span></span><br></pre></td></tr></table></figure>
+
+<p>在上面这个例子中，else语句永远不会被执行，但是b还是会存在于VO中，只是他的值是undefined，这就是为什么JS不能写出这样的语句：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>)  </span>&#123;&#125;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">b</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>按照规范，ab都会被声明，但是由于厂商对规范的实现细节不一样，可能出现的结果也不一样，可能不会出现你预期的效果，所以不提倡这样的写法，应该用变量保存函数表达式的引用，这样不会出奇奇怪怪的问题。</p>
+<h2 id="关于变量"><a href="#关于变量" class="headerlink" title="关于变量"></a>关于变量</h2><p>相信很多人都看过这么一个说法：<em>可以在任何地方通过var或者不带var声明一个全局变量</em>，其他这个说法是错误的，当你学习了VO和执行上下文的概念之后，<br>你应该要知道，<strong>只能通过var关键字声明一个变量</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a=<span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+
+<p>像上面这个例子，a不是一个新的变量，而是在全局对象上创建了一个新的属性，不是变量不是指它不能被改变，而是说它不符合规范中对于变量的定义。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">alert(a); <span class="comment">// undefined</span></span><br><span class="line">alert(b); <span class="comment">// "b" is not defined</span></span><br><span class="line"> </span><br><span class="line">b = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">var</span> a = <span class="number">20</span>;</span><br></pre></td></tr></table></figure>
+
+<p>通过上面的例子可以看到，提示b没有定义，因为b根本就不是一个变量，分析一下，在进入执行上下文的阶段的VO：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">VO = &#123;</span><br><span class="line">  a: <span class="literal">undefined</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>就可以看到，这个阶段中并没有b，因为b不是一个变量，b只有在执行阶段才会被加入到全局变量中。但这个例子中，还没执行<code>b = 10;</code>就引用了b，所以报错了。<br>改变一下代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">alert(a); <span class="comment">// undefined, we know why</span></span><br><span class="line"> </span><br><span class="line">b = <span class="number">10</span>;</span><br><span class="line">alert(b); <span class="comment">// 10, created at code execution</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">var</span> a = <span class="number">20</span>;</span><br><span class="line">alert(a); <span class="comment">// 20, modified at code execution</span></span><br></pre></td></tr></table></figure>
+
+<p>关于变量还有一个重要的点，就是变量有一个特性(attribute)：{DontDelete},这个特性的含义就是不同通过delete操作符直接删除变量属性。<br>在ES5中，就是<code>[[Configurable]]</code>属性，但在eval中，没有这个属性，还是那句话，尽量不要使用eval。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
+<li>变量对象是执行上下文的一个重要属性，简称VO，每个执行上下文哦独有一个VO</li>
+<li>全局执行上下文的VO等于全局对象，函数执行上下文的VO等于活动对象（AO）</li>
+<li>VO不能直接访问，全局执行上下文通过全局对象访问，函数执行上下文通过AO访问</li>
+<li>VO初始化分为三个部分的属性，而且是按顺序的：函数参数、函数声明、变量声明</li>
+<li>处理执行上下文中的代码分为两个阶段：创建阶段、执行阶段</li>
+</ol>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://dmitrysoshnikov.com/ecmascript/chapter-2-variable-object/#phases-of-processing-the-context-code" target="_blank" rel="noopener">http://dmitrysoshnikov.com/ecmascript/chapter-2-variable-object/#phases-of-processing-the-context-code</a><br><a href="https://www.cnblogs.com/justinw/archive/2010/04/23/1718733.html" target="_blank" rel="noopener">https://www.cnblogs.com/justinw/archive/2010/04/23/1718733.html</a></p>
+</section>
+    <!-- Tags START -->
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/ed1son67.github.io/2020/02/17/ECMAScript3核心概念-执行上下文/">
+        <span class="nav-arrow">← </span>
+        
+          ECMAScript3核心概念-执行上下文
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/ed1son67.github.io/2020/02/17/ECMAScript3核心概念-作用域链/">
+        
+          ECMAScript3核心概念-作用域链
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <!-- No Comment -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#前言"><span class="toc-nav-text">前言</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#变量对象（variable-object）的定义"><span class="toc-nav-text">变量对象（variable object）的定义</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#变量对象在不同的执行上下文中的表现"><span class="toc-nav-text">变量对象在不同的执行上下文中的表现</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#全局执行上下文中的变量对象"><span class="toc-nav-text">全局执行上下文中的变量对象</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#函数执行上下文中的变量对象"><span class="toc-nav-text">函数执行上下文中的变量对象</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#分阶段处理执行上下文中的代码"><span class="toc-nav-text">分阶段处理执行上下文中的代码</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#进入执行上下文阶段"><span class="toc-nav-text">进入执行上下文阶段</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#执行代码阶段"><span class="toc-nav-text">执行代码阶段</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#关于变量"><span class="toc-nav-text">关于变量</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#总结"><span class="toc-nav-text">总结</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#参考"><span class="toc-nav-text">参考</span></a></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'https://ed1son67.github.io/ed1son67.github.io/2020/02/17/ECMAScript3核心概念-变量对象/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+    // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+  })();
+</script>
+
+
+
+
+
+
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2020 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/ed1son67.github.io/js/script.js"></script>
+  </body>
+</html>
