@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Ed1son&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/ed1son67.github.io/css/images/logo.png">
+  
+  <title>
+    
+      认证方案的选择 | Ed1son&#39;s blog
+    
+  </title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/ed1son67.github.io/css/style.css">
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+  
+  
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png">
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/ed1son67.github.io/">
+      <div class="logo"></div>
+      <span>Ed1son's blog</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>认证方案的选择</h2>
+  <p class="post-date">2020-02-19</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="session"><a href="#session" class="headerlink" title="session"></a>session</h2><p>因为HTTP是无状态的，如何保存登陆状态，常见方法是使用session机制。session是一种记录服务器和客户端会话状态的机制</p>
+<p>当用户首次登陆时，服务端会新建一个session id，储存在服务端的存储服务（内存、数据库）中，将id放进cookie内发送到客户端</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie: SESSIONID=123jsldjlsad</span><br></pre></td></tr></table></figure>
+
+<p>SESSIONID会被写入客户端的cookie中，客户端以后请求服务器的时候，都会判断该域名下是否存在cookie，每次请求都会带上cookie，<br>服务端通过判断SESSIONID是否存在来判断用户是否处于登陆状态</p>
+<h3 id="session的生命周期"><a href="#session的生命周期" class="headerlink" title="session的生命周期"></a>session的生命周期</h3><p>session除非客户端通知服务端删除session否则服务器都会一直保留，所以一般是设置一个logout操作，就算客户端关闭也不会通知（不会发送请求），客户端会马上删除<br>所以如果将sessionid保存下来，下次再以sessionid发送到服务器仍然可以登陆，所以服务器为session设置了一个失效时间，超过失效时间就会删除这个session。这个失效时间一般是15到30分钟。</p>
+<h2 id="session的弊端"><a href="#session的弊端" class="headerlink" title="session的弊端"></a>session的弊端</h2><p>在集群式服务器架构或者跨域的服务导向架构中，就要求实现session共享，每台服务器都能读取session</p>
+<h3 id="分布式架构如何共享session"><a href="#分布式架构如何共享session" class="headerlink" title="分布式架构如何共享session"></a>分布式架构如何共享session</h3><p>分布式服务集群一般有多台服务器，不能保存下一次请求的服务器就是创建session的服务器。常见的解决方法：</p>
+<ul>
+<li>session复制：任何一个服务器上的 session 发生改变（增删改），该节点会把这个 session 的所有内容序列化，然后广播给所有其它节点，不管其他服务器需不需要 session ，以此来保证 session 同步</li>
+<li>粘性 session /IP 绑定策略：利用Nginx的ip_hash机制将某个ip的所有请求都定向到一台服务器</li>
+<li>session共享（常用）：使用分布式缓存方案，比如Redis 来缓存 session，服务器重启 session 不丢失，不仅可以跨服务器 session 共享，甚至可以跨平台</li>
+<li>session持久化：将session保存到数据库中</li>
+</ul>
+<p>于是提出了使用Token的解决方案。</p>
+<h2 id="Token"><a href="#Token" class="headerlink" title="Token"></a>Token</h2><p>Token是一种访问资源的凭据，比如访问一个接口，需要带上你的token来表明你的身份，需要在请求的时候带上token。</p>
+<h3 id="Acesss-Token"><a href="#Acesss-Token" class="headerlink" title="Acesss Token"></a>Acesss Token</h3><p>就好像微博api的授权一样，能够调用api的token称为access token，这个token是有使用期限的，超过使用期限要重新获取。</p>
+<p>简单 token 的组成： uid(用户唯一的身份标识)、time(当前时间的时间戳)、sign（签名，token 的前几位以哈希算法压缩成的一定长度的十六进制字符串）</p>
+<p>客户端保存token，服务端只签发不保存，客户端每次请求都携带token，服务端每次对token进行解析计算，用时间换取session的空间，减少查询数据库的压力，</p>
+<h3 id="Refresh-Token"><a href="#Refresh-Token" class="headerlink" title="Refresh Token"></a>Refresh Token</h3><p>refresh token 是专用于刷新 access token 的 token<br><img src="//ed1son67.github.io/ed1son67.github.io/2020/02/19/认证方案的选择/2.jpg" alt></p>
+<p>Access Token 的有效期比较短，当 Acesss Token 由于过期而失效时，使用 Refresh Token 就可以获取到新的 Token，如果 Refresh Token 也失效了，用户就只能重新登录了。</p>
+<p>Refresh Token 及过期时间是存储在服务器的数据库中，只有在申请新的 Acesss Token 时才会验证，不会对业务接口响应时间造成影响，也不需要向 Session 一样一直保持在内存中以应对大量的请求。</p>
+<h2 id="Token和session的区别"><a href="#Token和session的区别" class="headerlink" title="Token和session的区别"></a>Token和session的区别</h2><ul>
+<li>token的服务端无状态化，不需要保存会话信息，session使服务端有状态化，需要记录会话信息</li>
+<li>token的安全性更好，因为进行了签名</li>
+</ul>
+<h2 id="JWT"><a href="#JWT" class="headerlink" title="JWT"></a>JWT</h2><p>Json Web Token，本质上是JSON结构token， 是目前最流行的跨域认证解决方案。JWT的原理是服务器认证后，生成一个JSON对象，发回给客户端<br>以后通信的时候，客户端需要保存JSON（通常localstorage），客户端都要发回这个JSON，为了防止用户篡改数据，服务器在生成这个对象的时候，会加上签名。此时服务端不再保存session数据，服务器是无状态的。</p>
+<p>JSON对象由三部分组成：</p>
+<ol>
+<li>header：用于描述愿信息，比如产生signature的算法</li>
+<li>payload：用于携带希望向服务端传递的信息，</li>
+<li>signature：签名<br>实际上是一个很长的字符串中间用.分割为三部分<br><img src="//ed1son67.github.io/ed1son67.github.io/2020/02/19/认证方案的选择/3.jpg" alt></li>
+</ol>
+<h3 id="header"><a href="#header" class="headerlink" title="header"></a>header</h3><p>是一个JSON对象，描述JWT的元数据：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"alg"</span>: <span class="string">"HS256"</span>,</span><br><span class="line">  <span class="attr">"typ"</span>: <span class="string">"JWT"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>alg表示签名的算法，默认是HMAC SHA256（写成 HS256），type表示token的类型，最后，将上面的 JSON 对象使用 Base64URL 算法转成字符串。</p>
+<h3 id="payload"><a href="#payload" class="headerlink" title="payload"></a>payload</h3><p>Payload 部分也是一个 JSON 对象，用来存放实际需要传递的数据，JWT 规定了7个官方字段都是可选字段</p>
+<ul>
+<li>iss (issuer)：签发人</li>
+<li>exp (expiration time)：过期时间</li>
+<li>sub (subject)：主题</li>
+<li>aud (audience)：受众</li>
+<li>nbf (Not Before)：生效时间</li>
+<li>iat (Issued At)：签发时间</li>
+<li>jti (JWT ID)：编号<br>还可以自定义字段<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"sub"</span>: <span class="string">"1234567890"</span>,</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"John Doe"</span>,</span><br><span class="line">  <span class="attr">"admin"</span>: <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>JWT 默认是不加密的，任何人都可以读到，所以不要把秘密信息放在这个部分</p>
+<h3 id="Signature"><a href="#Signature" class="headerlink" title="Signature"></a>Signature</h3><p>Signature 部分是对前两部分的签名，防止数据篡改。</p>
+<p>首先，需要指定一个密钥（secret）。这个密钥只有服务器才知道，不能泄露给用户。然后，使用 Header 里面指定的签名算法（默认是 HMAC SHA256），按照下面的公式产生签名。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HMACSHA256(</span><br><span class="line">  base64UrlEncode(header) + &quot;.&quot; +</span><br><span class="line">  base64UrlEncode(payload),</span><br><span class="line">  secret)</span><br></pre></td></tr></table></figure>
+
+<p>算出签名以后，把 Header、Payload、Signature 三个部分拼成一个字符串，每个部分之间用”点”（.）分隔，就可以返回给用户</p>
+<h3 id="Base64URL"><a href="#Base64URL" class="headerlink" title="Base64URL"></a>Base64URL</h3><p>前面提到，Header 和 Payload 串型化的算法是 Base64URL。这个算法跟 Base64 算法基本类似，但有一些小的不同。</p>
+<p>JWT 作为一个token，有些场合可能会放到 URL（比如 api.example.com/?token=xxx）。<br>Base64 有三个字符+、/和=，在 URL 里面有特殊含义，所以要被替换掉：=被省略、+替换成-，/替换成_ 。这就是 Base64URL 算法。</p>
+<h3 id="JWT使用方式"><a href="#JWT使用方式" class="headerlink" title="JWT使用方式"></a>JWT使用方式</h3><p>客户端收到JWT后，可以存储在cookie中也可以存储在localstorage中。每次与服务器通信都要带上这个JWT。如果放在cookie中不能跨域，<br>所以一般是放在HTTP请求头的Authorization字段</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Authorization: Bearer &lt;token&gt;</span><br></pre></td></tr></table></figure>
+
+<p>另外的做法是跨域的时候放在POST请求的数据体内</p>
+<h3 id="JWT的特点"><a href="#JWT的特点" class="headerlink" title="JWT的特点"></a>JWT的特点</h3><ul>
+<li>默认不加密，如果要加密，生成原始token的时候可以用密钥再加密一次</li>
+<li>不加密的情况下，不能将秘密数据写入 JWT。</li>
+<li>不仅可以用于认证，也可以用于交换信息。有效使用 JWT，可以降低服务器查询数据库的次数</li>
+<li>最大缺点是由于服务器不保存状态，所以一旦签发就无法在到期时间前废除一个token或者更改权限，除非额外部署逻辑（维护一张表）</li>
+<li>JWT 本身包含了认证信息，一旦泄露，任何人都可以获得该令牌的所有权限。为了减少盗用，JWT 的有效期应该设置得比较短。对于一些比较重要的权限，使用时应该再次对用户进行认证。</li>
+<li>为了减少盗用，JWT 不应该使用 HTTP 协议明码传输，要使用 HTTPS 协议传输。</li>
+</ul>
+<h2 id="OAuth"><a href="#OAuth" class="headerlink" title="OAuth"></a>OAuth</h2><h3 id="SSO-Single-sign-on"><a href="#SSO-Single-sign-on" class="headerlink" title="SSO (Single sign-on)"></a>SSO (Single sign-on)</h3><p>单点登陆，多个系统只需要登陆一次就都可以使用，就类似于学校的统一认证平台。</p>
+<p>SSO有两种策略可供选择：</p>
+<ol>
+<li>SAML 2.0</li>
+<li>OAuth 2.0</li>
+</ol>
+<h3 id="Authentication-和-Authorisation"><a href="#Authentication-和-Authorisation" class="headerlink" title="Authentication 和 Authorisation"></a>Authentication 和 Authorisation</h3><p>身份鉴别（认证）和授权，认证决定你是否有权限访问系统，用于鉴别是否是合法用户，授权用于决定你可以访问哪些资源</p>
+<p>把负责认证的服务称为 Authorization Server 或者 Identity Provider（idp），通俗来讲就是登陆、手机验证码</p>
+<p>授权就是用户授予第三方应用访问该用户某些资源的权限，比如微信登录一个网页、小程序。</p>
+<p>而负责提供资源（API调用）的服务称为 Resource Server 或者 Service Provider，以下简称 SP</p>
+<h3 id="SMAL-2-0"><a href="#SMAL-2-0" class="headerlink" title="SMAL 2.0"></a>SMAL 2.0</h3><p><img src="//ed1son67.github.io/ed1son67.github.io/2020/02/19/认证方案的选择/1.jpg" alt></p>
+<ol>
+<li>还未登陆的用户打开浏览器访问你的网站（SP），网站提供服务但不提供认证服务</li>
+<li>SP向IdP发送一个SAML请求，同时重定向到IdP</li>
+<li>IdP在验证无误后，在浏览器中呈现登陆表单让用户填写用户名和密码进行登录</li>
+<li>一旦用户登陆成功，IdP 会生成一个包含用户信息（用户名或者密码）的 SAML token （SAML token 又称为 SAML Assertion，本质上是 XML 节点），IdP 向 SP 返回 token, 并且将用户重定向到 SP (token 的返回是在重定向步骤中实现的，下面会详细说明)</li>
+<li>SP 对拿到的 token 进行验证，并从中解析出用户信息，例如他们是谁以及他们的权限有哪些。此时就能够根据这些信息允许用户访问我们网站的内容了</li>
+</ol>
+<p>IdP重定向回SP的方法：</p>
+<ul>
+<li>HTTP重定向，URL长度有限（Chrome 最大长度限制为8182字节，每个浏览器都不一样）</li>
+<li>HTTP POST请求，常用</li>
+</ul>
+<p>但在手机上，post可以拉起应用，但应用解析不了post的内容，所以只能在内嵌的webview想办法提取token或者使用代理服务器，所以它不适用于跨平台。</p>
+<h3 id="OAuth-2-0"><a href="#OAuth-2-0" class="headerlink" title="OAuth 2.0"></a>OAuth 2.0</h3><p>OAuth 的本意是一个应用允许另一个应用在用户授权的情况下访问自己的数据,OAuth 的设计本意更倾向于授权而非认证（当然授权用户信息就间接实现了认证）</p>
+<h3 id="OpenId"><a href="#OpenId" class="headerlink" title="OpenId"></a>OpenId</h3></section>
+    <!-- Tags START -->
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/ed1son67.github.io/2020/02/19/ECMAScript3核心概念-闭包/">
+        <span class="nav-arrow">← </span>
+        
+          ECMAScript3核心概念-闭包
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/ed1son67.github.io/2020/02/19/ECMAScript5核心概念-词法环境/">
+        
+          ECMAScript5核心概念-词法环境
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <!-- No Comment -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#session"><span class="toc-nav-text">session</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#session的生命周期"><span class="toc-nav-text">session的生命周期</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#session的弊端"><span class="toc-nav-text">session的弊端</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#分布式架构如何共享session"><span class="toc-nav-text">分布式架构如何共享session</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Token"><span class="toc-nav-text">Token</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Acesss-Token"><span class="toc-nav-text">Acesss Token</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Refresh-Token"><span class="toc-nav-text">Refresh Token</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Token和session的区别"><span class="toc-nav-text">Token和session的区别</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#JWT"><span class="toc-nav-text">JWT</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#header"><span class="toc-nav-text">header</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#payload"><span class="toc-nav-text">payload</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Signature"><span class="toc-nav-text">Signature</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Base64URL"><span class="toc-nav-text">Base64URL</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#JWT使用方式"><span class="toc-nav-text">JWT使用方式</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#JWT的特点"><span class="toc-nav-text">JWT的特点</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#OAuth"><span class="toc-nav-text">OAuth</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SSO-Single-sign-on"><span class="toc-nav-text">SSO (Single sign-on)</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Authentication-和-Authorisation"><span class="toc-nav-text">Authentication 和 Authorisation</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#SMAL-2-0"><span class="toc-nav-text">SMAL 2.0</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#OAuth-2-0"><span class="toc-nav-text">OAuth 2.0</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#OpenId"><span class="toc-nav-text">OpenId</span></a></li></ol></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'https://ed1son67.github.io/ed1son67.github.io/2020/02/19/认证方案的选择/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+    // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+  })();
+</script>
+
+
+
+
+
+
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2020 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/ed1son67.github.io/js/script.js"></script>
+  </body>
+</html>

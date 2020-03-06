@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Ed1son&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/ed1son67.github.io/css/images/logo.png">
+  
+  <title>
+    
+      ES6关键字class | Ed1son&#39;s blog
+    
+  </title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/ed1son67.github.io/css/style.css">
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+  
+  
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png">
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/ed1son67.github.io/">
+      <div class="logo"></div>
+      <span>Ed1son's blog</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>ES6关键字class</h2>
+  <p class="post-date">2019-09-24</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>先来看一个经典的JS创造对象case</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 基于原形的继承</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Point</span>(<span class="params">x, y</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">this</span>.x = x;</span><br><span class="line">	<span class="keyword">this</span>.y = y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Point.prototype.toString = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.x + <span class="keyword">this</span>.y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> point = <span class="keyword">new</span> Point(<span class="number">1</span>, <span class="number">3</span>);</span><br></pre></td></tr></table></figure>
+
+<p>因为JavaScript是基于原形模式的，本质上是没有类这个概念的，所以要实现类的效果，要通过构造函数和原型链去实现，在语法上比较晦涩难懂，<br>所以ES6引入了class关键字。但从本质上，class也只是语法糖，它的大部分功能，es5都可以实现。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用class 改写</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point</span> </span>&#123;</span><br><span class="line">	<span class="keyword">constructor</span>(x, y) &#123;</span><br><span class="line">		<span class="keyword">this</span>.x = x;</span><br><span class="line">		<span class="keyword">this</span>.y = y;</span><br><span class="line">	&#125;</span><br><span class="line">	toString() &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">this</span>.x + <span class="keyword">this</span>.y;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>改写后的代码中，constructor就是构造函数，this代表实例对象</p>
+<p>实际上，Point也是一个函数，prototype也存在，类的所有方法都定义在prototype上</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typeof</span> Point === <span class="string">'function'</span> <span class="comment">// true</span></span><br><span class="line">Point === Point.prototype.constructor <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<p>类内部定义的方法都是不可枚举的，而es5中是可枚举的</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.keys(Point)  <span class="comment">// []</span></span><br><span class="line"><span class="built_in">Object</span>.getOwnPropertyNames(Point.prototype); [<span class="string">'toString'</span>, <span class="string">'constructor'</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">// es5</span></span><br><span class="line"><span class="built_in">Object</span>.keys(Point) <span class="comment">// ['toString']</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="class的特点"><a href="#class的特点" class="headerlink" title="class的特点"></a>class的特点</h2><ul>
+<li><p>class的声明跟let、const的效果差不多，会存在TDZ</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> bar = <span class="keyword">new</span> Bar(); <span class="comment">// it's ok</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Bar</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.bar = <span class="number">42</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> foo = <span class="keyword">new</span> Foo(); <span class="comment">// ReferenceError: Foo is not defined</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>() &#123;</span><br><span class="line">    <span class="keyword">this</span>.foo = <span class="number">42</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>class的内部默认采用严格模式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 引用一个未声明的变量</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Bar</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  baz = <span class="number">42</span>; <span class="comment">// 会被添加到上层作用域中</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> bar = <span class="keyword">new</span> Bar();</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>() &#123;</span><br><span class="line">    fol = <span class="number">42</span>; <span class="comment">// ReferenceError: fol is not defined</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> foo = <span class="keyword">new</span> Foo();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>class 的所有方法（包括静态方法和实例方法）都是不可枚举的。</p>
+</li>
+<li><p>class 的所有方法（包括静态方法和实例方法）都没有原型对象 prototype，所以也没有[[construct]]，不能使用 new 来调用。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Bar</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.bar = <span class="number">42</span>;</span><br><span class="line">&#125;</span><br><span class="line">Bar.prototype.print = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.bar);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> bar = <span class="keyword">new</span> Bar();</span><br><span class="line"><span class="keyword">const</span> barPrint = <span class="keyword">new</span> bar.print(); <span class="comment">// it's ok</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>() &#123;</span><br><span class="line">    <span class="keyword">this</span>.foo = <span class="number">42</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  print() &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.foo);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> foo = <span class="keyword">new</span> Foo();</span><br><span class="line"><span class="keyword">const</span> fooPrint = <span class="keyword">new</span> foo.print(); <span class="comment">// TypeError: foo.print is not a constructor</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>必须使用 new 调用 class</p>
+</li>
+<li><p>在类的内部不可以改变类名，相当于const，但在类的外面可以改变</p>
+<h3 id="constructor方法"><a href="#constructor方法" class="headerlink" title="constructor方法"></a>constructor方法</h3></li>
+</ul>
+<p>constructor方法是类的构造方法，通过new命令会自动调用该方法，类必须要有这个方法，如果没有显式定义，一个空的constructor方法会被添加到类中</p>
+<p>constructor方法默认返回实例对象（this），也可以返回一个指定的对象，但会导致实例对象不是类的实例，类必须要用new调用，不可以直接调用</p>
+<h3 id="类的实例对象"><a href="#类的实例对象" class="headerlink" title="类的实例对象"></a>类的实例对象</h3><p>和ES5一样，实例的属性除非显性定义在本身（this）上，否则都是定义在原形（class）上的。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> point = <span class="keyword">new</span> Point(<span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line">point.hasOwnProperty(<span class="string">'x'</span>); <span class="comment">// true</span></span><br><span class="line">point.hasOwnProperty(<span class="string">'y'</span>); <span class="comment">// true</span></span><br><span class="line">point.hasOwnProperty(<span class="string">'toString'</span>); <span class="comment">//false</span></span><br><span class="line">point.__proto__.hasOwnProperty(<span class="string">'toString'</span>) <span class="comment">// true;</span></span><br></pre></td></tr></table></figure>
+
+<p>和ES5一样，类的实例都指向同一个原形对象。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> p1 = <span class="keyword">new</span> Point(<span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line"><span class="keyword">let</span> p2 = <span class="keyword">new</span> Point(<span class="number">3</span>, <span class="number">3</span>);</span><br><span class="line"></span><br><span class="line">p1.__proto__ === p2.__proto__ <span class="comment">// true;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="new-target属性"><a href="#new-target属性" class="headerlink" title="new.target属性"></a>new.target属性</h3><p>指向使用new命令的构造函数，如果不是通过new调用的值就是undefined</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">new</span>.target !== Person) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'必须要用new'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> a = <span class="keyword">new</span> Person;</span><br><span class="line"><span class="keyword">let</span> b = Person();</span><br></pre></td></tr></table></figure>
+
+<p>class内部用new.target会返回class</p>
+<h2 id="class的继承"><a href="#class的继承" class="headerlink" title="class的继承"></a>class的继承</h2><p>ES5 和 ES6 子类 this 生成顺序不同。ES5 的继承先生成了子类实例，再调用父类的构造函数修饰子类实例，<br>ES6 的继承先生成父类实例，再调用子类的构造函数修饰父类实例。这个差别使得 ES6 可以继承内置对象。<br>使用extends关键字实现继承，子类没有自己的this对象，必须要调用super方法继承父类的this对象，super方法相当于父类的构造函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">SuperType</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.property = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line">SuperType.prototype.getSuperVal = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.property;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">SubType</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 还可以传参</span></span><br><span class="line">    SuperType.apply(<span class="keyword">this</span>, <span class="string">'name'</span>)</span><br><span class="line">    <span class="comment">// 实例变量</span></span><br><span class="line">    <span class="keyword">this</span>.subproperty = <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line">SubType.prototype = <span class="keyword">new</span> SuperType;</span><br><span class="line">SubType.prototype.constructor = SubType;</span><br></pre></td></tr></table></figure>
+
+<p>上面是组合继承，可以看到先创造了SubType的实例this，再调用父类的构造函数SuperType.apply(this, ‘name’)修饰子类实例。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SuperType</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>() &#123;</span><br><span class="line">        <span class="keyword">this</span>.property = <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    getSuperVal() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.property;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubType</span> <span class="keyword">extends</span> <span class="title">SuperType</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>() &#123;</span><br><span class="line">        <span class="keyword">super</span>();</span><br><span class="line">        <span class="keyword">this</span>.subproperty = <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>ES6直接通过extends来继承，子类中通过super 来调用父类的构造函数，创造父类的实例对象this，再用子类的构造函数修饰this，子类是没有this的。</p>
+<h3 id="super关键字"><a href="#super关键字" class="headerlink" title="super关键字"></a>super关键字</h3><p>super有两种使用场景：</p>
+<ol>
+<li><p>在子类的构造函数中作为函数使用，代表父类的构造函数，只能用于构造函数中，否则会出错</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ColorPoint</span> <span class="keyword">extends</span> <span class="title">Point</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>() &#123;</span><br><span class="line">    	<span class="keyword">super</span>()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>作为对象时在普通方法汇总指向父类的原型对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ColorPoint</span> <span class="keyword">extends</span> <span class="title">Point</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>() &#123;</span><br><span class="line">    	<span class="keyword">super</span>();</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="keyword">super</span>.toString())</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    toString() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="keyword">super</span>.toString())</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">super</span> === Point.prototype; <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>通过super调用父类的方法，super绑定子类的this：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>() &#123;</span><br><span class="line">        <span class="keyword">this</span>.x = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    print() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.x)</span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> <span class="keyword">extends</span> <span class="title">A</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>() &#123;</span><br><span class="line">    	<span class="keyword">super</span>();</span><br><span class="line">        <span class="keyword">this</span>.x = <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    m() &#123;</span><br><span class="line">        <span class="keyword">super</span>.print()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> b = <span class="keyword">new</span> B;</span><br><span class="line">b.m(); <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
+
+<p>如果在静态方法中super作为对象被调用，super指向父类而不是父类的原型对象</p>
+<h2 id="修饰器"><a href="#修饰器" class="headerlink" title="修饰器"></a>修饰器</h2><p>修饰器是一个函数，用来修改类的行为，ES2017引入这个功能。</p>
+<p>修饰器作用于静态编译阶段，本质上就是编译时执行的函数。需要babel进行转码</p>
+<p>修饰器只能用于类，因为类不会进行声明提升</p>
+<p>为类Foo添加一个静态属性res</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@testable</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">testable</span>(<span class="params">target</span>) </span>&#123;</span><br><span class="line">    target.res = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line">Foo.a  <span class="comment">// true;</span></span><br></pre></td></tr></table></figure>
+
+<p>还可以对修饰器再封装一层，另其可以添加参数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">testable</span>(<span class="params">boolean</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">target</span>) </span>&#123;</span><br><span class="line">        target.res = boolean;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">@testable(<span class="literal">true</span>)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line">Foo.res <span class="comment">// true</span></span><br><span class="line">@testable(<span class="literal">false</span>)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bar</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line">Foo.res <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Mixin"><a href="#Mixin" class="headerlink" title="Mixin"></a>Mixin</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mixins</span>(<span class="params">...list</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">target</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">Object</span>.assign(target.prototype, ...list);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> Foo = &#123;</span><br><span class="line">    foo() &#123;cnosole.log(<span class="number">1</span>)&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@mixins(Foo)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span></span>&#123;&#125;</span><br><span class="line"><span class="keyword">let</span> obj = <span class="keyword">new</span> MyClass;</span><br><span class="line">obj.foo() <span class="comment">// 1</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="方法的修饰"><a href="#方法的修饰" class="headerlink" title="方法的修饰"></a>方法的修饰</h3><p>接受三个参数，目标类，方法名或者属性名和描述对象 </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    @readonly</span><br><span class="line">    name() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">readonly</span>(<span class="params">target, name, descriptor</span>) </span>&#123;</span><br><span class="line">    descriptor.writable = <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">return</span> descriptor;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/ed1son67.github.io/ed1son67.github.io/tags#面向对象" >
+    <span class="tag-code">面向对象</span>
+  </a>
+
+  <a href="/ed1son67.github.io/ed1son67.github.io/tags#JavaScript" >
+    <span class="tag-code">JavaScript</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/ed1son67.github.io/2019/09/22/《ES6标准入门》学习笔记第23章 Module的加载实现/">
+        <span class="nav-arrow">← </span>
+        
+          《ES6标准入门》学习笔记第23章 Module的加载实现
+        
+      </a>
+    
+    
+      <a class="nav-right" href="/ed1son67.github.io/2019/09/24/《深入浅出React和Redux》学习笔记-第一章/">
+        
+          《深入浅出React和Redux》学习笔记 第一章
+        
+        <span class="nav-arrow"> →</span>
+      </a>
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <!-- No Comment -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#前言"><span class="toc-nav-text">前言</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#class的特点"><span class="toc-nav-text">class的特点</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#constructor方法"><span class="toc-nav-text">constructor方法</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#类的实例对象"><span class="toc-nav-text">类的实例对象</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#new-target属性"><span class="toc-nav-text">new.target属性</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#class的继承"><span class="toc-nav-text">class的继承</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#super关键字"><span class="toc-nav-text">super关键字</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#修饰器"><span class="toc-nav-text">修饰器</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Mixin"><span class="toc-nav-text">Mixin</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#方法的修饰"><span class="toc-nav-text">方法的修饰</span></a></li></ol></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'https://ed1son67.github.io/ed1son67.github.io/2019/09/24/ES6关键字class/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+    // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+  })();
+</script>
+
+
+
+
+
+
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2020 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/ed1son67.github.io/js/script.js"></script>
+  </body>
+</html>
