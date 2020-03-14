@@ -147,9 +147,9 @@
 <main class="app-body flex-box">
   <!-- Article START -->
   <article class="post-article">
-    <section class="markdown-content"><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p> Promise 对象是异步编程的一种解决方案，最早由社区提出。Promises/A+ 规范是 JavaScript Promise 的标准，规定了一<br> 个 Promise 所必须具有的特性。</p>
-<p> Promise 是一个构造函数，接收一个函数作为参数，返回一个 Promise 实例。一个 Promise 实例有三种状态，分别是 pendi<br> ng、resolved 和 rejected，分别代表了进行中、已成功和已失败。实例的状态只能由 pending 转变 resolved 或者 reje<br> cted 状态，并且状态一经改变，就凝固了，无法再被改变了。状态的改变是通过 resolve() 和 reject() 函数来实现的，我们<br> 可以在异步操作结束后调用这两个函数改变 Promise 实例的状态，它的原型上定义了一个 then 方法，使用这个 then 方法可以<br> 为两个状态的改变注册回调函数。这个回调函数属于微任务。</p>
-<p>Promise是一个容器，装着某个未来才会结束的事件的结果，通常是一个异步操作，Promise是一种异步编程的解决方案，Promise的出现是为了解决使用回调函数<br>和事件的传统方案的缺点-回调地狱问题，Promise将回调函数的形式改成了链式调用的形式。</p>
+    <section class="markdown-content"><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>Promise 对象是异步编程的一种解决方案，最早由社区提出。Promises/A+ 规范是 JavaScript Promise 的标准，规定了一个 Promise 所必须具有的特性。</p>
+<p>Promise 是一个构造函数，接收一个函数作为参数，返回一个 Promise 实例。一个 Promise 实例有三种状态，分别是 pending、resolved 和 rejected，分别代表了进行中、已成功和已失败。实例的状态只能由 pending 转变 resolved 或者 rejected 状态，并且状态一经改变，就凝固了，无法再被改变了。状态的改变是通过 resolve() 和 reject() 函数来实现的，我们可以在异步操作结束后调用这两个函数改变 Promise 实例的状态，它的原型上定义了一个 then 方法，使用这个 then 方法可以为两个状态的改变注册回调函数。这个回调函数属于微任务。</p>
+<p>Promise是一个容器，装着某个未来才会结束的事件的结果，通常是一个异步操作，Promise是一种异步编程的解决方案，Promise的出现是为了解决使用回调函数和事件的传统方案的缺点-回调地狱问题，Promise将回调函数的形式改成了链式调用的形式。</p>
 <p>Promise有以下两个特点：</p>
 <ol>
 <li>实例的状态不受外界影响，一共有三种状态：Pending、Fulfilled、Rejected，只有异步操作的结果可以决定当前的状态</li>
