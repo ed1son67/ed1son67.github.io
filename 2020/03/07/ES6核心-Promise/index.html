@@ -155,6 +155,7 @@
 <li>实例的状态不受外界影响，一共有三种状态：Pending、Fulfilled、Rejected，只有异步操作的结果可以决定当前的状态</li>
 <li>状态一旦改变就不会再变，状态的改变只有两种可能：Pending-&gt;Fulfiled，Pending-&gt;Rejected，状态一旦改变就会凝固，再对它添加回调函数也会立即得到这个结果，这与事件机制不同，事件的特点是一旦错过再去监听是得不到结果的。</li>
 </ol>
+<p>Promise是观察者模式的一种实现，Promise容器作为主体，通过添加then或者catch方法对主体进行观察，改变Promise的状态从而触发then或者catch方法进行通知。</p>
 <h2 id="Promise-prototype-then"><a href="#Promise-prototype-then" class="headerlink" title="Promise.prototype.then"></a>Promise.prototype.then</h2><p>then方法的第一个参数是Fulfilled状态的回调函数，第二个参数是Rejected状态的回调函数，then方法会返回一个新的Promise实例，所以是可以链式调用的。</p>
 <h2 id="Promise-prototype-catch"><a href="#Promise-prototype-catch" class="headerlink" title="Promise.prototype.catch"></a>Promise.prototype.catch</h2><p>catch方法是then(null, rejected)的别名，用于指定错误发生时的回调函数，如果没有使用catch方法，Promise内部发生的错误将不会被抛到外部</p>
 <h2 id="Promise-resolve"><a href="#Promise-resolve" class="headerlink" title="Promise.resolve"></a>Promise.resolve</h2><p>Promise.resolve生成一个Promise实例或者将一个值转换为一个Promise实例</p>
@@ -233,9 +234,9 @@
       </a>
     
     
-      <a class="nav-right" href="/ed1son67.github.io/2020/03/07/MVVM架构模式/">
+      <a class="nav-right" href="/ed1son67.github.io/2020/03/14/ES6核心-Generator/">
         
-          MVVM架构模式
+          ES6核心-Generator
         
         <span class="nav-arrow"> →</span>
       </a>

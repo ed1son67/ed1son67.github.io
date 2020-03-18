@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+  <head><meta name="generator" content="Hexo 3.9.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <meta name="description" content="Ed1son&#39;s blog">
+  <meta name="keyword" content="hexo-theme, vuejs">
+  
+    <link rel="shortcut icon" href="/ed1son67.github.io/css/images/logo.png">
+  
+  <title>
+    
+      ES6核心-Generator | Ed1son&#39;s blog
+    
+  </title>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/ed1son67.github.io/css/style.css">
+  
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.js"></script>
+  
+  
+  
+  
+    <!-- MathJax support START -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- MathJax support END -->
+  
+
+
+</head>
+<div class="wechat-share">
+  <img src="/css/images/logo.png">
+</div>
+
+  <body>
+    <header class="header fixed-header">
+  <div class="header-container">
+    <a class="home-link" href="/ed1son67.github.io/">
+      <div class="logo"></div>
+      <span>Ed1son's blog</span>
+    </a>
+    <ul class="right-list">
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/" class="item-link">Home</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/tags/" class="item-link">Tags</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/archives/" class="item-link">Archives</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/project/" class="item-link">Projects</a>
+          
+        </li>
+      
+        <li class="list-item">
+          
+            <a href="/ed1son67.github.io/about/" class="item-link">About</a>
+          
+        </li>
+      
+    </ul>
+    <div class="menu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </div>
+    <div class="menu-mask">
+      <ul class="menu-list">
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/" class="menu-link">Home</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/tags/" class="menu-link">Tags</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/archives/" class="menu-link">Archives</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/project/" class="menu-link">Projects</a>
+            
+          </li>
+        
+          <li class="menu-item">
+            
+              <a href="/ed1son67.github.io/about/" class="menu-link">About</a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</header>
+
+    <div id="article-banner">
+  <h2>ES6核心-Generator</h2>
+  <p class="post-date">2020-03-14</p>
+  <div class="arrow-down">
+    <a href="javascript:;"></a>
+  </div>
+</div>
+<main class="app-body flex-box">
+  <!-- Article START -->
+  <article class="post-article">
+    <section class="markdown-content"><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>Generator的翻译是生成器的意思，Generator函数是ES6提供的一种新的异步编程方案，我们可以将它理解为一个状态机。</p>
+<p>执行Generator函数会返回一个遍历器对象，所以它还是一个遍历器生成函数，返回的遍历器对象可以依次遍历Generator函数内部的每一个状态。</p>
+<p>形式上，Generator函数是一个普通函数，但有两个特征：</p>
+<ul>
+<li>function命令与函数名之间有一个*号</li>
+<li>在函数体内部使用yield语句定义不同的内部状态</li>
+</ul>
+<p>来看一个例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">yield</span> <span class="string">'hello'</span>;</span><br><span class="line">    <span class="keyword">yield</span> <span class="string">'world'</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'foo'</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> fun = foo();</span><br></pre></td></tr></table></figure>
+
+<p>以上的例子中定义了一个Generator函数foo，它内部定义了三个状态：<code>yield &#39;hello&#39;</code>和<code>yield &#39;world&#39;</code>还有<code>return &#39;foo&#39;</code>。调用foo函数的时候，不会执行这个函数，而返回一个指向内部状态的指针对象，是一个遍历器对象。</p>
+<p>那么我们要怎么样改变foo的状态呢？我们每次都可以通过next方法使得指针指向下一个状态，也就是<strong>每次执行next方法，内部指针会从函数头部或者上一次停下来的地方开始执行，直到遇到下一条yield语句或者return语句</strong>。所以Generator函数是分段执行的，yield语句可以暂停执行，next方法可以恢复执行。</p>
+<p>next方法会返回一个对象，这个对象是<code>{value: xx, done: xx}</code>的形式，value表示yield语句后面的表达式的结果，done是一个boolean值，表示是否结束遍历。</p>
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><p>yield语句只能放在Generator函数里面使用，所以在迭代器里面使用会发生错误</p>
+<p>next函数可以带一个参数，当作是<strong>上一个yield语句的返回值</strong>，也就是可以通过这个方法向函数注入一个值，从而实现通过注入不同值调整函数的行为。又因为参数是<strong>上一个yield语句的返回值</strong>，所以第一个next的参数不起作用。第一个next是用来启动遍历器对象的。</p>
+<p>for of循环可以自动遍历生成的interator对象，从而不需要调用next方法，但一旦done属性为true就会退出循环，所以不会包括return语句返回的结果。</p>
+<h3 id="协程"><a href="#协程" class="headerlink" title="协程"></a>协程</h3><p>协程是一种特殊的线程，同一时间内可以有多个线程同时运行，协程可以并发执行，但只允许一个协程在运行，其他协程都处于暂停态。普通线程是抢占式的，但协程是一个合作方式的，由协程自己分配执行权。</p>
+<p>JS是单线程的，只能保持一个调用栈，引入协程后，每个任务都可以保持自己的调用栈，最大的好处就是抛出错误的时候可以找到原始的调用栈，异步函数一旦出错，原始的调用栈已经销毁了。</p>
+<p>Generator函数是ES6对协程的一种实现，但不完全实现，被称为半协程。意思就是只有Generator函数的调用者可以将程序的执行权交回给Generator函数，如果是完全协程，任何函数都可以让暂停的协程继续执行。</p>
+<h3 id="异步操作的同步化表达"><a href="#异步操作的同步化表达" class="headerlink" title="异步操作的同步化表达"></a>异步操作的同步化表达</h3><p>由于Generator函数可以暂停执行，所以把异步操作系在yield语句后面，等待调用next方法再往下执行，实际上将异步操作变成了同步化的操作。</p>
+<p>Promise的出现改善了回调地狱，随之而来的是then链的过长，Generator函数的出现，才是最好的异步解决方案。</p>
+<h3 id="异步解决方案对比"><a href="#异步解决方案对比" class="headerlink" title="异步解决方案对比"></a>异步解决方案对比</h3><p>异步是指一个不连续完成的任务，可以理解为一个任务被分为两段，先执行第一段，然后转而执行其他任务，执行完毕后再回头执行第二段。</p>
+<ol>
+<li>回调函数：<br>回调函数就是将第二段任务写进一个函数中，等重新执行这个任务的时候就执行调用这个函数。</li>
+</ol>
+<p>回调函数的是嵌套书写的，如果一个异步操作依赖另一个异步操作的结果，那就要进行嵌套，形成强耦合，这个情况就叫回调地狱</p>
+<ol start="2">
+<li><p>Promise<br>于是出现了Promise，Promise将回调函数的嵌套改为链式调用，实际上只是一种改进，但会产生代码冗余，语法不清晰。</p>
+</li>
+<li><p>Generator函数</p>
+</li>
+</ol>
+<p>Generator函数是传统的异步解决方案中的协程的一种实现，可以切换执行权，用yield语句标注异步操作，yield语句是两个阶段的分界线。最大的优点是书写逻辑跟同步语法几乎一模一样。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">gen</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> url = <span class="string">'123'</span>;</span><br><span class="line">    <span class="keyword">yield</span> fetch(url);</span><br><span class="line">    <span class="built_in">console</span>.log(url)<span class="string">'</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">let g = gen();</span></span><br><span class="line"><span class="string">let result = g.next();</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">result.value.then((data) =&gt; &#123;</span></span><br><span class="line"><span class="string">    return data;</span></span><br><span class="line"><span class="string">&#125;).then(data=&gt;&#123;</span></span><br><span class="line"><span class="string">    g.next(data);</span></span><br><span class="line"><span class="string">&#125;)</span></span><br></pre></td></tr></table></figure>
+
+<p>Generator函数的缺点十分明显，流程的控制不方便，所以可以写一个自动执行器，有两种思想，一种是thunk思想，另外一种是promise思想。</p>
+<p>thunk就是将参数放到一个临时函数中，然后将函数传入函数体，这个函数叫thunk函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">run</span>(<span class="params">fn</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> gen = fn();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">next</span>(<span class="params">err, data</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> res = gen.next();</span><br><span class="line">        <span class="keyword">if</span> (res.done) <span class="keyword">return</span>;</span><br><span class="line">        res.value(next);</span><br><span class="line">    &#125;</span><br><span class="line">    next();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">g</span>(<span class="params"></span>);</span></span><br><span class="line"><span class="function"><span class="title">run</span>(<span class="params">g</span>)</span></span><br></pre></td></tr></table></figure>
+
+</section>
+    <!-- Tags START -->
+    
+      <div class="tags">
+        <span>Tags:</span>
+        
+  <a href="/ed1son67.github.io/ed1son67.github.io/tags#ES6" >
+    <span class="tag-code">ES6</span>
+  </a>
+
+      </div>
+    
+    <!-- Tags END -->
+    <!-- NAV START -->
+    
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    
+      <a class="nav-left" href="/ed1son67.github.io/2020/03/07/ES6核心-Promise/">
+        <span class="nav-arrow">← </span>
+        
+          ES6核心-Promise
+        
+      </a>
+    
+    
+  </div>
+
+    <!-- NAV END -->
+    <!-- 打赏 START -->
+    
+    <!-- 打赏 END -->
+    <!-- 二维码 START -->
+    
+    <!-- 二维码 END -->
+    
+      <!-- No Comment -->
+    
+  </article>
+  <!-- Article END -->
+  <!-- Catalog START -->
+  
+    <aside class="catalog-container">
+  <div class="toc-main">
+    <strong class="toc-title">Catalog</strong>
+    
+      <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#定义"><span class="toc-nav-text">定义</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#语法"><span class="toc-nav-text">语法</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#协程"><span class="toc-nav-text">协程</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#异步操作的同步化表达"><span class="toc-nav-text">异步操作的同步化表达</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#异步解决方案对比"><span class="toc-nav-text">异步解决方案对比</span></a></li></ol></li></ol>
+    
+  </div>
+</aside>
+  
+  <!-- Catalog END -->
+</main>
+
+<script>
+  (function () {
+    var url = 'https://ed1son67.github.io/ed1son67.github.io/2020/03/14/ES6核心-Generator/';
+    var banner = ''
+    if (banner !== '' && banner !== 'undefined' && banner !== 'null') {
+      $('#article-banner').css({
+        'background-image': 'url(' + banner + ')'
+      })
+    } else {
+      $('#article-banner').geopattern(url)
+    }
+    $('.header').removeClass('fixed-header')
+
+    // error image
+    $(".markdown-content img").on('error', function() {
+      $(this).attr('src', 'http://file.muyutech.com/error-img.png')
+      $(this).css({
+        'cursor': 'default'
+      })
+    })
+
+    // zoom image
+    $(".markdown-content img").on('click', function() {
+      var src = $(this).attr('src')
+      if (src !== 'http://file.muyutech.com/error-img.png') {
+        var imageW = $(this).width()
+        var imageH = $(this).height()
+
+        var zoom = ($(window).width() * 0.95 / imageW).toFixed(2)
+        zoom = zoom < 1 ? 1 : zoom
+        zoom = zoom > 2 ? 2 : zoom
+        var transY = (($(window).height() - imageH) / 2).toFixed(2)
+
+        $('body').append('<div class="image-view-wrap"><div class="image-view-inner"><img src="'+ src +'" /></div></div>')
+        $('.image-view-wrap').addClass('wrap-active')
+        $('.image-view-wrap img').css({
+          'width': `${imageW}`,
+          'transform': `translate3d(0, ${transY}px, 0) scale3d(${zoom}, ${zoom}, 1)`
+        })
+        $('html').css('overflow', 'hidden')
+
+        $('.image-view-wrap').on('click', function() {
+          $(this).remove()
+          $('html').attr('style', '')
+        })
+      }
+    })
+  })();
+</script>
+
+
+
+
+
+
+
+    <div class="scroll-top">
+  <span class="arrow-icon"></span>
+</div>
+    <footer class="app-footer">
+  <p class="copyright">
+    &copy; 2020 | Proudly powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+    <br>
+    
+  </p>
+</footer>
+
+<script>
+  function async(u, c) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+</script>
+<script>
+  async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+    FastClick.attach(document.body);
+  })
+</script>
+
+<script>
+  var hasLine = 'true';
+  async("//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js", function(){
+    $('figure pre').each(function(i, block) {
+      var figure = $(this).parents('figure');
+      if (hasLine === 'false') {
+        figure.find('.gutter').hide();
+      }
+      var lang = figure.attr('class').split(' ')[1] || 'code';
+      var codeHtml = $(this).html();
+      var codeTag = document.createElement('code');
+      codeTag.className = lang;
+      codeTag.innerHTML = codeHtml;
+      $(this).attr('class', '').empty().html(codeTag);
+      figure.attr('data-lang', lang.toUpperCase());
+      hljs.highlightBlock(block);
+    });
+  })
+</script>
+<!-- Baidu Tongji -->
+
+<script src="/ed1son67.github.io/js/script.js"></script>
+  </body>
+</html>
